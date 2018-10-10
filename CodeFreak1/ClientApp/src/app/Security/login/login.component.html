@@ -1,0 +1,38 @@
+
+<div class="loginbackground " [ngStyle]="{'background-image':'linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ),url('+imagePath+')'}">
+  <div class="logincard" role="dialog">
+    <div class="row">
+      <div class="logo" style="align-content: center">
+        CF
+      </div>
+    </div>
+    <form #loginForm (ngSubmit)="login()">
+      <mat-form-field class="cf-input">
+        <input matInput [formControl]="emailFormControl" [(ngModel)]="loginCredentials.Email" [errorStateMatcher]="matcher" placeholder="Enter Email">
+        <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
+          Please enter a valid email address
+        </mat-error>
+        <mat-error *ngIf="emailFormControl.hasError('required')">
+          Email is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="cf-input">
+        <input matInput [(ngModel)]="loginCredentials.Password" name="password" placeholder="Enter Password" #password required  [type]="hide ? 'password':'text'">
+        <mat-icon class="cf-iconCursor" matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+      </mat-form-field>
+      <div class="row cf-buttonP">
+        <a routerLink="#" class="cf-buttonForgot">Forgot Password?</a>
+      </div>
+      <div class="row">
+        <button mat-flat-button color="primary" class="cf-buttonLogin">Login</button>
+      </div>
+    </form>
+    <div class="row cf-align-center">
+      <button mat-mini-fab color="primary">f</button>
+      <button mat-mini-fab color="warn">G+</button>
+    </div>
+    <div class="row cf-align-center">
+      <p>Don't have an account? <a routerLink="/signup" class="cf-buttonSignUp">Sign Up</a></p>
+    </div>
+  </div>
+</div>

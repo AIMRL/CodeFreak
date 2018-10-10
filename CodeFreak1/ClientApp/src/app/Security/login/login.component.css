@@ -1,0 +1,68 @@
+.loginbackground {
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  margin: 0;
+  padding: 0;
+}
+
+.logincard {
+  margin: 6% 35% 8% 35%;
+  background-color: #fff;
+  position: fixed;
+  width: 30%;
+  height: 68%;
+  border-radius: 4px;
+  padding: 1% 4%;
+}
+
+.logo {
+  background-color: brown;
+  border-radius: 100%;
+  color: white;
+  width: 60px;
+  height: 60px;
+  text-align: center;
+  margin: 0 40%;
+  padding: 20px 5px;
+}
+
+.cf-input {
+  width: 100%;
+  font-size: 16px;
+}
+
+.cf-iconCursor:hover {
+  cursor: pointer;
+}
+
+.cf-buttonLogin {
+  width: 100%;
+  font-size: 16px;
+}
+
+.cf-buttonP {
+  text-align: right;
+  margin: 5px 0 10px 0;
+}
+
+.cf-buttonForgot {
+  color: #67757c;
+}
+
+  .cf-buttonForgot:hover {
+    text-decoration: none;
+  }
+
+.cf-align-center {
+  text-align: center;
+  margin: 20px 0 10px 0;
+}
+
+.cf-buttonSignUp {
+  color: #20aee3 !important;
+  outline: none;
+}

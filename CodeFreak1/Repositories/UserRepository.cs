@@ -1,0 +1,59 @@
+﻿using CodeFreak1.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+namespace CodeFreak1.Repositories
+{
+    public class UserRepository
+    {
+        private DBCodeFreakContext db;
+        public UserRepository()
+        {
+            db = new DBCodeFreakContext();
+        }
+        public Users InsertUser(Users user)
+        {
+            if (getByEmail(user.Email) != null)
+            {
+                return null;
+            }
+            db.Users.Add(user);
+            return user;
+        }
+        private Users getByEmail(string email)
+        {
+            return db.Users.FirstOrDefault(u => u.Email.ToLower() == email.ToLower());
+        }
+        public Users getByEmailPassword(string email,string password)
+        {
+            return db.Users.Include(o=>o.UserRoles).FirstOrDefault(u => u.Email.ToLower() == email.ToLower() && u.Password == password);
+        }
+        public Users getUserById(Guid id)
+        {
+            //Guid g = Guid.Empty;
+            //Guid.TryParse("0e984725-c51c-4bf4-9960-e1c80e27aba0", out g);
+            Users user = new Users();
+            var userRoles = db.UserRoles.Include(o => o.User).Include(o => o.Role).Where(ur => ur.UserId == id).ToList();
+            if (userRoles.Count > 0)
+            {
+                user = userRoles.FirstOrDefault().User;
+
+                foreach (var item in userRoles)
+                {
+                    db.PermissionsMapping.Include(pm => pm.Role).Include(pm => pm.Permission).Where(pm => pm.RoleId == item.RoleId).ToList();
+                    //    var rolePermissions = db.PermissionsMapping.Include(pm => pm.Role).Include(pm => pm.Permission).Where(pm => pm.RoleId == item.RoleId).ToList();
+                    //    foreach (var rp in rolePermissions)
+                    //    {
+                    //        item.Role.PermissionsMapping.Add(rp);
+                    //    }
+
+                }
+                user.UserRoles = userRoles;
+            }
+            return user;
+
+        }
+    }
+}

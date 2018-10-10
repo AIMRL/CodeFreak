@@ -1,0 +1,68 @@
+
+<div class="loginbackground " [ngStyle]="{'background-image':   'linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ),url('+imagePath+')'}">
+  <div class="logincard" role="dialog">
+    <div class="row">
+      <div class="logo" style="align-content: center">
+        CF
+      </div>
+    </div>
+    <form #signupForm (ngSubmit)="signup()">
+      <div class="row">
+        <div class="col-md-6 cf-nameloginInput">
+          <mat-form-field class="cf-input">
+            <input matInput [formControl]="nameFormControl" [(ngModel)]="user.Name" [errorStateMatcher]="matcher" placeholder="Enter Name">
+            <mat-error *ngIf="nameFormControl.hasError('required')">
+              Name is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-md-6 cf-nameloginInput" >
+          <mat-form-field class="cf-input">
+            <input matInput [formControl]="loginFormControl" [(ngModel)]="user.Login" [errorStateMatcher]="matcher" placeholder="Enter Name">
+            <mat-error *ngIf="loginFormControl.hasError('required')">
+              Name is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+          <mat-form-field class="cf-input">
+            <input matInput [matDatepicker]="picker" [(ngModel)]="user.DateOfBirth" name="DateOfBirth" placeholder="Choose a date">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </div>
+      <div class="row">
+        <mat-form-field class="cf-input">
+          <input matInput [formControl]="emailFormControl" [(ngModel)]="user.Email" [errorStateMatcher]="matcher" placeholder="Enter Email">
+          <mat-icon class="cf-iconCursor" matSuffix >email</mat-icon>
+          <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
+            Please enter a valid email address
+          </mat-error>
+          <mat-error *ngIf="emailFormControl.hasError('required')">
+            Email is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <mat-form-field class="cf-input">
+          <input matInput [(ngModel)]="user.Password" [formControl]="passwordFormControl" placeholder="Enter Password" [type]="hide ? 'password':'text'">
+          <mat-icon class="cf-iconCursor" matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+          <mat-error *ngIf="passwordFormControl.hasError('required')">
+            Password is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <button mat-flat-button color="primary" [disabled]="signupForm.invalid" class="cf-buttonLogin">SignUp</button>
+      </div>
+    </form>
+    <div class="row cf-align-center">
+      <button mat-mini-fab color="primary">f</button>
+      <button mat-mini-fab color="warn">G+</button>
+    </div>
+    <div class="row cf-align-center">
+      <p>Already have an account? <a routerLink="/login" class="cf-buttonSignUp">SignIn</a></p>
+    </div>
+  </div>
+</div>
