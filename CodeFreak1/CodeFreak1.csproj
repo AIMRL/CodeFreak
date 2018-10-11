@@ -41,6 +41,7 @@
 
   <ItemGroup>
     <Folder Include="ClientApp\src\app\Angular Material\" />
+    <Folder Include="ClientApp\src\app\compilation\dtos\" />
     <Folder Include="ClientApp\src\app\Gaurds\" />
   </ItemGroup>
 

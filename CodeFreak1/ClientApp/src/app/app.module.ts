@@ -22,6 +22,7 @@ import { AppmenuComponent } from './layouts/appmenu/appmenu.component';
 import { AppsettingComponent } from './layouts/appsetting/appsetting.component';
 import { AdminRoleGuard } from './Gaurds/admin-role.guard';
 import { SecurityModule } from './Security/security.module';
+import { CompilationModule } from './compilation/compilation.module';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { SecurityModule } from './Security/security.module';
     BrowserAnimationsModule,
     CodeFreakMaterialModuleModule,
     SecurityModule,
+    CompilationModule,
     RouterModule.forRoot([
 
       {
