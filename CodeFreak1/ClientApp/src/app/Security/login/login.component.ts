@@ -30,12 +30,13 @@ export class LoginComponent implements OnInit {
   constructor(private router: Router, private service: SecurityService) { }
 
   ngOnInit() {
+
+    localStorage.removeItem("token");
   this.loginCredentials = new SignInViewModel();
   this.userRoles = new UserRolesViewModel();
   }
   login() {
     debugger;
-    localStorage.removeItem("token");
     this.service.loginUser(this.loginCredentials).subscribe(res => {
       debugger;
       if (res.Success) {

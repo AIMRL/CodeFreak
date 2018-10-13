@@ -50,9 +50,11 @@ export class ProblemComponent implements OnInit {
       debugger;
       if (res.Success) {
         this.compilerResult = res;
-        this.btnCompile = false;
-        this.showResult = true;
+      } else {
+        this.compilerResult.Result = "There is some probem in compiling";
       }
+      this.btnCompile = false;
+      this.showResult = true;
     });
 
   }

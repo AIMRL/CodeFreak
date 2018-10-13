@@ -1,0 +1,6 @@
+Comparing files userout.txt and TRUEOUT.TXT
+***** userout.txt
+***** TRUEOUT.TXT
+15
+*****
+
