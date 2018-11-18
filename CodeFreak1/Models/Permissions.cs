@@ -19,7 +19,7 @@ namespace CodeFreak1.Models
         public DateTime? ModifiedOn { get; set; }
         public bool? IsActive { get; set; }
 
-        public virtual Users ModifiedbyNavigation { get; set; }
-        public virtual ICollection<PermissionsMapping> PermissionsMapping { get; set; }
+        public Users ModifiedbyNavigation { get; set; }
+        public ICollection<PermissionsMapping> PermissionsMapping { get; set; }
     }
 }

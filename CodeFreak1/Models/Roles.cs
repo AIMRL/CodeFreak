@@ -20,8 +20,8 @@ namespace CodeFreak1.Models
         public Guid? ModifiedBy { get; set; }
         public Guid? CreatedBy { get; set; }
 
-        public virtual Users ModifiedByNavigation { get; set; }
-        public virtual ICollection<PermissionsMapping> PermissionsMapping { get; set; }
-        public virtual ICollection<UserRoles> UserRoles { get; set; }
+        public Users ModifiedByNavigation { get; set; }
+        public ICollection<PermissionsMapping> PermissionsMapping { get; set; }
+        public ICollection<UserRoles> UserRoles { get; set; }
     }
 }

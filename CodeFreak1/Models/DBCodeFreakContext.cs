@@ -15,10 +15,18 @@ namespace CodeFreak1.Models
         {
         }
 
+        public virtual DbSet<Comment> Comment { get; set; }
+        public virtual DbSet<Difficulty> Difficulty { get; set; }
         public virtual DbSet<LoginHistory> LoginHistory { get; set; }
         public virtual DbSet<Permissions> Permissions { get; set; }
         public virtual DbSet<PermissionsMapping> PermissionsMapping { get; set; }
+        public virtual DbSet<Problem> Problem { get; set; }
+        public virtual DbSet<ProblemTestCase> ProblemTestCase { get; set; }
+        public virtual DbSet<ProblemType> ProblemType { get; set; }
+        public virtual DbSet<Rating> Rating { get; set; }
         public virtual DbSet<Roles> Roles { get; set; }
+        public virtual DbSet<Submission> Submission { get; set; }
+        public virtual DbSet<SubmissionProblemTestCase> SubmissionProblemTestCase { get; set; }
         public virtual DbSet<UserRoles> UserRoles { get; set; }
         public virtual DbSet<Users> Users { get; set; }
 
@@ -33,6 +41,29 @@ namespace CodeFreak1.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Comment>(entity =>
+            {
+                entity.Property(e => e.CommentId).ValueGeneratedNever();
+
+                entity.Property(e => e.CommentDateTime).HasColumnType("datetime");
+
+                entity.HasOne(d => d.Problem)
+                    .WithMany(p => p.Comment)
+                    .HasForeignKey(d => d.ProblemId)
+                    .HasConstraintName("FK_Comment_Problem");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.Comment)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Comment_Users");
+            });
+
+            modelBuilder.Entity<Difficulty>(entity =>
+            {
+                entity.Property(e => e.Name).IsRequired();
+            });
+
             modelBuilder.Entity<LoginHistory>(entity =>
             {
                 entity.Property(e => e.LoginHistoryId).HasColumnName("LoginHistoryID");
@@ -99,6 +130,76 @@ namespace CodeFreak1.Models
                     .HasConstraintName("FK_PermissionsMapping_Roles");
             });
 
+            modelBuilder.Entity<Problem>(entity =>
+            {
+                entity.Property(e => e.ProblemId).ValueGeneratedNever();
+
+                entity.Property(e => e.Description).IsRequired();
+
+                entity.Property(e => e.InputFormat).IsRequired();
+
+                entity.Property(e => e.OutputFormat).IsRequired();
+
+                entity.Property(e => e.PostDateTime).HasColumnType("datetime");
+
+                entity.HasOne(d => d.Author)
+                    .WithMany(p => p.Problem)
+                    .HasForeignKey(d => d.AuthorId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Problem_Users");
+
+                entity.HasOne(d => d.Difficulty)
+                    .WithMany(p => p.Problem)
+                    .HasForeignKey(d => d.DifficultyId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Problem_Difficulty");
+
+                entity.HasOne(d => d.ProblemType)
+                    .WithMany(p => p.Problem)
+                    .HasForeignKey(d => d.ProblemTypeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Problem_ProblemType");
+            });
+
+            modelBuilder.Entity<ProblemTestCase>(entity =>
+            {
+                entity.Property(e => e.ProblemTestCaseId).ValueGeneratedNever();
+
+                entity.Property(e => e.InputFilePath).IsRequired();
+
+                entity.Property(e => e.OutputFilePath).IsRequired();
+
+                entity.HasOne(d => d.Problem)
+                    .WithMany(p => p.ProblemTestCase)
+                    .HasForeignKey(d => d.ProblemId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_ProblemTestCase_Problem");
+            });
+
+            modelBuilder.Entity<ProblemType>(entity =>
+            {
+                entity.Property(e => e.Name).IsRequired();
+            });
+
+            modelBuilder.Entity<Rating>(entity =>
+            {
+                entity.Property(e => e.RatingId).ValueGeneratedNever();
+
+                entity.Property(e => e.RateDateTime).HasColumnType("datetime");
+
+                entity.HasOne(d => d.Problem)
+                    .WithMany(p => p.Rating)
+                    .HasForeignKey(d => d.ProblemId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Rating_Problem");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.Rating)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Rating_Users");
+            });
+
             modelBuilder.Entity<Roles>(entity =>
             {
                 entity.HasKey(e => e.RoleId);
@@ -129,6 +230,46 @@ namespace CodeFreak1.Models
                     .HasConstraintName("FK_Roles_Users");
             });
 
+            modelBuilder.Entity<Submission>(entity =>
+            {
+                entity.Property(e => e.SubmissionId).ValueGeneratedNever();
+
+                entity.Property(e => e.Status).HasMaxLength(50);
+
+                entity.Property(e => e.SubmissionDateTime).HasColumnType("datetime");
+
+                entity.HasOne(d => d.Problem)
+                    .WithMany(p => p.Submission)
+                    .HasForeignKey(d => d.ProblemId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Submission_Problem");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.Submission)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Submission_Users");
+            });
+
+            modelBuilder.Entity<SubmissionProblemTestCase>(entity =>
+            {
+                entity.Property(e => e.SubmissionProblemTestCaseId).ValueGeneratedNever();
+
+                entity.Property(e => e.Status).HasMaxLength(50);
+
+                entity.HasOne(d => d.ProblemTestCase)
+                    .WithMany(p => p.SubmissionProblemTestCase)
+                    .HasForeignKey(d => d.ProblemTestCaseId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_SubmissionProblemTestCase_ProblemTestCase");
+
+                entity.HasOne(d => d.Submission)
+                    .WithMany(p => p.SubmissionProblemTestCase)
+                    .HasForeignKey(d => d.SubmissionId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_SubmissionProblemTestCase_Submission");
+            });
+
             modelBuilder.Entity<UserRoles>(entity =>
             {
                 entity.HasKey(e => e.UserRoleId);
@@ -157,6 +298,8 @@ namespace CodeFreak1.Models
                 entity.Property(e => e.CreatedOn)
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("(getutcdate())");
+
+                entity.Property(e => e.DateOfBirth).HasColumnType("date");
 
                 entity.Property(e => e.Email)
                     .HasMaxLength(100)

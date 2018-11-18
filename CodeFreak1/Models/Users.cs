@@ -7,8 +7,12 @@ namespace CodeFreak1.Models
     {
         public Users()
         {
+            Comment = new HashSet<Comment>();
             Permissions = new HashSet<Permissions>();
+            Problem = new HashSet<Problem>();
+            Rating = new HashSet<Rating>();
             Roles = new HashSet<Roles>();
+            Submission = new HashSet<Submission>();
             UserRoles = new HashSet<UserRoles>();
         }
 
@@ -22,9 +26,14 @@ namespace CodeFreak1.Models
         public bool? IsActive { get; set; }
         public Guid? CreatedBy { get; set; }
         public Guid? ModifieBy { get; set; }
+        public DateTime? DateOfBirth { get; set; }
 
-        public virtual ICollection<Permissions> Permissions { get; set; }
-        public virtual ICollection<Roles> Roles { get; set; }
-        public virtual ICollection<UserRoles> UserRoles { get; set; }
+        public ICollection<Comment> Comment { get; set; }
+        public ICollection<Permissions> Permissions { get; set; }
+        public ICollection<Problem> Problem { get; set; }
+        public ICollection<Rating> Rating { get; set; }
+        public ICollection<Roles> Roles { get; set; }
+        public ICollection<Submission> Submission { get; set; }
+        public ICollection<UserRoles> UserRoles { get; set; }
     }
 }

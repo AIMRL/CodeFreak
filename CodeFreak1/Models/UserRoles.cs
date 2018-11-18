@@ -9,7 +9,7 @@ namespace CodeFreak1.Models
         public Guid UserId { get; set; }
         public int RoleId { get; set; }
 
-        public virtual Roles Role { get; set; }
-        public virtual Users User { get; set; }
+        public Roles Role { get; set; }
+        public Users User { get; set; }
     }
 }

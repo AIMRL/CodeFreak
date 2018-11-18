@@ -24,26 +24,7 @@ namespace CompileNetwork.Controllers
         [HttpPost("Compile")]
         public ActionResult Compile(CodeViewModel code)
         {
-            String Code = @"
 
-             //Code Written
-
-             #include<iostream>
-             using namespace std;
-            int main ()
-            {
-                int a,b;
-
-                cin>>a;
-                cin>>b;
-
-                cout<<a-b;
-
-                return 1;
-            }
-            
-            
-            ";
             CompilerResultViewModel result = null;
             string baseUrl = Directory.GetCurrentDirectory();
             string path = Path.Combine(baseUrl,"Code.cpp");
