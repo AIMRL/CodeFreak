@@ -1,0 +1,17 @@
+<div class="container">
+
+  <h3>Add Problemdgkjb</h3>
+  <form #addForm (ngSubmit)="add()">
+    <div class="row">
+      <div [froalaEditor] [formControl]="descrpitionFormControl" #desc required name="desc" id="desc"
+           [(froalaModel)]="problem.Description"></div>
+    </div>
+    <mat-error *ngIf="descrpitionFormControl.hasError('required')">
+      Description is <strong>required</strong>
+    </mat-error>
+
+    <div class="row">
+      <button mat-flat-button color="primary" [disabled]="addForm.invalid">Add Problem</button>
+    </div>
+  </form>
+</div>

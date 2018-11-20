@@ -136,10 +136,6 @@ namespace CodeFreak1.Models
 
                 entity.Property(e => e.Description).IsRequired();
 
-                entity.Property(e => e.InputFormat).IsRequired();
-
-                entity.Property(e => e.OutputFormat).IsRequired();
-
                 entity.Property(e => e.PostDateTime).HasColumnType("datetime");
 
                 entity.HasOne(d => d.Author)
