@@ -20,6 +20,7 @@ namespace CodeFreak1.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+
     public class AuthController : ControllerBase
     {
 
@@ -28,6 +29,7 @@ namespace CodeFreak1.Controllers
         [HttpPost("token")]
         [Route("token")]
         [AllowAnonymous]
+
         public IActionResult Token(SignInViewModel credential)
         {
             if(credential==null || string.IsNullOrEmpty(credential.Password) || string.IsNullOrEmpty(credential.Email))
@@ -38,6 +40,7 @@ namespace CodeFreak1.Controllers
                 return Ok(result);
             }
             var user = userRepository.getByEmailPassword(credential.Email, credential.Password);
+
             if (user == null)
             {
                 UsersViewModel result = new UsersViewModel();
@@ -45,6 +48,7 @@ namespace CodeFreak1.Controllers
                 result.Error = "Invalid User Credentials";
                 return Ok(result);
             }
+
             //User authenticated successfully
             user = userRepository.getUserById(user.UserId);
             string tokenString = generateToken(user.Name, user.Email,user.UserId,60);
