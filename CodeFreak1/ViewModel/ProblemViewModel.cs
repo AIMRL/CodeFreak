@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace CodeFreak1.ViewModel
 {
-    public class ProblemViewModel
+    public class ProblemViewModel:RequestStatus
     {
         public Guid ProblemId { get; set; }
         public Guid AuthorId { get; set; }
