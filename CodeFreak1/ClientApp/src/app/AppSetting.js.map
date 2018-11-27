@@ -1,1 +1,1 @@
-{"version":3,"file":"AppSetting.js","sourceRoot":"","sources":["AppSetting.ts"],"names":[],"mappings":";;AAAA;IAAA;IASA,CAAC;IARe,mBAAO,GAAW,yBAAyB,CAAC;IAC5C,mBAAO,GAAW,YAAY,CAAC;IAI7C,aAAa;IACC,sBAAU,GAAG,oCAAoC,CAAC;IAElE,kBAAC;CAAA,AATD,IASC;AATY,kCAAW"}
+{"version":3,"file":"AppSetting.js","sourceRoot":"","sources":["AppSetting.ts"],"names":[],"mappings":";;AAAA;IAAA;IAUA,CAAC;IATe,mBAAO,GAAW,0BAA0B,CAAC;IAC7C,mBAAO,GAAW,YAAY,CAAC;IAC/B,uBAAW,GAAW,gBAAgB,CAAC;IAIrD,aAAa;IACC,sBAAU,GAAG,oCAAoC,CAAC;IAElE,kBAAC;CAAA,AAVD,IAUC;AAVY,kCAAW"}

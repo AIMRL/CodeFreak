@@ -12,3 +12,17 @@ D:\pucit\7th Semester\FYP\CodeFreak1\CompilerNetwork\obj\Debug\netcoreapp2.1\Com
 D:\pucit\7th Semester\FYP\CodeFreak1\CompilerNetwork\obj\Debug\netcoreapp2.1\CompilerNetwork.RazorTargetAssemblyInfo.cache
 D:\pucit\7th Semester\FYP\CodeFreak1\CompilerNetwork\obj\Debug\netcoreapp2.1\CompilerNetwork.dll
 D:\pucit\7th Semester\FYP\CodeFreak1\CompilerNetwork\obj\Debug\netcoreapp2.1\CompilerNetwork.pdb
+D:\1. GitHub\CodeFreak\CompilerNetwork\bin\Debug\netcoreapp2.1\CompilerNetwork.deps.json
+D:\1. GitHub\CodeFreak\CompilerNetwork\bin\Debug\netcoreapp2.1\CompilerNetwork.runtimeconfig.json
+D:\1. GitHub\CodeFreak\CompilerNetwork\bin\Debug\netcoreapp2.1\CompilerNetwork.runtimeconfig.dev.json
+D:\1. GitHub\CodeFreak\CompilerNetwork\bin\Debug\netcoreapp2.1\CompilerNetwork.dll
+D:\1. GitHub\CodeFreak\CompilerNetwork\bin\Debug\netcoreapp2.1\CompilerNetwork.pdb
+D:\1. GitHub\CodeFreak\CompilerNetwork\obj\Debug\netcoreapp2.1\CompilerNetwork.csprojAssemblyReference.cache
+D:\1. GitHub\CodeFreak\CompilerNetwork\obj\Debug\netcoreapp2.1\CompilerNetwork.csproj.CoreCompileInputs.cache
+D:\1. GitHub\CodeFreak\CompilerNetwork\obj\Debug\netcoreapp2.1\CompilerNetwork.RazorAssemblyInfo.cache
+D:\1. GitHub\CodeFreak\CompilerNetwork\obj\Debug\netcoreapp2.1\CompilerNetwork.RazorAssemblyInfo.cs
+D:\1. GitHub\CodeFreak\CompilerNetwork\obj\Debug\netcoreapp2.1\CompilerNetwork.AssemblyInfoInputs.cache
+D:\1. GitHub\CodeFreak\CompilerNetwork\obj\Debug\netcoreapp2.1\CompilerNetwork.AssemblyInfo.cs
+D:\1. GitHub\CodeFreak\CompilerNetwork\obj\Debug\netcoreapp2.1\CompilerNetwork.RazorTargetAssemblyInfo.cache
+D:\1. GitHub\CodeFreak\CompilerNetwork\obj\Debug\netcoreapp2.1\CompilerNetwork.dll
+D:\1. GitHub\CodeFreak\CompilerNetwork\obj\Debug\netcoreapp2.1\CompilerNetwork.pdb

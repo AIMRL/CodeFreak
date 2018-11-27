@@ -9,6 +9,7 @@ namespace CodeFreak1.Repositories
     public class UserRepository
     {
         private DBCodeFreakContext db;
+
         public UserRepository()
         {
             db = new DBCodeFreakContext();
