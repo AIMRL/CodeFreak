@@ -21,6 +21,8 @@ namespace CodeFreak1.Repositories
                 return null;
             }
             db.Users.Add(user);
+            db.SaveChanges();
+
             return user;
         }
         private Users getByEmail(string email)

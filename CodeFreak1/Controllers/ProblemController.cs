@@ -19,70 +19,42 @@ namespace CodeFreak1.Controllers
     {
         private ProblemRepository problemRepository = new ProblemRepository();
 
-
-        // GET: api/<controller>
-        [HttpGet]
-        [AllowAnonymous]
-
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "problem", "controller" };
-        }
-
-
         [HttpPost]
         [AllowAnonymous]
         [Route("add")]
 
-        public IActionResult addProblem(Problem problem)
+        public IActionResult addProblem(ProblemViewModel problemViewModel)
         {
-            //RequestStatus result = new RequestStatus();
-            //result.Success = false;
-            //result.Error = "Invalid Problem Credentials";
 
-            problemRepository.InsertProblem(problem);
+            Problem problem = new Problem();
+
+
+            problem.ProblemTypeId = problemViewModel.ProblemTypeId;
+            problem.AuthorId = problemViewModel.AuthorId;
+            problem.InputFormat = problemViewModel.InputFormat;
+            problem.OutputFormat = problemViewModel.OutputFormat;
+            problem.SampleInput = problemViewModel.SampleInput;
+            problem.SampleOutput = problemViewModel.SampleOutput;
+            problem.ConstraintNote = problemViewModel.ConstraintNote;
+            problem.Description = problemViewModel.Description;
+            problem.DifficultyId = problemViewModel.DifficultyId;
+
+
+            problem.MaxScore = problemViewModel.MaxScore;
+            problem.NoOfSubmission = problemViewModel.NoOfSubmission;
+            problem.NoOfTestCaseFiles = problemViewModel.NoOfTestCaseFiles;
+            problem.PostDateTime = problemViewModel.PostDateTime;
+
+
+            problemRepository.addProblem(problem);
 
             RequestStatus result = new RequestStatus();
             result.Success = true;
             result.Error = "Problem Credentials Successfully Added";
 
-
-
-
             return Ok(result);
         }
 
-  
 
-        // POST api/<controller>
-        [HttpPost]
-        [AllowAnonymous]
-        [Route("check")]
-        public Problem Post([FromBody]string value)
-        {
-            Guid obj = Guid.NewGuid();
-
-            Problem pro=problemRepository.getProblemById(obj);
-
-            return pro;
-
-            //if (value == "arslan")
-            //    return "baoo";
-
-            //return "dude";
-
-        }
-
-        // PUT api/<controller>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE api/<controller>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
     }
 }

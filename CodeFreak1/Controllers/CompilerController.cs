@@ -16,6 +16,8 @@ namespace CodeFreak1.Controllers
         [Route("compile")]
         [HttpPost("compile")]
         [AllowAnonymous]
+
+
         public IActionResult compileCode(CodeViewModel code)
         {
             var res = CompilerNetworkWebRequest.CompileCPlusPlusCode(code);
