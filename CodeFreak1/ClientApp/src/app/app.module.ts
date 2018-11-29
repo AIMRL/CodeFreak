@@ -23,6 +23,7 @@ import { AppsettingComponent } from './layouts/appsetting/appsetting.component';
 import { AdminRoleGuard } from './Gaurds/admin-role.guard';
 import { SecurityModule } from './Security/security.module';
 import { CompilationModule } from './compilation/compilation.module';
+import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { CompilationModule } from './compilation/compilation.module';
     CodeFreakMaterialModuleModule,
     SecurityModule,
     CompilationModule,
+    FroalaEditorModule.forRoot(), FroalaViewModule.forRoot(),
     RouterModule.forRoot([
 
       {
