@@ -27,8 +27,6 @@ namespace CodeFreak1.Repositories
         public Problem updateProblemById(Problem problem)
         {
             Problem prob = db.Problem.Where(s => s.ProblemId == problem.ProblemId).FirstOrDefault<Problem>();
-
-            prob.
             return problem;
         }
 

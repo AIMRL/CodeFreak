@@ -23,6 +23,12 @@ namespace CodeFreak1.Models
         public DateTime? PostDateTime { get; set; }
         public int? NoOfTestCaseFiles { get; set; }
 
+        public string InputFormat { get; set; }
+        public string OutputFormat { get; set; }
+        public string ConstraintNote { get; set; }
+        public string SampleInput { get; set; }
+        public string SampleOutput { get; set; }
+
         public Users Author { get; set; }
         public Difficulty Difficulty { get; set; }
         public ProblemType ProblemType { get; set; }
