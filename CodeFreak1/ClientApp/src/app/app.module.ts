@@ -22,8 +22,10 @@ import { AppmenuComponent } from './layouts/appmenu/appmenu.component';
 import { AppsettingComponent } from './layouts/appsetting/appsetting.component';
 import { AdminRoleGuard } from './Gaurds/admin-role.guard';
 import { SecurityModule } from './Security/security.module';
-import { CompilationModule } from './compilation/compilation.module';
 import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
+import { ProblemTypeModule } from './problem-type/problem-type.module';
+import { ProblemModule } from './problem/problem.module';
+import { DifficultyModule } from './difficulty/difficulty.module';
 
 @NgModule({
   declarations: [
@@ -49,7 +51,10 @@ import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
     BrowserAnimationsModule,
     CodeFreakMaterialModuleModule,
     SecurityModule,
-    CompilationModule,
+    ProblemModule,
+    ProblemTypeModule,
+    ProblemTypeModule,
+    DifficultyModule,
     FroalaEditorModule.forRoot(), FroalaViewModule.forRoot(),
     RouterModule.forRoot([
 

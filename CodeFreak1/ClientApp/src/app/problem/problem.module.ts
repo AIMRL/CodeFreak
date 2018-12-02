@@ -10,11 +10,11 @@ import { ProblemComponent } from './problem/problem.component';
 import { AceEditorModule } from 'ng2-ace-editor';
 import { CompilerResultViewModel } from './dtos/compiler-result-view-model';
 import { CodeViewModel } from './dtos/code-view-model';
-import { CompilationService } from './compilation.service';
 import { CreateProbemComponent } from './create-probem/create-probem.component';
 
 import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 import { ProblemViewModel } from './dtos/problem-view-model';
+import { ProblemService } from './problem.service';
 
 @NgModule({
   imports: [
@@ -34,6 +34,6 @@ import { ProblemViewModel } from './dtos/problem-view-model';
     ])
   ],
   declarations: [ProblemComponent, CreateProbemComponent],
-  providers: [CompilationService, CompilerResultViewModel, CodeViewModel, ProblemViewModel]
+  providers: [ProblemService, CompilerResultViewModel, CodeViewModel, ProblemViewModel]
 })
-export class CompilationModule { }
+export class ProblemModule { }

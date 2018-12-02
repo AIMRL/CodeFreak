@@ -17,12 +17,14 @@ namespace CodeFreak1.Models
 
         public virtual DbSet<Comment> Comment { get; set; }
         public virtual DbSet<Difficulty> Difficulty { get; set; }
+        public virtual DbSet<Editorial> Editorial { get; set; }
         public virtual DbSet<LoginHistory> LoginHistory { get; set; }
         public virtual DbSet<Permissions> Permissions { get; set; }
         public virtual DbSet<PermissionsMapping> PermissionsMapping { get; set; }
         public virtual DbSet<Problem> Problem { get; set; }
         public virtual DbSet<ProblemTestCase> ProblemTestCase { get; set; }
         public virtual DbSet<ProblemType> ProblemType { get; set; }
+        public virtual DbSet<ProgrammingLanguage> ProgrammingLanguage { get; set; }
         public virtual DbSet<Rating> Rating { get; set; }
         public virtual DbSet<Roles> Roles { get; set; }
         public virtual DbSet<Submission> Submission { get; set; }
@@ -62,6 +64,31 @@ namespace CodeFreak1.Models
             modelBuilder.Entity<Difficulty>(entity =>
             {
                 entity.Property(e => e.Name).IsRequired();
+            });
+
+            modelBuilder.Entity<Editorial>(entity =>
+            {
+                entity.Property(e => e.EditorialId).ValueGeneratedNever();
+
+                entity.Property(e => e.Code).IsRequired();
+
+                entity.HasOne(d => d.Language)
+                    .WithMany(p => p.Editorial)
+                    .HasForeignKey(d => d.LanguageId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Editorial_ProgrammingLanguage");
+
+                entity.HasOne(d => d.Problem)
+                    .WithMany(p => p.Editorial)
+                    .HasForeignKey(d => d.ProblemId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Editorial_Problem");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.Editorial)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Editorial_Users");
             });
 
             modelBuilder.Entity<LoginHistory>(entity =>
@@ -138,6 +165,8 @@ namespace CodeFreak1.Models
 
                 entity.Property(e => e.PostDateTime).HasColumnType("datetime");
 
+                entity.Property(e => e.Title).IsRequired();
+
                 entity.HasOne(d => d.Author)
                     .WithMany(p => p.Problem)
                     .HasForeignKey(d => d.AuthorId)
@@ -174,7 +203,20 @@ namespace CodeFreak1.Models
 
             modelBuilder.Entity<ProblemType>(entity =>
             {
+                entity.Property(e => e.IsActive)
+                    .IsRequired()
+                    .HasDefaultValueSql("((1))");
+
                 entity.Property(e => e.Name).IsRequired();
+            });
+
+            modelBuilder.Entity<ProgrammingLanguage>(entity =>
+            {
+                entity.HasKey(e => e.LanguageId);
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(50);
             });
 
             modelBuilder.Entity<Rating>(entity =>
@@ -230,9 +272,17 @@ namespace CodeFreak1.Models
             {
                 entity.Property(e => e.SubmissionId).ValueGeneratedNever();
 
+                entity.Property(e => e.Code).IsRequired();
+
                 entity.Property(e => e.Status).HasMaxLength(50);
 
                 entity.Property(e => e.SubmissionDateTime).HasColumnType("datetime");
+
+                entity.HasOne(d => d.Language)
+                    .WithMany(p => p.Submission)
+                    .HasForeignKey(d => d.LanguageId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Submission_ProgrammingLanguage");
 
                 entity.HasOne(d => d.Problem)
                     .WithMany(p => p.Submission)

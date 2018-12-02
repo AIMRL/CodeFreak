@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CodeViewModel } from '../dtos/code-view-model';
 import { CompilerResultViewModel } from '../dtos/compiler-result-view-model';
-import { CompilationService } from '../compilation.service';
+import { ProblemService } from '../problem.service';
 
 @Component({
   selector: 'app-problem',
@@ -26,7 +26,7 @@ export class ProblemComponent implements OnInit {
   options: any = { maxLines: 1000, printMargin: false };
   backColor: string = "gray";
   color: string = "red";
-  constructor(private compileService: CompilationService) {
+  constructor(private problemService: ProblemService) {
 
   }
   ngOnInit() {
@@ -46,7 +46,7 @@ export class ProblemComponent implements OnInit {
   compile() {
     this.btnCompile = true;
     this.showResult = false;
-    this.compileService.compileCode(this.codeModel).subscribe(res => {
+    this.problemService.compileCode(this.codeModel).subscribe(res => {
       debugger;
       if (res.Success) {
         this.compilerResult = res;

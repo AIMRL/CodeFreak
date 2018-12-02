@@ -1,28 +1,30 @@
 import { Injectable } from '@angular/core';
+import { CodeFreakHeaders } from '../Interceptors/CodeFreakHeaders';
 import { AppSettings } from '../AppSetting';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { CodeFreakHeaders } from '../Interceptors/CodeFreakHeaders';
 import { Observable } from 'rxjs/Observable';
-import { catchError, tap } from 'rxjs/operators';
-import { CodeViewModel } from './dtos/code-view-model';
-import { CompilerResultViewModel } from './dtos/compiler-result-view-model';
-import { of } from 'rxjs/observable/of';
+import { catchError, map, tap } from 'rxjs/operators';
+import { of } from "rxjs/observable/of";
+import { DifficultyViewModel } from './dtos/difficulty-view-model';
 
 @Injectable()
-export class CompilationService {
-
+export class DifficultyService {
   baseUrl: string = AppSettings.baseUrl;
-  handlerUrl: string = AppSettings.compilerURl;
-  compileUrl: string = `compile/`;
+  handlerUrl: string = AppSettings.difficultyURl;
+  getAllDifficultiesUrl: string = `allDifficulty`;
+
   constructor(private http: HttpClient) { }
-  compileCode(credentials: CodeViewModel): Observable<CompilerResultViewModel> {
+
+
+  getAllDifficulties(): Observable<Array<DifficultyViewModel>> {
     let httpOptions = CodeFreakHeaders.GetSimpleHeader();
-    let url = `${this.baseUrl}${this.handlerUrl}${this.compileUrl}`;
-    var res = this.http.post<CompilerResultViewModel>(url, JSON.stringify(credentials), httpOptions).pipe(
-      tap((cre: CompilerResultViewModel) => this.log(`added employee w/ Success=${cre.Success}`)),
-      catchError(this.handleError<CompilerResultViewModel>('Error in login')));
+    let url = `${this.baseUrl}${this.handlerUrl}${this.getAllDifficultiesUrl}`;
+    var res = this.http.get<Array<DifficultyViewModel>>(url, httpOptions).pipe(
+      tap((cre: Array<DifficultyViewModel>) => this.log(`added employee w/ Success=${cre.length}`)),
+      catchError(this.handleError<Array<DifficultyViewModel>>('Error in login')));
     return res;
   }
+
 
 
 

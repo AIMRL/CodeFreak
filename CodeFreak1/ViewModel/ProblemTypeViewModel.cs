@@ -1,20 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace CodeFreak1.Models
+namespace CodeFreak1.ViewModel
 {
-    public partial class ProblemType
+    public class ProblemTypeViewModel:RequestStatus
     {
-        public ProblemType()
-        {
-            Problem = new HashSet<Problem>();
-        }
-
         public int ProblemTypeId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public bool? IsActive { get; set; }
-
-        public ICollection<Problem> Problem { get; set; }
     }
 }

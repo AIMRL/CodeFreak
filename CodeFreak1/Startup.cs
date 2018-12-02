@@ -91,6 +91,11 @@ namespace CodeFreak1
                 m.CreateMap<PermissionsMapping, RolesPermissionsViewModel>();
                 m.CreateMap<RolesPermissionsViewModel, PermissionsMapping>();
 
+                m.CreateMap<Difficulty, DifficultyViewModel>();
+                m.CreateMap<DifficultyViewModel,Difficulty>();
+
+                m.CreateMap<ProblemType, ProblemTypeViewModel>();
+                m.CreateMap<ProblemTypeViewModel,ProblemType>();
 
             });
             #endregion

@@ -8,6 +8,7 @@ namespace CodeFreak1.Models
         public Problem()
         {
             Comment = new HashSet<Comment>();
+            Editorial = new HashSet<Editorial>();
             ProblemTestCase = new HashSet<ProblemTestCase>();
             Rating = new HashSet<Rating>();
             Submission = new HashSet<Submission>();
@@ -22,11 +23,13 @@ namespace CodeFreak1.Models
         public int NoOfSubmission { get; set; }
         public DateTime? PostDateTime { get; set; }
         public int? NoOfTestCaseFiles { get; set; }
+        public string Title { get; set; }
 
         public Users Author { get; set; }
         public Difficulty Difficulty { get; set; }
         public ProblemType ProblemType { get; set; }
         public ICollection<Comment> Comment { get; set; }
+        public ICollection<Editorial> Editorial { get; set; }
         public ICollection<ProblemTestCase> ProblemTestCase { get; set; }
         public ICollection<Rating> Rating { get; set; }
         public ICollection<Submission> Submission { get; set; }

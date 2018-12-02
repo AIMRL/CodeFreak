@@ -8,6 +8,7 @@ namespace CodeFreak1.Models
         public Users()
         {
             Comment = new HashSet<Comment>();
+            Editorial = new HashSet<Editorial>();
             Permissions = new HashSet<Permissions>();
             Problem = new HashSet<Problem>();
             Rating = new HashSet<Rating>();
@@ -29,6 +30,7 @@ namespace CodeFreak1.Models
         public DateTime? DateOfBirth { get; set; }
 
         public ICollection<Comment> Comment { get; set; }
+        public ICollection<Editorial> Editorial { get; set; }
         public ICollection<Permissions> Permissions { get; set; }
         public ICollection<Problem> Problem { get; set; }
         public ICollection<Rating> Rating { get; set; }

@@ -16,7 +16,10 @@ namespace CodeFreak1.Models
         public int Score { get; set; }
         public string Status { get; set; }
         public DateTime SubmissionDateTime { get; set; }
+        public string Code { get; set; }
+        public int LanguageId { get; set; }
 
+        public ProgrammingLanguage Language { get; set; }
         public Problem Problem { get; set; }
         public Users User { get; set; }
         public ICollection<SubmissionProblemTestCase> SubmissionProblemTestCase { get; set; }

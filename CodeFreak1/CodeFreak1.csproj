@@ -43,7 +43,9 @@
   <ItemGroup>
     <Folder Include="ClientApp\src\app\Angular Material\" />
     <Folder Include="ClientApp\src\app\compilation\dtos\" />
+    <Folder Include="ClientApp\src\app\difficulty-module\dtos\" />
     <Folder Include="ClientApp\src\app\Gaurds\" />
+    <Folder Include="ClientApp\src\app\problem-type\dtos\" />
   </ItemGroup>
 
   <ItemGroup>
