@@ -20,7 +20,6 @@ import { ProblemTypeService} from './problem-type.service';
 
   ],
   declarations: [],
-  providers: [ProblemTypeService],
-  exports: [ProblemTypeService]
+  providers: [ProblemTypeService]
 })
 export class ProblemTypeModule { }

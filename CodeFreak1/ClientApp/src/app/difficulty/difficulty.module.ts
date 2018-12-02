@@ -22,7 +22,6 @@ import { DifficultyService } from './difficulty.service';
     RouterModule,
   ],
   declarations: [],
-  providers: [DifficultyService],
-  exports: [DifficultyService]
+  providers: [DifficultyService]
 })
 export class DifficultyModule { }
