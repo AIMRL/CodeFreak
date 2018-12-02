@@ -11,7 +11,7 @@
 *.ide
 *.ide-shm
 *.ide-wal
-
+*.vs
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
