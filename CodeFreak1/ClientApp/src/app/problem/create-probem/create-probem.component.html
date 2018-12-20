@@ -1,17 +1,162 @@
 <div class="container">
 
-  <h3>Add Problemdgkjb</h3>
+  <h3>Add problem</h3>
   <form #addForm (ngSubmit)="add()">
-    <div class="row">
-      <div [froalaEditor] [formControl]="descrpitionFormControl" #desc required name="desc" id="desc"
-           [(froalaModel)]="problem.Description"></div>
-    </div>
-    <mat-error *ngIf="descrpitionFormControl.hasError('required')">
-      Description is <strong>required</strong>
-    </mat-error>
 
-    <div class="row">
-      <button mat-flat-button color="primary" [disabled]="addForm.invalid">Add Problem</button>
-    </div>
+    <mat-tab-group dynamicHeight [selectedIndex]="selected" (selectedIndexChange)="setSelected($event)">
+      <mat-tab label="Problem Detail">
+        <div class="container" style="margin:10px 40px 10px 40px">
+          <div class="row">
+            <div class="col-md-4">
+              <mat-form-field>
+                <mat-select placeholder="Difficulty" [(ngModel)]="problem.DifficultyId" name="DifficultyId">
+                  <mat-option *ngFor="let diff of difficulties" [value]="diff.DifficultyId">
+                    {{diff.Name}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            <div class="col-md-4">
+              <mat-form-field>
+                <mat-select placeholder="Problem Type" [(ngModel)]="problem.ProblemTypeId" name="DifficultyId">
+                  <mat-option *ngFor="let df of problemTypes" [value]="df.ProblemTypeId">
+                    {{df.Name}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            <div class="col-md-4">
+              <mat-form-field class="">
+                <input matInput #maxscore maxlength="3" placeholder="Total score" [(ngModel)]="problem.MaxScore" name="MaxScore" type="number" value="10">
+              </mat-form-field>
+            </div>
+
+          </div>
+
+          <div class="row">
+            <div class="col-md-10" style="padding:10px 20px" [froalaEditor] [formControl]="descrpitionFormControl" #desc required name="desc" id="desc"
+                 [(froalaModel)]="problem.Description">
+            </div>
+          </div>
+          <mat-error *ngIf="descrpitionFormControl.hasError('required') && desc.touched">
+            Description is <strong>required</strong>
+          </mat-error>
+
+          <div class="row cf-npb">
+            <!--<button *ngIf="selected!=0" (click)="previousTab()" mat-flat-button color="primary">Previous</button>-->
+            <button mat-flat-button *ngIf="selected!=2" (click)="nextTab()" color="primary">Next</button>
+          </div>
+        </div>
+      </mat-tab>
+
+      <mat-tab label="Test Files">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-4">
+              <mat-form-field>
+                <mat-select placeholder="Select Language" [(ngModel)]="editorial.LanguageId" name="LanguageId">
+                  <mat-option *ngFor="let lang of languages" [value]="editorial.LanguageId">
+                    {{lang.Name}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+
+
+          <!--start add files-->
+          <div *ngFor="let tFiles of files;let index">
+            <div class="form-group">
+              <div class="row">
+                <!--Input File-->
+                <div class="col-md-5">
+                  <div class="input-group">
+                    <span class="input-group-btn">
+                      <span class="btn btn-primary btn-file">
+                        Browse Input File
+                        <input id="uploadIn" class="file-upload__input" type="file" #inputFile placeholder="Input File" (change)="readUrl($event,index,0)"
+                               required />
+                      </span>
+                    </span>
+                    <input type="text" class="form-control" style="margin: 0;" name="InputFilePath" [(ngModel)]="tFiles.InputFilePath" readonly>
+                  </div>
+                </div>
+                <!--output File-->
+                <div class="col-md-5">
+                  <div class="input-group">
+                    <span class="input-group-btn">
+                      <span class="btn btn-primary btn-file">
+                        Browse output File
+                        <input id="uploadOut" class="file-upload__input" type="file" #outputFile placeholder="Output File" (change)="readInUrl($event,index,1)"
+                               required />
+                      </span>
+                    </span>
+                    <input type="text" class="form-control" style="margin: 0;" name="OutputFilePath" [(ngModel)]="tFiles.OutputFilePath" readonly>
+                  </div>
+                </div>
+                <div class="col-md-1">
+                  <button class="btn btn-danger" style="background:red" (click)="deleteRow(index)">Delete</button>
+                  <!--<button class="cf-btn-addFile" (click)="addFile()" mat-mini-fab color="warm"><mat-icon>{{'delete_forever'}}</mat-icon></button>-->
+                </div>
+
+              </div>
+            </div>
+          </div>
+          <!--End Add Files-->
+
+          <button class="cf-btn-addFile" (click)="addFile()" mat-fab color="grey"><mat-icon>{{'add_circle'}}</mat-icon></button>
+
+          <div class="row cf-npb">
+            <button *ngIf="selected!=0" (click)="previousTab()" mat-flat-button color="primary">Previous</button>
+            <button mat-flat-button *ngIf="selected!=2" (click)="nextTab()" color="primary">Next</button>
+          </div>
+        </div>
+      </mat-tab>
+
+      <mat-tab label="Editorial Solution">
+        <div class="container">
+          <!--Editorial Editor-->
+          <div class="row">
+            <div class="col-md-10" ace-editor
+                 [(text)]="code"
+                 [mode]="'c_cpp'"
+                 [options]="{maxLines: 'Infinity',
+                    autoScrollEditorIntoView:false,
+                    fontSize: 14,
+                    showGutter:true,
+                    showLineNumbers:true,
+                    fadeFoldWidgets:false,
+                    highlightActiveLine:true,
+                    highlightGutterLine:true,
+                    showInvisibles:false,
+                    showPrintMargin:false}"
+                 [theme]="'eclipse'"
+                 [readOnly]="false"
+                 [autoUpdateContent]="true"
+                 [durationBeforeCallback]="1000"
+                 (textChanged)="onChange($event)"
+                 style="min-height: 200px; width:100%; overflow: auto;">
+            </div>
+          </div>
+
+          <!--next previous button-->
+          <div class="row cf-npb">
+            <button *ngIf="selected!=0" (click)="previousTab()" mat-flat-button color="primary">Previous</button>
+            <button mat-flat-button *ngIf="selected!=2" (click)="nextTab()" color="primary">Next</button>
+          </div>
+          <!--Add Button-->
+          <div class="row" style="margin-top:20px;">
+            <div class="col-md-offset-3 col-md-6">
+              <input type="submit" class="btn btn-success" value="Add problem" style="width:100%;" />
+            </div>
+          </div>
+
+        </div>
+      </mat-tab>
+
+    </mat-tab-group>
+
   </form>
 </div>

@@ -42,7 +42,7 @@ export class LoginComponent implements OnInit {
       if (res.Success) {
         this.userRoles = res;
         localStorage.setItem("token", this.userRoles.Token);
-        this.router.navigate(['counter']);
+        this.router.navigate(['home']);
         return;
       }
     });

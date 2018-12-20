@@ -44,6 +44,7 @@
     <Folder Include="ClientApp\src\app\Angular Material\" />
     <Folder Include="ClientApp\src\app\Gaurds\" />
     <Folder Include="ClientApp\src\app\problem-type\dtos\" />
+    <Folder Include="ClientApp\src\app\programming-language\dtos\" />
   </ItemGroup>
 
   <ItemGroup>

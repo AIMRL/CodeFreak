@@ -1,0 +1,83 @@
+.cf-npb{
+  margin-top:30px;
+  text-align:center;
+}
+.cf-btn-addFile{
+  margin:20px 20px;
+}
+.btn-file {
+  position: relative;
+  overflow: hidden;
+}
+
+  .btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+  }
+
+.abc:hover {
+  cursor: pointer;
+}
+
+.file-upload__input {
+  position: relative;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  font-size: 1;
+  width: 0;
+  height: 100%;
+  opacity: 0;
+}
+
+.imageBox {
+  width: 200px;
+  height: 300px;
+  border: dashed 1px rgba(24, 24, 236, 0.96);
+  text-align: center;
+  color: rgb(39, 236, 22);
+  padding-top: 140px;
+  padding-bottom: 140px;
+  font-size: 20px;
+  background-color: rgba(238, 225, 225, 0.974);
+}
+
+.imageShow {
+  width: 200px;
+  height: 300px;
+  border: dashed 1px rgba(24, 24, 236, 0.96);
+  text-align: center;
+  color: rgb(39, 236, 22);
+  background-color: rgba(238, 225, 225, 0.974);
+}
+
+aside.left-panel {
+  background: #272c33;
+  display: table-cell;
+  height: 100vh;
+  min-height: 100%;
+  padding: 0 25px;
+  vertical-align: top;
+  width: 400px;
+  min-width: 300px;
+  transition: width 0.3s ease;
+}
+
+.right-Panel {
+  width: 100%;
+  display: table-cell;
+  transition: all .35s ease;
+  padding: 0 !important;
+}

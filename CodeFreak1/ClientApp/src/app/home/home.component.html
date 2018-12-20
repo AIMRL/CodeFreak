@@ -1,6 +1,40 @@
-<div *ngIf="isLogin">
-  <app-admin-home></app-admin-home>
-</div>
-<div *ngIf="!isLogin">
-  <app-login></app-login>
-</div>
+<body>
+  <div class="container">
+
+    <h1 style="text-align:center;color:blue">Become a Freak Programmer</h1>
+    <div class="row" style="margin-bottom:40px;">
+
+      <div class="col-md-1"></div>
+
+      <!--Types start-->
+      <div class="col-md-3 cf-type-bl">
+        <h5 class="cf-typeHeading">PROBLEM SOLVING</h5>
+        <div class="row" *ngFor="let type of problemTypes">
+          <hr />
+          <a routerLink="/allProblems" class="cf-link"><h4><b>{{type.Name}}</b></h4></a>
+        </div>
+      </div>
+      <!--End types-->
+      <!--difficulty start-->
+      <div class="col-md-3 cf-type-bl">
+        <h5 class="cf-typeHeading">Difficulty Type</h5>
+        <div class="row" *ngFor="let diff of difficulties">
+          <hr />
+          <a routerLink="/allProblems" class="cf-link"><h4><b>{{diff.Name}}</b></h4></a>
+        </div>
+      </div>
+      <!--difficulty types-->
+      <!--Language start-->
+      <div class="col-md-3 cf-type-bl">
+        <h5 class="cf-typeHeading">Language Proeficiency</h5>
+        <div class="row" *ngFor="let lang of languages">
+          <hr />
+          <a routerLink="/allProblems" class="cf-link"><h4><b>{{lang.Name}}</b></h4></a>
+        </div>
+      </div>
+      <!--Language types-->
+
+    </div>
+  </div>
+
+</body>

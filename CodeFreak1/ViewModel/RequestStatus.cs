@@ -17,5 +17,17 @@ namespace CodeFreak1.ViewModel
             Error = "";
             StatusCode= 0;
         }
+        public void makeSuccess()
+        {
+            Success = true;
+            Error = "No Error";
+            StatusCode = 200;
+        }
+        public void ItemNotFound()
+        {
+            Success = false;
+            Error = "Record Not Found";
+            StatusCode = 404;
+        }
     }
 }

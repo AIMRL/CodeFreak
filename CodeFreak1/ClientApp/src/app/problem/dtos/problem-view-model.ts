@@ -8,4 +8,5 @@ export class ProblemViewModel {
   public NoOfSubmission: number;
   public PostDateTime: Date;
   public NoOfTestCaseFiles: number;
+  public Title: string;
 }

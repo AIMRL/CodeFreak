@@ -73,6 +73,9 @@ namespace CodeFreak1
                 m.CreateMap<Users, UsersViewModel>();
                 m.CreateMap<UsersViewModel,Users>();
 
+                m.CreateMap<Problem, ProblemViewModel>();
+                m.CreateMap<ProblemViewModel, Problem>();
+
                 m.CreateMap<Roles, RolesViewModel>();
                 m.CreateMap<RolesViewModel,Roles>();
 
@@ -96,6 +99,9 @@ namespace CodeFreak1
 
                 m.CreateMap<ProblemType, ProblemTypeViewModel>();
                 m.CreateMap<ProblemTypeViewModel,ProblemType>();
+
+                m.CreateMap<ProgrammingLanguageViewModel,ProgrammingLanguage>();
+                m.CreateMap<ProgrammingLanguage, ProgrammingLanguageViewModel>();
 
             });
             #endregion

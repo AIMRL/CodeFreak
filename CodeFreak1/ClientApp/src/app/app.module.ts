@@ -26,6 +26,10 @@ import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 import { ProblemTypeModule } from './problem-type/problem-type.module';
 import { ProblemModule } from './problem/problem.module';
 import { DifficultyModule } from './difficulty/difficulty.module';
+import { ProgrammingLanguageModule } from './programming-language/programming-language.module';
+
+//import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
+
 
 @NgModule({
   declarations: [
@@ -55,7 +59,9 @@ import { DifficultyModule } from './difficulty/difficulty.module';
     ProblemTypeModule,
     ProblemTypeModule,
     DifficultyModule,
+    ProgrammingLanguageModule,
     FroalaEditorModule.forRoot(), FroalaViewModule.forRoot(),
+  //  LoadingBarHttpClientModule,
     RouterModule.forRoot([
 
       {
@@ -70,6 +76,7 @@ import { DifficultyModule } from './difficulty/difficulty.module';
         path: '', component: SiteLayoutComponent,
         children: [
           { path: 'fetch-data', component: FetchDataComponent },
+          { path: 'home', component: HomeComponent }
 
         ]
       },
@@ -77,5 +84,6 @@ import { DifficultyModule } from './difficulty/difficulty.module';
   ],
   providers: [AdminRoleGuard],
   bootstrap: [AppComponent]
+  //exports: [AppheaderComponent]
 })
 export class AppModule { }

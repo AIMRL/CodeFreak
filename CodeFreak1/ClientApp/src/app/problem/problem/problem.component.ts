@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CodeViewModel } from '../dtos/code-view-model';
 import { CompilerResultViewModel } from '../dtos/compiler-result-view-model';
 import { ProblemService } from '../problem.service';
+import { ProblemCompleteViewModel } from '../dtos/problem-complete-view-model';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-problem',
@@ -13,6 +15,8 @@ export class ProblemComponent implements OnInit {
   compilerResult: CompilerResultViewModel;
   btnCompile = false;
   showResult = false;
+  problemId: string;
+  problemComplete: ProblemCompleteViewModel;
 
 
   text: string = "#include <iostream>\n" +
@@ -26,13 +30,23 @@ export class ProblemComponent implements OnInit {
   options: any = { maxLines: 1000, printMargin: false };
   backColor: string = "gray";
   color: string = "red";
-  constructor(private problemService: ProblemService) {
+  constructor(private problemService: ProblemService, private route: ActivatedRoute) {
 
   }
   ngOnInit() {
+    debugger;
     this.compilerResult = new CompilerResultViewModel;
     this.codeModel = new CodeViewModel();
     this.codeModel.Code = this.text;
+
+    this.problemId = this.route.snapshot.paramMap.get('id');
+
+
+    var id = "0E984725-C51C-4BF4-9960-E1C80E27ABA1";
+    this.problemService.getProblembyId(this.problemId).subscribe(res => {
+      debugger;
+      this.problemComplete = res;
+    });
   }
 
   onChange(code) {

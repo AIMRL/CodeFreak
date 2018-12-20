@@ -1,0 +1,28 @@
+body{
+  background-color:#eee;
+  min-height:100%;
+}
+.cf-type-bl{
+  padding:5px 5px 5px 30px;
+  background-color:#fff;
+  margin-left:10px;
+  border-radius:10px;
+  box-shadow:red 5px 5px 10px 10px;
+}
+.cf-link {
+  color: black;
+}
+.cf-link:hover {
+  color:blue;
+  text-decoration: none;
+}
+.cf-typeHeading {
+  color: gray;
+  padding: 5px 20px;
+}
+.example-margin {
+  margin: 0 10px;
+}
+.example-h2 {
+  margin: 10px;
+}

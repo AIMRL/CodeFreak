@@ -1,0 +1,42 @@
+<style> 
+  .cf-all-prob-main{
+    margin-top:40px;
+    margin-bottom:40px;
+  }
+  .cf-prob-row{
+    padding:20px 30px;
+    color:black;
+    background-color:#fff;
+    margin:5px 0;
+  }
+  .cf-prob-row:hover{
+    background-color:lightgray;
+    cursor:pointer;
+    color:forestgreen;
+  }
+  .cf-prob-row-desc{
+    color:gray;
+  }
+  .cf-prob-row-btn {
+    padding:30px 30px 20px 30px;
+    float:right;
+  }
+</style>
+<body style="background-color:#eee">
+  <div class="container">
+    <div class="cf-all-prob-main">
+      <h1><b>Problem Solving</b></h1>
+      <div class="col-md-9">
+        <div class="row cf-prob-row" *ngFor="let prob of problems">
+          <div class="col-md-8">
+            <h2>{{prob.Problem.Title}}</h2>
+            <h5 class="cf-prob-row-desc">{{prob.Difficulty.Name}},Problem Type:{{prob.ProblemType.Name}},Max Score:{{prob.Problem.MaxScore}}</h5>
+          </div>
+          <div class="col-md-3 cf-prob-row-btn">
+            <button mat-stroked-button color="primary" [routerLink]="['/problem',prob.Problem.ProblemId]"><b>Solve Challange</b></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>

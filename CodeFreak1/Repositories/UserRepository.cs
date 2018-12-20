@@ -36,6 +36,7 @@ namespace CodeFreak1.Repositories
             //Guid g = Guid.Empty;
             //Guid.TryParse("0e984725-c51c-4bf4-9960-e1c80e27aba0", out g);
             Users user = new Users();
+            
             var userRoles = db.UserRoles.Include(o => o.User).Include(o => o.Role).Where(ur => ur.UserId == id).ToList();
             if (userRoles.Count > 0)
             {
