@@ -1,7 +1,8 @@
-Comparing files userout.txt and TRUEOUT.TXT
-***** userout.txt
-Hello, World!
-***** TRUEOUT.TXT
-15
-*****
+Result For Test Case No: 1
+Test Case Comparison Successful.
+No Difference Encountered.
+
+Result For Test Case No: 2
+Test Case Comparison Successful.
+No Difference Encountered.
 
