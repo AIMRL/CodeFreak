@@ -1,3 +1,3 @@
+cd C:\Users\Automata\source\repos\CompilerEnginer\CompilerEnginer
 g++ Code.cpp -o Code.exe
-Code.exe < test.txt > userout.txt
-fc userout.txt trueout.txt > result.txt
+Code.exe

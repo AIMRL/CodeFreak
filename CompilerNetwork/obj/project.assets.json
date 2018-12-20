@@ -5170,7 +5170,7 @@
       ]
     },
     "Microsoft.AspNetCore.Razor.Design/2.1.1": {
-      "sha512": "BOK5fckW9v7xWjpEI6bPGwkjw10OPVASZcAa8HoWJo/0Mmg4Azddj92v8noU+YgvD/6zNZ9o/RiRXXKxk5rYwQ==",
+      "sha512": "f8PKGcxiezL1RVqmnmrazj24Mj4KCTSXqwdotl7Lc+82h8iLV7ItxEIShTJakG7M9iw0ZuCocM0J/IhYesdQrg==",
       "type": "package",
       "path": "microsoft.aspnetcore.razor.design/2.1.1",
       "files": [
@@ -11500,23 +11500,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Muhammad Usman\\.nuget\\packages\\": {},
+    "C:\\Users\\Automata\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\pucit\\7th Semester\\FYP\\CodeFreak1\\CompilerNetwork\\CompilerNetwork.csproj",
+      "projectUniqueName": "C:\\Users\\Automata\\source\\repos\\CodeFreak\\CompilerNetwork\\CompilerNetwork.csproj",
       "projectName": "CompilerNetwork",
-      "projectPath": "D:\\pucit\\7th Semester\\FYP\\CodeFreak1\\CompilerNetwork\\CompilerNetwork.csproj",
-      "packagesPath": "C:\\Users\\Muhammad Usman\\.nuget\\packages\\",
-      "outputPath": "D:\\pucit\\7th Semester\\FYP\\CodeFreak1\\CompilerNetwork\\obj\\",
+      "projectPath": "C:\\Users\\Automata\\source\\repos\\CodeFreak\\CompilerNetwork\\CompilerNetwork.csproj",
+      "packagesPath": "C:\\Users\\Automata\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Automata\\source\\repos\\CodeFreak\\CompilerNetwork\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\Muhammad Usman\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Automata\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -11547,7 +11547,6 @@
             "autoReferenced": true
           },
           "Microsoft.NETCore.App": {
-            "suppressParent": "All",
             "target": "Package",
             "version": "[2.1.0, )",
             "autoReferenced": true
