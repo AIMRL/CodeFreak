@@ -28,7 +28,7 @@ import { ProblemModule } from './problem/problem.module';
 import { DifficultyModule } from './difficulty/difficulty.module';
 import { ProgrammingLanguageModule } from './programming-language/programming-language.module';
 
-//import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
+import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
 
 
 @NgModule({
@@ -61,7 +61,7 @@ import { ProgrammingLanguageModule } from './programming-language/programming-la
     DifficultyModule,
     ProgrammingLanguageModule,
     FroalaEditorModule.forRoot(), FroalaViewModule.forRoot(),
-  //  LoadingBarHttpClientModule,
+    LoadingBarHttpClientModule,
     RouterModule.forRoot([
 
       {
