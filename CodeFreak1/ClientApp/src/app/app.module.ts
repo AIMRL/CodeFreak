@@ -29,7 +29,8 @@ import { DifficultyModule } from './difficulty/difficulty.module';
 import { ProgrammingLanguageModule } from './programming-language/programming-language.module';
 
 import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
-
+import { ToastrModule } from 'ngx-toastr';
+import { ToastModule } from './toast/toast.module';
 
 @NgModule({
   declarations: [
@@ -60,7 +61,10 @@ import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
     ProblemTypeModule,
     DifficultyModule,
     ProgrammingLanguageModule,
-    FroalaEditorModule.forRoot(), FroalaViewModule.forRoot(),
+    ToastModule,
+    FroalaEditorModule.forRoot(),
+    FroalaViewModule.forRoot(),
+    ToastrModule.forRoot(),
     LoadingBarHttpClientModule,
     RouterModule.forRoot([
 
