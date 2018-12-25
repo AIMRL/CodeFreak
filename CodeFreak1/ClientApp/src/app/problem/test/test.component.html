@@ -1,0 +1,44 @@
+<p>
+  test works!
+</p>
+
+<div class="mat-elevation-z8 data-table">
+  <mat-table class="full-width-table" [dataSource]="dataSource" matSort aria-label="Elements">
+    <!-- Id Column -->
+    <ng-container matColumnDef="result">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Result</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{row.result}}</mat-cell>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="score">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Score</mat-header-cell>
+      <mat-cell mat-cell *matCellDef="let row">{{row.score}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="language">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Language</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{row.language}}</mat-cell>
+    </ng-container>
+
+
+    <ng-container matColumnDef="time">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Time</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{row.time}}</mat-cell>
+    </ng-container>
+
+
+
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+
+  <mat-paginator #paginator
+                 [length]="dataSource.data.length"
+                 [pageIndex]="0"
+                 [pageSize]="50"
+                 [pageSizeOptions]="[2,5,10,25,100]">
+  </mat-paginator>
+
+</div>  
