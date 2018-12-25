@@ -1,7 +1,0 @@
-
-C:\Users\Automata\source\repos\CodeFreak\CompilerNetwork>cd C:\Users\Automata\source\repos\CodeFreak\CompilerNetwork\User\bsef15a018 
-
-C:\Users\Automata\source\repos\CodeFreak\CompilerNetwork\User\bsef15a018>g++ Code.cpp -o Code.exe 
-
-C:\Users\Automata\source\repos\CodeFreak\CompilerNetwork\User\bsef15a018>Code.exe
-13
