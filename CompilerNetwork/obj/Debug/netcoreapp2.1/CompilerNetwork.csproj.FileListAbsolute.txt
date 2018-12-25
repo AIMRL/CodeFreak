@@ -26,3 +26,17 @@ D:\1. GitHub\CodeFreak\CompilerNetwork\obj\Debug\netcoreapp2.1\CompilerNetwork.A
 D:\1. GitHub\CodeFreak\CompilerNetwork\obj\Debug\netcoreapp2.1\CompilerNetwork.RazorTargetAssemblyInfo.cache
 D:\1. GitHub\CodeFreak\CompilerNetwork\obj\Debug\netcoreapp2.1\CompilerNetwork.dll
 D:\1. GitHub\CodeFreak\CompilerNetwork\obj\Debug\netcoreapp2.1\CompilerNetwork.pdb
+C:\Users\Arslan\Downloads\CodeFreak\CompilerNetwork\bin\Debug\netcoreapp2.1\CompilerNetwork.deps.json
+C:\Users\Arslan\Downloads\CodeFreak\CompilerNetwork\bin\Debug\netcoreapp2.1\CompilerNetwork.runtimeconfig.json
+C:\Users\Arslan\Downloads\CodeFreak\CompilerNetwork\bin\Debug\netcoreapp2.1\CompilerNetwork.runtimeconfig.dev.json
+C:\Users\Arslan\Downloads\CodeFreak\CompilerNetwork\bin\Debug\netcoreapp2.1\CompilerNetwork.dll
+C:\Users\Arslan\Downloads\CodeFreak\CompilerNetwork\bin\Debug\netcoreapp2.1\CompilerNetwork.pdb
+C:\Users\Arslan\Downloads\CodeFreak\CompilerNetwork\obj\Debug\netcoreapp2.1\CompilerNetwork.csprojAssemblyReference.cache
+C:\Users\Arslan\Downloads\CodeFreak\CompilerNetwork\obj\Debug\netcoreapp2.1\CompilerNetwork.csproj.CoreCompileInputs.cache
+C:\Users\Arslan\Downloads\CodeFreak\CompilerNetwork\obj\Debug\netcoreapp2.1\CompilerNetwork.RazorAssemblyInfo.cache
+C:\Users\Arslan\Downloads\CodeFreak\CompilerNetwork\obj\Debug\netcoreapp2.1\CompilerNetwork.RazorAssemblyInfo.cs
+C:\Users\Arslan\Downloads\CodeFreak\CompilerNetwork\obj\Debug\netcoreapp2.1\CompilerNetwork.AssemblyInfoInputs.cache
+C:\Users\Arslan\Downloads\CodeFreak\CompilerNetwork\obj\Debug\netcoreapp2.1\CompilerNetwork.AssemblyInfo.cs
+C:\Users\Arslan\Downloads\CodeFreak\CompilerNetwork\obj\Debug\netcoreapp2.1\CompilerNetwork.RazorTargetAssemblyInfo.cache
+C:\Users\Arslan\Downloads\CodeFreak\CompilerNetwork\obj\Debug\netcoreapp2.1\CompilerNetwork.dll
+C:\Users\Arslan\Downloads\CodeFreak\CompilerNetwork\obj\Debug\netcoreapp2.1\CompilerNetwork.pdb

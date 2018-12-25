@@ -36,9 +36,9 @@ export class LoginComponent implements OnInit {
   this.userRoles = new UserRolesViewModel();
   }
   login() {
-    debugger;
+
     this.service.loginUser(this.loginCredentials).subscribe(res => {
-      debugger;
+    
       if (res.Success) {
         this.userRoles = res;
         localStorage.setItem("token", this.userRoles.Token);
