@@ -1,7 +1,0 @@
-
-C:\Users\Automata\source\repos\CodeFreak\CompilerNetwork>cd C:\Users\Automata\source\repos\CompilerEnginer\CompilerEnginer 
-
-C:\Users\Automata\source\repos\CompilerEnginer\CompilerEnginer>g++ Code.cpp -o Code.exe 
-
-C:\Users\Automata\source\repos\CompilerEnginer\CompilerEnginer>Code.exe
-20
