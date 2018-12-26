@@ -237,3 +237,5 @@ _Pvt_Extensions
 /.vs
 /CompilerNetwork/bin
 /CompilerNetwork/obj
+/CompilerNetwork/obj
+/CompilerNetwork/bin
