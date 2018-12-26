@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CodeFreak1.ViewModel
+namespace CompileNetwork.ViewModel
 {
     public class CompilerOutputViewModel:RequestStatus
     {
