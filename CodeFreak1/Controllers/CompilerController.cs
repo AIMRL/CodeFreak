@@ -18,7 +18,9 @@ namespace CodeFreak1.Controllers
         [AllowAnonymous]
         public IActionResult compileCode(CodeViewModel code)
         {
-            var res = CompilerNetworkWebRequest.CompileCPlusPlusCode(code);
+            CompilerInputViewModel input = new CompilerInputViewModel();
+            input.SubmissionViewModel.Code = code.Code;
+            var res = CompilerNetworkWebRequest.CompileCPlusPlusCode(input);
             if (res != null)
             {
                 res.Success = true;
@@ -26,8 +28,8 @@ namespace CodeFreak1.Controllers
             }
             else
             {
-                res = new CompilerResultViewModel();
-                res.Result = "Api does not working";
+                res = new CompilerOutputViewModel();
+                res.Error = "Api does not working";
                 res.Success = true;
                 res.StatusCode = 200;
             }
