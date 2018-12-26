@@ -1,5 +1,5 @@
 export class AppSettings {
-  public static baseUrl: string = 'https://localhost:44332/';
+  public static baseUrl: string = 'https://localhost:44329/';
 
   //Controller Path
   public static authURl: string = `/api/Auth/`; 
@@ -10,5 +10,5 @@ export class AppSettings {
   public static programmingLanguageURl: string = `/api/ProgrammingLanguage/`; 
   //Images path
   public static SignInPath = '../../assets/images/loginback.jpeg';
-
+  public static submissionURl: string = `/api/Submission/`; 
 }

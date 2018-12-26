@@ -22,7 +22,7 @@ namespace CompileNetwork.Controllers
 
 
         [HttpPost("Compile")]
-        public ActionResult Compile(CodeViewModel code)
+        public ActionResult Compile(CodeViewModel obj)
         {
             // declare test case count
             int testCaseCount = 0;
@@ -39,43 +39,75 @@ namespace CompileNetwork.Controllers
 
             // creating instance of a result view model to send the result back to user
             CompilerResultViewModel result = null;
-            
+
+            // getting the base url of the current direcotry in which file resides
+            string baseUrl = Directory.GetCurrentDirectory();
+
             // -COMPILER ENGINE WORKING-
             try
             {
-                // getting the base url of the current direcotry in which file resides
-                string baseUrl = Directory.GetCurrentDirectory();
-
-                // writing the received code from the user in a code.cpp file
-                string codePath = Path.Combine(baseUrl, "Code.cpp");
+                // Specify the directory you want to manipulate.
+                string studentDirectoryPath = Path.Combine(baseUrl, @"User\" + obj.StudentID);
+                try
+                {
+                    // Determine whether the directory exists.
+                    if (Directory.Exists(studentDirectoryPath) == false)
+                    {
+                        // Try to create the directory.
+                        DirectoryInfo di = Directory.CreateDirectory(studentDirectoryPath);
+                        Debug.WriteLine("The directory was created successfully at {0}.", Directory.GetCreationTime(studentDirectoryPath));
+                    }
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine("The process failed: {0}", e.ToString());
+                }
+            
+                // writing the received code from the user in a code.cpp file in his directory 
+                string codePath = Path.Combine(baseUrl, @"User\" + obj.StudentID + @"\Code.cpp");
                 try
                 {
                     StreamWriter sw = new StreamWriter(codePath);
-                    sw.Write(code);
+                    sw.Write(obj.Code);
                     sw.Close();
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine("Exception: " + e.Message);
+                    Debug.WriteLine("Exception: " + e.Message);
                 }
 
-                // open the file test.txt
-                string testPath = Path.Combine(baseUrl, "test.txt");
-                StreamReader TestCaseSR = new StreamReader(testPath);
+                // open the file inputs.txt for the test cases
+                string problemInputsPath = Path.Combine(baseUrl, @"Problem\" + obj.ProblemID + @"\inputs.txt");
+                StreamReader TestCaseSR = new StreamReader(problemInputsPath);
 
-                // open the file trueout.txt
-                string tureOutPath = Path.Combine(baseUrl, "trueout.txt");
-                StreamReader TrueOutSR = new StreamReader(tureOutPath);
+                // open the file outputs.txt for the true output of the test cases
+                string problemOutputsPath = Path.Combine(baseUrl, @"Problem\" + obj.ProblemID + @"\outputs.txt");
+                StreamReader TrueOutSR = new StreamReader(problemOutputsPath);
 
                 // read the first test case and put testCase count ++
                 testCase = TestCaseSR.ReadLine();
                 testCaseCount++;
 
-                // read the first true output
+                // read the first true output for the first test case
                 trueOut = TrueOutSR.ReadLine();
 
+                // write the batch file of the specific user in his directory
+                string batchPath = Path.Combine(baseUrl, @"User\" + obj.StudentID + @"\Batch.bat");
+                try
+                {
+                    StreamWriter sw = new StreamWriter(batchPath);
+                    sw.WriteLine("cd " + baseUrl + @"\User\" + obj.StudentID);
+                    sw.WriteLine("g++ Code.cpp -o Code.exe");
+                    sw.WriteLine("Code.exe");
+                    sw.Close();
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine("Exception: " + e.Message);
+                }
+
                 // looping the file to the end
-                string batchPath = Path.Combine(baseUrl, "Batch.bat");
+                string uniqueName = obj.StudentID + "_" + obj.ProblemID + "_submission_" + Guid.NewGuid().ToString() + ".txt";
                 while (testCase != null)
                 {
                     // starting a process
@@ -90,7 +122,7 @@ namespace CompileNetwork.Controllers
                     myStreamWriter = myProcess.StandardInput;
                     myStreamreader = myProcess.StandardOutput;
 
-                    // writing to the stream (giving inputs)
+                    // writing to the stream (giving inputs
                     myStreamWriter.WriteLine(testCase);
 
                     // reading from the stream (taking output)
@@ -100,8 +132,8 @@ namespace CompileNetwork.Controllers
                     myProcess.WaitForExit();
                     myProcess.Close();
 
-                    // writing the the taken output in a file userout.txt
-                    string userOutPath = Path.Combine(baseUrl, "userout.txt");
+                    // writing the the taken output in a file userout.txt in specific user directory
+                    string userOutPath = Path.Combine(baseUrl, @"User\" + obj.StudentID + @"\userout.txt");
                     try
                     {
                         StreamWriter sw = new StreamWriter(userOutPath);
@@ -110,10 +142,10 @@ namespace CompileNetwork.Controllers
                     }
                     catch (Exception e)
                     {
-                        Console.WriteLine("Exception: " + e.Message);
+                        Debug.WriteLine("Exception: " + e.Message);
                     }
 
-                    // comparison of the file userout.txt & trueout.txt
+                    // comparison of the file userout.txt with the true output of the test cases
                     string userOut;
                     bool match = false;
                     try
@@ -133,11 +165,11 @@ namespace CompileNetwork.Controllers
                     }
                     catch (Exception e)
                     {
-                        Console.WriteLine("Exception: " + e.Message);
+                        Debug.WriteLine("Exception: " + e.Message);
                     }
 
-                    // writing the result of the test case in result.txt
-                    string resultPath = Path.Combine(baseUrl, "result.txt");
+                    // writing the result of the test case in result.txt for a specific user in his directory
+                    string resultPath = Path.Combine(baseUrl, @"User\" + obj.StudentID + @"\" + uniqueName);
                     if (match)
                     {
                         try
@@ -151,7 +183,7 @@ namespace CompileNetwork.Controllers
                         }
                         catch (Exception e)
                         {
-                            Console.WriteLine("Exception: " + e.Message);
+                            Debug.WriteLine("Exception: " + e.Message);
                         }
                     }
                     else
@@ -167,7 +199,7 @@ namespace CompileNetwork.Controllers
                         }
                         catch (Exception e)
                         {
-                            Console.WriteLine("Exception: " + e.Message);
+                            Debug.WriteLine("Exception: " + e.Message);
                         }
                     }
 
@@ -194,19 +226,19 @@ namespace CompileNetwork.Controllers
                 // reading the result.txt file and generating responce to send back to user
                 try
                 {
-                    StreamReader sr = new StreamReader(Path.Combine(baseUrl, "result.txt"));
+                    StreamReader sr = new StreamReader(Path.Combine(baseUrl, @"User\" + obj.StudentID + @"\" + uniqueName));
                     result.Result = sr.ReadToEnd();
                     sr.Close();
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine("Exception: " + e.Message);
+                    Debug.WriteLine("Exception: " + e.Message);
                 }
 
             }
             catch (Exception e)
             {
-                Console.WriteLine("Exception: " + e.Message);
+                Debug.WriteLine("Exception: " + e.Message);
             }
             finally
             {
@@ -215,10 +247,6 @@ namespace CompileNetwork.Controllers
                 myStreamreader.Close();
             }
             return Ok(result);
-        }
-        private void writeCodeInFile(string path, string code)
-        {
-            
         }
     }
 }

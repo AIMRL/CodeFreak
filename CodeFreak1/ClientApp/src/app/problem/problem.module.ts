@@ -19,9 +19,22 @@ import { AppheaderComponent } from '../layouts/appheader/appheader.component';
 import { SiteLayoutComponent } from '../layouts/site-layout/site-layout.component';
 import { ProblemsListComponent } from './problems-list/problems-list.component';
 import { ProblemCompleteViewModel } from './dtos/problem-complete-view-model';
+import { SubmissionComponent } from './submission/submission.component';
+import { TestComponent } from './test/test.component';
+
+import { MatButtonModule, MatToolbarModule, MatSidenavModule, MatIconModule,MatListModule, MatTableModule, MatPaginatorModule, MatSortModule } from '@angular/material';
+import { SubmissionViewModel } from './dtos/submission-view-model';
 
 @NgModule({
   imports: [
+
+    MatToolbarModule,
+    MatSidenavModule,
+    MatIconModule,
+    MatListModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
     CommonModule,
     HttpClientModule,
     FormsModule,
@@ -36,7 +49,12 @@ import { ProblemCompleteViewModel } from './dtos/problem-complete-view-model';
       {
         path: '', component: SiteLayoutComponent, children: [
       { path: 'problem/:id', component: ProblemComponent },
-      { path: 'create-problem', component: CreateProbemComponent },
+          { path: 'create-problem', component: CreateProbemComponent },
+
+          { path: 'submission', component: SubmissionComponent },
+
+          { path: 'test', component: TestComponent },
+
           { path: 'allProblems', component: ProblemsListComponent },
           { path: 'allProblems/:diffType', component: ProblemsListComponent },
           { path: 'allProblems/:probType', component: ProblemsListComponent }
@@ -45,7 +63,7 @@ import { ProblemCompleteViewModel } from './dtos/problem-complete-view-model';
       }
     ])
   ],
-  declarations: [ProblemComponent, CreateProbemComponent, ProblemsListComponent],
-  providers: [ProblemService, CompilerResultViewModel, CodeViewModel, ProblemViewModel, ProblemCompleteViewModel]
+  declarations: [ProblemComponent, CreateProbemComponent, ProblemsListComponent, SubmissionComponent, TestComponent],
+  providers: [ProblemService, CompilerResultViewModel, CodeViewModel, ProblemViewModel, ProblemCompleteViewModel, SubmissionViewModel]
 })
 export class ProblemModule { }
