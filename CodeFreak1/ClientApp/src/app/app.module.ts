@@ -28,8 +28,9 @@ import { ProblemModule } from './problem/problem.module';
 import { DifficultyModule } from './difficulty/difficulty.module';
 import { ProgrammingLanguageModule } from './programming-language/programming-language.module';
 
-//import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
-
+import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
+import { ToastrModule } from 'ngx-toastr';
+import { ToastModule } from './toast/toast.module';
 
 @NgModule({
   declarations: [
@@ -60,8 +61,11 @@ import { ProgrammingLanguageModule } from './programming-language/programming-la
     ProblemTypeModule,
     DifficultyModule,
     ProgrammingLanguageModule,
-    FroalaEditorModule.forRoot(), FroalaViewModule.forRoot(),
-  //  LoadingBarHttpClientModule,
+    ToastModule,
+    FroalaEditorModule.forRoot(),
+    FroalaViewModule.forRoot(),
+    ToastrModule.forRoot(),
+    LoadingBarHttpClientModule,
     RouterModule.forRoot([
 
       {

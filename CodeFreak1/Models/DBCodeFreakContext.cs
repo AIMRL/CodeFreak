@@ -303,6 +303,8 @@ namespace CodeFreak1.Models
 
                 entity.Property(e => e.Status).HasMaxLength(50);
 
+                entity.Property(e => e.UserOutputFilePath).IsRequired();
+
                 entity.HasOne(d => d.ProblemTestCase)
                     .WithMany(p => p.SubmissionProblemTestCase)
                     .HasForeignKey(d => d.ProblemTestCaseId)

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { LoadingBarService } from '@ngx-loading-bar/core';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,13 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'app';
+  constructor(private loadingBar: LoadingBarService) {}
+
+  startLoading() {
+    this.loadingBar.start();
+  }
+  
+  stopLoading() {
+    this.loadingBar.complete();
+  }
 }

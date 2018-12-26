@@ -2,11 +2,10 @@ import { Injectable } from '@angular/core';
 import { AppSettings } from '../AppSetting';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CodeFreakHeaders } from '../Interceptors/CodeFreakHeaders';
-import { Observable } from 'rxjs/Observable';
+import { Observable ,  of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { CodeViewModel } from './dtos/code-view-model';
 import { CompilerResultViewModel } from './dtos/compiler-result-view-model';
-import { of } from 'rxjs/observable/of';
 import { ProblemCompleteViewModel } from './dtos/problem-complete-view-model';
 import { SubmissionViewModel } from './dtos/submission-view-model';
 

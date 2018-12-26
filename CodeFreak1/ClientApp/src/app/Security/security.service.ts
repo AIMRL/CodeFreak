@@ -2,9 +2,8 @@ import { Injectable } from '@angular/core';
 import { CodeFreakHeaders } from '../Interceptors/CodeFreakHeaders';
 import { AppSettings } from '../AppSetting';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
+import { Observable ,  of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
-import { of } from "rxjs/observable/of";
 import { UserRolesViewModel } from './Dtos/user-roles-view-model';
 import { SignInViewModel } from './Dtos/sign-in-view-model';
 
