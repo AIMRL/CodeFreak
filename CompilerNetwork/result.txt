@@ -1,7 +1,0 @@
-Comparing files userout.txt and TRUEOUT.TXT
-***** userout.txt
-Hello, World!
-***** TRUEOUT.TXT
-15
-*****
-
