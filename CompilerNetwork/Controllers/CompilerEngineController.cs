@@ -22,7 +22,7 @@ namespace CompileNetwork.Controllers
 
 
         [HttpPost("Compile")]
-        public ActionResult Compile(CodeViewModel obj)
+        public ActionResult Compile(CodeViewModel obj) //public ActionResult Compile(CompilerInputViewModel obj)
         {
             // declare test case count
             int testCaseCount = 0;
