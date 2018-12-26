@@ -107,6 +107,7 @@ namespace CompileNetwork.Controllers
                 }
 
                 // looping the file to the end
+                string uniqueName = obj.StudentID + "_" + obj.ProblemID + "_submission_" + Guid.NewGuid().ToString() + ".txt";
                 while (testCase != null)
                 {
                     // starting a process
@@ -168,7 +169,7 @@ namespace CompileNetwork.Controllers
                     }
 
                     // writing the result of the test case in result.txt for a specific user in his directory
-                    string resultPath = Path.Combine(baseUrl, @"User\" + obj.StudentID + @"\result.txt");
+                    string resultPath = Path.Combine(baseUrl, @"User\" + obj.StudentID + @"\" + uniqueName);
                     if (match)
                     {
                         try
@@ -225,7 +226,7 @@ namespace CompileNetwork.Controllers
                 // reading the result.txt file and generating responce to send back to user
                 try
                 {
-                    StreamReader sr = new StreamReader(Path.Combine(baseUrl, @"User\" + obj.StudentID + @"\result.txt"));
+                    StreamReader sr = new StreamReader(Path.Combine(baseUrl, @"User\" + obj.StudentID + @"\" + uniqueName));
                     result.Result = sr.ReadToEnd();
                     sr.Close();
                 }
