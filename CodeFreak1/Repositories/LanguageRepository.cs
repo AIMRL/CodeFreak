@@ -13,5 +13,15 @@ namespace CodeFreak1.Repositories
         {
             return db.ProgrammingLanguage.ToList();
         }
+
+        public string GetProgrammingLanguageName(int id)
+        {
+            ProgrammingLanguage language = new ProgrammingLanguage();
+
+            language = db.ProgrammingLanguage.Where(s => s.LanguageId == id).FirstOrDefault();
+
+            return language.Name;
+        }
+
     }
 }

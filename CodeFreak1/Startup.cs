@@ -103,6 +103,9 @@ namespace CodeFreak1
                 m.CreateMap<ProgrammingLanguageViewModel,ProgrammingLanguage>();
                 m.CreateMap<ProgrammingLanguage, ProgrammingLanguageViewModel>();
 
+                m.CreateMap<Submission, SubmissionViewModel>();
+                m.CreateMap<SubmissionViewModel, Submission>();
+
             });
             #endregion
         }

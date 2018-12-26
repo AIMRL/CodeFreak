@@ -25,5 +25,14 @@ namespace CodeFreak1.Controllers
             return Ok(Mapper.Map<List<ProgrammingLanguage>, List<ProgrammingLanguageViewModel>>(languages));
         }
 
+        [HttpGet("languageName")]
+        public string GetProgrammingLanguageName(int id)
+        {
+            string name = rep.GetProgrammingLanguageName(id);
+
+            return name;
+        }
+
+
     }
 }
