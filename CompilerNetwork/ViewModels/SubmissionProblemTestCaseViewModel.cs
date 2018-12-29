@@ -7,9 +7,9 @@ namespace CompileNetwork.ViewModel
 {
     public class SubmissionProblemTestCaseViewModel
     {
-        public Guid SubmissionProblemTestCaseId { get; set; }
-        public Guid SubmissionId { get; set; }
-        public Guid ProblemTestCaseId { get; set; }
+        public string SubmissionProblemTestCaseId { get; set; }
+        public string SubmissionId { get; set; }
+        public string ProblemTestCaseId { get; set; }
         public string Status { get; set; }
         public string UserOutputFilePath { get; set; }
     }

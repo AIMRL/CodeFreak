@@ -4,4 +4,4 @@ C:\Users\Automata\source\repos\CodeFreak\CompilerNetwork>cd C:\Users\Automata\so
 C:\Users\Automata\source\repos\CodeFreak\CompilerNetwork\User\bsef15a025>g++ Code.cpp -o Code.exe 
 
 C:\Users\Automata\source\repos\CodeFreak\CompilerNetwork\User\bsef15a025>Code.exe
-0
+7
