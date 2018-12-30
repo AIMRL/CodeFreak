@@ -38,9 +38,8 @@ export class ProblemComponent implements OnInit {
     this.compilerResult = new CompilerResultViewModel;
     this.codeModel = new CodeViewModel();
     this.codeModel.Code = this.text;
-
     this.problemId = this.route.snapshot.paramMap.get('id');
-
+    this.codeModel.ProblemId = this.problemId;
 
     var id = "0E984725-C51C-4BF4-9960-E1C80E27ABA1";
     this.problemService.getProblembyId(this.problemId).subscribe(res => {
@@ -58,6 +57,7 @@ export class ProblemComponent implements OnInit {
   
 
   compile() {
+    debugger;
     this.btnCompile = true;
     this.showResult = false;
     this.problemService.compileCode(this.codeModel).subscribe(res => {

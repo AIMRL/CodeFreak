@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var AppSettings = /** @class */ (function () {
     function AppSettings() {
     }
-    AppSettings.baseUrl = 'https://localhost:44329/';
+    AppSettings.baseUrl = 'https://localhost:44332/';
     //Controller Path
     AppSettings.authURl = "/api/Auth/";
     AppSettings.compilerURl = "/api/Compiler/";

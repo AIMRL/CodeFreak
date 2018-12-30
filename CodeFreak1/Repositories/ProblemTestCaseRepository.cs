@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
+using Microsoft.EntityFrameworkCore;
 namespace CodeFreak1.Repositories
 {
     public class ProblemTestCaseRepository
@@ -32,7 +32,11 @@ namespace CodeFreak1.Repositories
             
         }
 
- 
+
+        public List<ProblemTestCase> GetProblemTestCasesByProblemId(Guid id)
+        {
+            return db.ProblemTestCase.Where(pts => pts.ProblemId == id).ToList();
+        }
 
 
 

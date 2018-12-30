@@ -62,7 +62,7 @@ namespace CodeFreak1.Controllers
             Claim claim = new Claim("user", userRolesViewModel.User.UserId.ToString());
             userIdentity.AddClaim(claim);
             User.AddIdentity(userIdentity);
-
+            User.Identities.ElementAt(0).Claims.Append(claim);
             
 
 
@@ -95,13 +95,13 @@ namespace CodeFreak1.Controllers
 
         [HttpGet]
         [Route("getValue")]
-        [Authorise]
+        [AllowAnonymous]
         public IActionResult getValue()
         {
             Users user = getApplicationUser();
             return Ok("token");
         }
-        private Users getApplicationUser()
+        public Users getApplicationUser()
         {
             var identity = User.Identities.FirstOrDefault(s => s.Name.ToLower() == "user");
             var claims = identity.Claims;

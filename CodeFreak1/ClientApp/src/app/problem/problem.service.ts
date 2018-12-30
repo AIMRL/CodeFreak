@@ -26,7 +26,21 @@ export class ProblemService {
 
   constructor(private http: HttpClient) { }
   compileCode(credentials: CodeViewModel): Observable<CompilerResultViewModel> {
-    let httpOptions = CodeFreakHeaders.GetSimpleHeader();
+ //   let httpOptions = CodeFreakHeaders.GetBearerHeader();
+    //var headers = new HttpHeaders();
+    //headers.append('Content-Type', 'application/json');
+    //headers.append('Accept', 'application/json');
+    //headers.append('Authorization', `bearer ${localStorage.getItem('token')}`);
+    //let httpOption = {
+    //  headers: headers
+    //};
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Authorization': 'Bearer ' + localStorage.getItem('token'), 'Content-Type': 'application/json' })
+    };
+    httpOptions.headers.append('Content-Type', 'application/json');
+    httpOptions.headers.append('Accept', 'application/json');
+    httpOptions.headers.append('Authorization', `bearer ${localStorage.getItem('token')}`);
+
     let url = `${this.baseUrl}${this.handlerUrl}${this.compileUrl}`;
     var res = this.http.post<CompilerResultViewModel>(url, JSON.stringify(credentials), httpOptions).pipe(
       tap((cre: CompilerResultViewModel) => this.log(`added employee w/ Success=${cre.Success}`)),

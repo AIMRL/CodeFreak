@@ -11,7 +11,7 @@ export class ToastService {
   constructor(private toastr: ToastrService) { }
 
   makePinkToast(title,message){
-    this.toastr.show('Hello world!', 'Toastr fun!',{
+    this.toastr.show(title, message,{
       closeButton:true,
       progressBar:true,
       progressAnimation:'increasing',

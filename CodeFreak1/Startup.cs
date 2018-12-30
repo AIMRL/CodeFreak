@@ -106,6 +106,8 @@ namespace CodeFreak1
                 m.CreateMap<Submission, SubmissionViewModel>();
                 m.CreateMap<SubmissionViewModel, Submission>();
 
+                m.CreateMap<ProblemTestCase, ProblemTestCaseViewModel>();
+                m.CreateMap<ProblemTestCaseViewModel, ProblemTestCase>();
             });
             #endregion
         }

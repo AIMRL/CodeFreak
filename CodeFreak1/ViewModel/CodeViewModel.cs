@@ -8,5 +8,6 @@ namespace CodeFreak1.ViewModel
     public class CodeViewModel
     {
         public string Code { get; set; }
+        public Guid ProblemId { get; set; }
     }
 }
