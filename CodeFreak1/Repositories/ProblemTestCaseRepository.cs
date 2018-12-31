@@ -31,8 +31,17 @@ namespace CodeFreak1.Repositories
             return db.ProblemTestCase.Where(s => s.ProblemTestCaseId == pTestCaseId).FirstOrDefault<ProblemTestCase>();
             
         }
+        public List<ProblemTestCase> getProblemTestCaseByProblemId(Guid problemId)
+        {
 
- 
+            List<ProblemTestCase> listProb = new List<ProblemTestCase>();
+
+            listProb= db.ProblemTestCase.Where(s => s.ProblemId == problemId).ToList<ProblemTestCase>();
+            return listProb;
+
+        }
+
+
 
 
 

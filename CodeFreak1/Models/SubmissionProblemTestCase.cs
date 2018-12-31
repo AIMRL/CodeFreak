@@ -10,8 +10,6 @@ namespace CodeFreak1.Models
         public Guid ProblemTestCaseId { get; set; }
         public string Status { get; set; }
         public string UserOutputFilePath { get; set; }
-
-        public ProblemTestCase ProblemTestCase { get; set; }
-        public Submission Submission { get; set; }
+        
     }
 }
