@@ -46,7 +46,7 @@ export class ToastService {
       closeButton: true,
       progressBar: true,
       progressAnimation: 'increasing',
-      positionClass: 'toast-bottom-right',
+      positionClass: 'toast-top-right',
       enableHtml: true,
     });
   }

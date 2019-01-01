@@ -11,7 +11,6 @@ export class AppheaderComponent implements OnInit {
   constructor(private router: Router) { }
 
   ngOnInit() {
-    debugger;
   }
   logout() {
 

@@ -21,9 +21,19 @@ namespace CodeFreak1.Repositories
                 return null;
             }
             db.Users.Add(user);
+            db.SaveChanges();
+
+            //Add user Role
+            Roles role = db.Roles.FirstOrDefault(r => r.Name.ToLower() == "user");
+            UserRoles userRole = new UserRoles();
+            userRole.UserId = user.UserId;
+            userRole.RoleId = role.RoleId;
+            db.UserRoles.Add(userRole);
+            db.SaveChanges();
+
             return user;
         }
-        private Users getByEmail(string email)
+        public Users getByEmail(string email)
         {
             return db.Users.FirstOrDefault(u => u.Email.ToLower() == email.ToLower());
         }

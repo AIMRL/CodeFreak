@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { LoadingBarService } from '@ngx-loading-bar/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -8,8 +9,13 @@ import { LoadingBarService } from '@ngx-loading-bar/core';
 })
 export class AppComponent {
   title = 'app';
-  constructor(private loadingBar: LoadingBarService) {}
+  constructor(private loadingBar: LoadingBarService, private router: Router) {}
+  ngOnInit() {
+    //if (localStorage.getItem('token') != null) {
+    //  this.router.navigate(['home']);
+    //}
 
+  }
   startLoading() {
     this.loadingBar.start();
   }

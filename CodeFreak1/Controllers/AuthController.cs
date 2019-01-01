@@ -120,5 +120,85 @@ namespace CodeFreak1.Controllers
             }
             return user;
         }
+
+
+
+
+
+
+        [HttpPost]
+        [Route("signup")]
+        [AllowAnonymous]
+        public IActionResult signup(UsersViewModel usersViewModel)
+        {
+
+            if(string.IsNullOrEmpty(usersViewModel.Email) || string.IsNullOrEmpty(usersViewModel.Password))
+            {
+                RequestStatus request = new RequestStatus();
+                request.Error = "Email or password is empty";
+                request.Success = false;
+                request.StatusCode = 101;
+                return Ok(request);
+            }
+
+            Users isExist = userRepository.getByEmail(usersViewModel.Email);
+            if (isExist != null)
+            {
+                RequestStatus request = new RequestStatus();
+                request.Error = "Email already Exist";
+                request.Success = false;
+                request.StatusCode = 101;
+                return Ok(request);
+            }
+
+            usersViewModel.UserId = Guid.NewGuid();
+            usersViewModel.ModifiedOn = DateTime.Now;
+            usersViewModel.CreatedOn = DateTime.Now;
+            usersViewModel.IsActive = true;
+            usersViewModel.ModifieBy = usersViewModel.UserId;
+            usersViewModel.CreatedBy = usersViewModel.UserId;
+            Users user = Mapper.Map<UsersViewModel, Users>(usersViewModel);
+            try
+            {
+                user = userRepository.InsertUser(user);
+                if (user == null)
+                {
+                    RequestStatus req = new RequestStatus();
+                    req.Error = "Server is stopped";
+                    req.Success = false;
+                    req.StatusCode = 101;
+                    return Ok(req);
+                }
+                RequestStatus request = new RequestStatus();
+                request.Message= "Successfully Signup";
+                request.Error = "No Error";
+                request.Success = true;
+                request.StatusCode = 400;
+                return Ok(request);
+            }
+            catch(Exception ex)
+            {
+                RequestStatus req = new RequestStatus();
+                //req.Error = "Server is stopped! Try Later";
+                req.Error = ex.Message;
+                req.Success = false;
+                req.StatusCode = 101;
+                return Ok(req);
+            }
+            
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 }

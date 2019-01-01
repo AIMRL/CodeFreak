@@ -56,8 +56,7 @@ import { SubmissionViewModel } from './dtos/submission-view-model';
           { path: 'test', component: TestComponent },
 
           { path: 'allProblems', component: ProblemsListComponent },
-          { path: 'allProblems/:diffType', component: ProblemsListComponent },
-          { path: 'allProblems/:probType', component: ProblemsListComponent }
+          { path: 'allProblems/:which/:name', component: ProblemsListComponent }
 
         ]
       }

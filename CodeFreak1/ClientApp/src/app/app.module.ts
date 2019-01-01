@@ -64,7 +64,7 @@ import { ToastModule } from './toast/toast.module';
     ToastModule,
     FroalaEditorModule.forRoot(),
     FroalaViewModule.forRoot(),
-    ToastrModule.forRoot(),
+    ToastrModule.forRoot({ timeOut:3000 }),
     LoadingBarHttpClientModule,
     RouterModule.forRoot([
 

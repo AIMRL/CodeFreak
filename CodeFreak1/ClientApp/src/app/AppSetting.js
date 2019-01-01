@@ -12,7 +12,8 @@ var AppSettings = /** @class */ (function () {
     AppSettings.problemTypeURl = "/api/ProblemType/";
     AppSettings.programmingLanguageURl = "/api/ProgrammingLanguage/";
     //Images path
-    AppSettings.SignInPath = '../../assets/images/loginback.jpeg';
+    AppSettings.SignInPath = '../../assets/images/loginback.jpg';
+    AppSettings.logoPath = '../../assets/images/cflogo.png';
     AppSettings.submissionURl = "/api/Submission/";
     return AppSettings;
 }());
