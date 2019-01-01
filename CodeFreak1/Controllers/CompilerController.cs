@@ -91,6 +91,7 @@ namespace CodeFreak1.Controllers
                         submission.Status = "failed";
                         submission.Score = 0;
                         flag = true;
+                        break;
 
                     }
 
