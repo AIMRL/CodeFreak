@@ -11,6 +11,8 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./problem.component.css']
 })
 export class ProblemComponent implements OnInit {
+
+
   codeModel: CodeViewModel;
   compilerResult: CompilerResultViewModel;
   btnCompile = false;
