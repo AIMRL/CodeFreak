@@ -56,7 +56,7 @@
           </div>
           <div class="row cf-editor">
             <div ace-editor
-                 [(text)]="codeModel.Code"
+                 [(text)]="problemUserCodeModel.Code"
                  [mode]="'c_cpp'"
                  [options]="{maxLines: 'Infinity',
                     autoScrollEditorIntoView:false,
@@ -80,6 +80,7 @@
           <div class="row cf-prob-btns">
             <button mat-raised-button (click)="compile()">Compile</button>
             <button mat-raised-button color="primary" (click)="submitCode()">Submit Code</button>
+            
           </div>
           <br /><br />
 
@@ -89,7 +90,7 @@
           </div>
 
           <div *ngIf="showResult" class="row cf-result">
-            {{this.compilerResult.Result}}
+            {{this.compilerResult.TestcasesResult[0].Status}}
           </div>
 
         </div>

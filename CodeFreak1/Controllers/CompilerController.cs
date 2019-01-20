@@ -7,9 +7,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using CodeFreak1.HttpClients.CompilerNetworkApi;
-using CodeFreak1.Models;
 using CodeFreak1.Repositories;
 using AutoMapper;
+using CodeFreak1.Models;
 
 namespace CodeFreak1.Controllers
 {
@@ -18,18 +18,25 @@ namespace CodeFreak1.Controllers
     public class CompilerController : ControllerBase
     {
 
-        ProblemTestCaseRepository problemTestCaseRepository = new ProblemTestCaseRepository();
-        SubmissionRepository submissionRepository = new SubmissionRepository();
+        SubmissionRepository subRepos = new SubmissionRepository();
+        ProblemTestCaseRepository testRepos = new ProblemTestCaseRepository();
+        SubmissionProblemTestCaseRepository subProbTestRepo = new SubmissionProblemTestCaseRepository();
+        ProblemRepository probReops = new ProblemRepository();
         UserRepository userRepository = new UserRepository();
-        DBCodeFreakContext db = new DBCodeFreakContext();
+
 
 
 
         [Route("compile")]
         [HttpPost("compile")]
         [AllowAnonymous]
-        public IActionResult compileCode(CodeViewModel code)
+        public IActionResult compileCode(ProblemUserCodeViewModel code)
         {
+            
+            CompilerInputViewModel input = new CompilerInputViewModel();
+
+       
+
             Users user = getApplicationUser();
 
             if (user == null)
@@ -40,25 +47,71 @@ namespace CodeFreak1.Controllers
                 requestStatus.Success = false;
                 return Ok(requestStatus);
             }
-
+            //hardcoded for now ;
+            code.userId = user.UserId.ToString();
+            
             SubmissionViewModel submission = new SubmissionViewModel();
-            submission.Code = code.Code;
-            submission.UserId = user.UserId;
-            submission.ProblemId = code.ProblemId;
-            submission.SubmissionId = Guid.NewGuid();
+
+            submission.SubmissionId = Guid.NewGuid().ToString();
+            submission.UserId = code.userId;
+            submission.ProblemId = code.problemId;
+            submission.Score = 0;
+            submission.Status = "";
             submission.SubmissionDateTime = DateTime.Now;
+            submission.Code = code.Code;
+            submission.LanguageId = 1;
 
-            List<ProblemTestCase> problemTestCases = problemTestCaseRepository.GetProblemTestCasesByProblemId(code.ProblemId);
 
-            CompilerInputViewModel input = new CompilerInputViewModel();
-            input.SubmissionViewModel = submission;
-            input.ProblemTestCaseViewModels = Mapper.Map<List<ProblemTestCase>, List<ProblemTestCaseViewModel>>(problemTestCases);
 
+            List<ProblemTestCaseViewModel> myTests = new List<ProblemTestCaseViewModel>();
+            var testCaseList = testRepos.getProblemTestCaseByProblemId(Guid.Parse(code.problemId));
+
+
+            foreach (var item in testCaseList)
+            {
+                ProblemTestCaseViewModel problemTestCaseviewModel = new ProblemTestCaseViewModel();
+                problemTestCaseviewModel = Mapper.Map<ProblemTestCase, ProblemTestCaseViewModel>(item);
+                myTests.Add(problemTestCaseviewModel);
+            }
+
+
+            input.ProblemTestCaseViewModels = myTests;
+            input.SubmissionViewModel=submission;
+        
             var res = CompilerNetworkWebRequest.CompileCPlusPlusCode(input);
+            Boolean flag = false;
+
             if (res != null)
             {
+                
+                foreach (var item in res.TestcasesResult)
+                {
+                    if (item.Status.Contains("SuccessTestCaseCount: 0"))
+                    {
+                        submission.Status = "failed";
+                        submission.Score = 0;
+                        flag = true;
+                        break;
+
+                    }
+
+                }
+                Problem prob = probReops.getProblemById(Guid.Parse(code.problemId));
+                int maxScore = prob.MaxScore;
+                if (flag == false)
+                {
+                    submission.Status = "passed";
+                    submission.Score = maxScore;
+                }
+                subRepos.addSubmission(Mapper.Map<SubmissionViewModel, Submission>(submission));
+                foreach (var item in res.TestcasesResult)
+                {
+                    subProbTestRepo.addSubmissionProblemTestCase(Mapper.Map<SubmissionProblemTestCaseViewModel, SubmissionProblemTestCase>(item));
+                }
+                
                 res.Success = true;
                 res.StatusCode = 200;
+
             }
             else
             {
@@ -88,6 +141,6 @@ namespace CodeFreak1.Controllers
             }
             return user;
         }
-    }
 
+    }
 }

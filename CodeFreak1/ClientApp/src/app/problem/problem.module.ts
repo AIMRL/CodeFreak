@@ -24,6 +24,7 @@ import { TestComponent } from './test/test.component';
 
 import { MatButtonModule, MatToolbarModule, MatSidenavModule, MatIconModule,MatListModule, MatTableModule, MatPaginatorModule, MatSortModule } from '@angular/material';
 import { SubmissionViewModel } from './dtos/submission-view-model';
+import { ResultComponent } from './result/result.component';
 
 @NgModule({
   imports: [
@@ -56,13 +57,14 @@ import { SubmissionViewModel } from './dtos/submission-view-model';
           { path: 'test', component: TestComponent },
 
           { path: 'allProblems', component: ProblemsListComponent },
-          { path: 'allProblems/:which/:name', component: ProblemsListComponent }
+          { path: 'allProblems/:which/:name', component: ProblemsListComponent },
+          {path : 'result',component:ResultComponent}
 
         ]
       }
     ])
   ],
-  declarations: [ProblemComponent, CreateProbemComponent, ProblemsListComponent, SubmissionComponent, TestComponent],
+  declarations: [ProblemComponent, CreateProbemComponent, ProblemsListComponent, SubmissionComponent, TestComponent, ResultComponent],
   providers: [ProblemService, CompilerResultViewModel, CodeViewModel, ProblemViewModel, ProblemCompleteViewModel, SubmissionViewModel]
 })
 export class ProblemModule { }
