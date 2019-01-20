@@ -1,0 +1,7 @@
+
+D:\FYP\CodeFreak\CompilerNetwork>cd D:\FYP\CodeFreak\CompilerNetwork\User\0e984725-c51c-4bf4-9960-e1c80e27aba0 
+
+D:\FYP\CodeFreak\CompilerNetwork\User\0E984725-C51C-4BF4-9960-E1C80E27ABA0>g++ Code.cpp -o Code.exe 
+
+D:\FYP\CodeFreak\CompilerNetwork\User\0E984725-C51C-4BF4-9960-E1C80E27ABA0>Code.exe
+13

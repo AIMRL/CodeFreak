@@ -7,12 +7,16 @@ import { catchError, tap } from 'rxjs/operators';
 import { CodeViewModel } from './dtos/code-view-model';
 import { CompilerResultViewModel } from './dtos/compiler-result-view-model';
 import { ProblemCompleteViewModel } from './dtos/problem-complete-view-model';
+import {ProblemUserCodeViewModel} from './dtos/Problem-user-code-view-model';
 import { SubmissionViewModel } from './dtos/submission-view-model';
+import {CompilerOutputViewModel} from './dtos/compiler-output-view-model';
 
 
 @Injectable()
 export class ProblemService {
 
+
+  storage:any;
   baseUrl: string = AppSettings.baseUrl;
   handlerUrl: string = AppSettings.compilerURl;
   problemHandlerUrl: string = AppSettings.problemURl;
@@ -25,14 +29,27 @@ export class ProblemService {
 
 
   constructor(private http: HttpClient) { }
-  compileCode(credentials: CodeViewModel): Observable<CompilerResultViewModel> {
-    let httpOptions = CodeFreakHeaders.GetSimpleHeader();
+  compileCode(credentials: ProblemUserCodeViewModel): Observable<CompilerOutputViewModel> {
+
+
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Authorization': 'Bearer ' + localStorage.getItem('token'), 'Content-Type': 'application/json' })
+    };
+    httpOptions.headers.append('Content-Type', 'application/json');
+    httpOptions.headers.append('Accept', 'application/json');
+    httpOptions.headers.append('Authorization', `bearer ${localStorage.getItem('token')}`);
+
+
+
+
     let url = `${this.baseUrl}${this.handlerUrl}${this.compileUrl}`;
-    var res = this.http.post<CompilerResultViewModel>(url, JSON.stringify(credentials), httpOptions).pipe(
-      tap((cre: CompilerResultViewModel) => this.log(`added employee w/ Success=${cre.Success}`)),
-      catchError(this.handleError<CompilerResultViewModel>('Error in login')));
+    var res = this.http.post<CompilerOutputViewModel>(url, JSON.stringify(credentials), httpOptions).pipe(
+      tap((cre: CompilerOutputViewModel) => this.log(`added employee w/ Success=${cre.Success}`)),
+      catchError(this.handleError<CompilerOutputViewModel>('Error in login')));
     return res;
   }
+
+  
   getAllProblems(): Observable<Array<ProblemCompleteViewModel>> {
     let httpOptions = CodeFreakHeaders.GetSimpleHeader();
     let url = `${this.baseUrl}${this.problemHandlerUrl}${this.allProblemsUrl}`;

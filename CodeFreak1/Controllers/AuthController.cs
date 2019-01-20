@@ -62,9 +62,7 @@ namespace CodeFreak1.Controllers
             Claim claim = new Claim("user", userRolesViewModel.User.UserId.ToString());
             userIdentity.AddClaim(claim);
             User.AddIdentity(userIdentity);
-
             
-
 
             return Ok(userRolesViewModel);
         }
