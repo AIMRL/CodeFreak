@@ -1,7 +1,0 @@
-
-D:\FYP\CodeFreak\CompilerNetwork>cd D:\FYP\CodeFreak\CompilerNetwork\User\bsef15a025 
-
-D:\FYP\CodeFreak\CompilerNetwork\User\bsef15a025>g++ Code.cpp -o Code.exe 
-
-D:\FYP\CodeFreak\CompilerNetwork\User\bsef15a025>Code.exe
-Hello, World!
