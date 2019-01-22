@@ -1,5 +1,4 @@
-
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, Input} from '@angular/core';
 import { MatPaginator, MatSort } from '@angular/material';
 
 import { DataSource } from '@angular/cdk/collections';
@@ -21,10 +20,10 @@ import { ProblemService } from '../problem.service';
   templateUrl: './submission.component.html',
   styleUrls: ['./submission.component.css']
 })
-
 export class SubmissionComponent implements OnInit {
 
-  @Input() problemId: string;
+  @Input()
+  problemId: string;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -39,7 +38,8 @@ export class SubmissionComponent implements OnInit {
   constructor(private problemService: ProblemService) { }
 
   ngOnInit() {
-
+    debugger;
+    
     this.submissionViewModelList = new Array<SubmissionViewModel>();
     this.problemService.getSubmissionOfUser(this.title).subscribe(res => {
 

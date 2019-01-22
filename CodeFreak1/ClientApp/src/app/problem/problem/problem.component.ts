@@ -38,7 +38,6 @@ export class ProblemComponent implements OnInit {
 
   }
   ngOnInit() {
-    debugger;
     this.compilerResult = new CompilerOutputViewModel();
     
     this.problemUserCodeModel=new ProblemUserCodeViewModel();
@@ -49,7 +48,7 @@ export class ProblemComponent implements OnInit {
 
     var id = "0E984725-C51C-4BF4-9960-E1C80E27ABA1";
     this.problemService.getProblembyId(this.problemId).subscribe(res => {
-      debugger;
+      
       this.problemComplete = res;
     });
   }
