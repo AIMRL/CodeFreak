@@ -2,6 +2,10 @@
   <div class="container">
 
     <h1 style="text-align:center;color:blue">Become a Freak Programmer</h1>
+    <div class="row col-md-offset-1">
+      <a routerLink="/allProblems" class="cf-link"><h4><b>All Problems</b></h4></a>
+    </div>
+    
     <div class="row" style="margin-bottom:40px;">
 
       <div class="col-md-1"></div>
@@ -11,7 +15,7 @@
         <h5 class="cf-typeHeading">PROBLEM SOLVING</h5>
         <div class="row" *ngFor="let type of problemTypes">
           <hr />
-          <a routerLink="/allProblems" class="cf-link"><h4><b>{{type.Name}}</b></h4></a>
+          <a routerLink="/allProblems/1/{{type.Name}}" class="cf-link"><h4><b>{{type.Name}}</b></h4></a>
         </div>
       </div>
       <!--End types-->
@@ -20,7 +24,7 @@
         <h5 class="cf-typeHeading">Difficulty Type</h5>
         <div class="row" *ngFor="let diff of difficulties">
           <hr />
-          <a routerLink="/allProblems" class="cf-link"><h4><b>{{diff.Name}}</b></h4></a>
+          <a routerLink="/allProblems/2/{{diff.Name}}" class="cf-link"><h4><b>{{diff.Name}}</b></h4></a>
         </div>
       </div>
       <!--difficulty types-->

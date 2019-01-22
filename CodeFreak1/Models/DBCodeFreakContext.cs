@@ -37,7 +37,7 @@ namespace CodeFreak1.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=.\\SQLExpress;Database=DBCodeFreak;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer("Server =.; Database = DBCodeFreak; User Id = sa; Password = 123456; MultipleActiveResultSets = true");
             }
         }
 
@@ -305,7 +305,17 @@ namespace CodeFreak1.Models
 
                 entity.Property(e => e.UserOutputFilePath).IsRequired();
 
-               
+                entity.HasOne(d => d.ProblemTestCase)
+                    .WithMany(p => p.SubmissionProblemTestCase)
+                    .HasForeignKey(d => d.ProblemTestCaseId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_SubmissionProblemTestCase_ProblemTestCase");
+
+                entity.HasOne(d => d.Submission)
+                    .WithMany(p => p.SubmissionProblemTestCase)
+                    .HasForeignKey(d => d.SubmissionId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_SubmissionProblemTestCase_Submission");
             });
 
             modelBuilder.Entity<UserRoles>(entity =>
