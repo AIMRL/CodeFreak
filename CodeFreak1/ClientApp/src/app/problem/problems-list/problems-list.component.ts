@@ -10,17 +10,35 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class ProblemsListComponent implements OnInit {
   problems: Array<ProblemCompleteViewModel>;
+  diffType: string;
+  probType: string;
+  which: string;
   constructor(private problemService: ProblemService, private route: ActivatedRoute) { }
 
   ngOnInit() {
     debugger;
     this.problems = new Array<ProblemCompleteViewModel>();
-    var diffType = this.route.snapshot.paramMap.get('diffType');
-    var probType = this.route.snapshot.paramMap.get('probType');
+    this.which = this.route.snapshot.paramMap.get('which');
+    if(this.which != null) {
+      if (this.which == '1') {
+        this.probType = this.route.snapshot.paramMap.get('name');
+      }
+      if (this.which == '2') {
+        this.diffType = this.route.snapshot.paramMap.get('name');
+      }
+    }
+
+
 
     this.problemService.getAllProblems().subscribe(res => {
       debugger;
       this.problems = res;
+      if (this.diffType != null) {
+        this.problems = this.problems.filter(p => p.Difficulty.Name.includes(this.diffType));
+      }
+      if (this.probType != null) {
+        this.problems=this.problems.filter(p => p.ProblemType.Name == this.probType);
+      }
     });
   }
 

@@ -6,12 +6,15 @@ import { Observable ,  of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { UserRolesViewModel } from './Dtos/user-roles-view-model';
 import { SignInViewModel } from './Dtos/sign-in-view-model';
+import { RequestStatus } from '../request-status';
+import { UsersViewModel } from './Dtos/users-view-model';
 
 @Injectable()
 export class SecurityService {
-  baseUrl: string = AppSettings.baseUrl;
-  handlerUrl: string = AppSettings.authURl;
-  getTokenUrl: string = `token/`;
+  private baseUrl: string = AppSettings.baseUrl;
+  private handlerUrl: string = AppSettings.authURl;
+  private getTokenUrl: string = `token/`;
+  private signupUrl: string = `signup/`;
   constructor(private http: HttpClient) { }
   loginUser(credentials: SignInViewModel): Observable<UserRolesViewModel> {
     let httpOptions = CodeFreakHeaders.GetSimpleHeader();
@@ -29,7 +32,16 @@ export class SecurityService {
     return res;
   }
 
+  //Signup User
 
+  signupUser(user: UsersViewModel): Observable<RequestStatus> {
+    let httpOptions = CodeFreakHeaders.GetSimpleHeader();
+    let url = `${this.baseUrl}${this.handlerUrl}${this.signupUrl}`;
+    var res = this.http.post<RequestStatus>(url, JSON.stringify(user), httpOptions).pipe(
+      tap((cre: RequestStatus) => this.log(`added employee w/ Success=${cre.Success}`)),
+      catchError(this.handleError<RequestStatus>('Error in login')));
+    return res;
+  }
 
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {

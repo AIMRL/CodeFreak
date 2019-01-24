@@ -1,5 +1,6 @@
 export class AppSettings {
-  public static baseUrl: string = 'https://localhost:44312/';
+
+  public static baseUrl: string = 'https://localhost:44394/';
 
   //Controller Path
   public static authURl: string = `/api/Auth/`; 
@@ -9,6 +10,7 @@ export class AppSettings {
   public static problemTypeURl: string = `/api/ProblemType/`; 
   public static programmingLanguageURl: string = `/api/ProgrammingLanguage/`; 
   //Images path
-  public static SignInPath = '../../assets/images/loginback.jpeg';
+  public static SignInPath = '../../assets/images/loginback.jpg';
+  public static logoPath = '../../assets/images/cflogo.png';
   public static submissionURl: string = `/api/Submission/`; 
 }

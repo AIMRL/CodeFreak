@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var AppSettings = /** @class */ (function () {
     function AppSettings() {
     }
-    AppSettings.baseUrl = 'https://localhost:44329/';
+    AppSettings.baseUrl = 'https://localhost:44332/';
     //Controller Path
     AppSettings.authURl = "/api/Auth/";
     AppSettings.compilerURl = "/api/Compiler/";
@@ -12,7 +12,8 @@ var AppSettings = /** @class */ (function () {
     AppSettings.problemTypeURl = "/api/ProblemType/";
     AppSettings.programmingLanguageURl = "/api/ProgrammingLanguage/";
     //Images path
-    AppSettings.SignInPath = '../../assets/images/loginback.jpeg';
+    AppSettings.SignInPath = '../../assets/images/loginback.jpg';
+    AppSettings.logoPath = '../../assets/images/cflogo.png';
     AppSettings.submissionURl = "/api/Submission/";
     return AppSettings;
 }());

@@ -60,8 +60,7 @@ import { ResultComponent } from './result/result.component';
           { path: 'test', component: TestComponent },
 
           { path: 'allProblems', component: ProblemsListComponent },
-          { path: 'allProblems/:diffType', component: ProblemsListComponent },
-          { path: 'allProblems/:probType', component: ProblemsListComponent },
+          { path: 'allProblems/:which/:name', component: ProblemsListComponent },
           {path : 'result',component:ResultComponent}
 
         ]
