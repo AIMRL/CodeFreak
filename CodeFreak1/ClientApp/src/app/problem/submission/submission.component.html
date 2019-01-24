@@ -1,48 +1,55 @@
-<p>
-  submission works!
-</p>
-
-
-<div class="mat-elevation-z8 data-table">
-  <mat-table class="full-width-table" [dataSource]="dataSource" matSort aria-label="Elements">
-    <!-- Id Column -->
-    <ng-container matColumnDef="Status">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>Status</mat-header-cell>
-      <mat-cell *matCellDef="let row">{{row.Status}}</mat-cell>
-    </ng-container>
-
-    <!-- Name Column -->
-    <ng-container matColumnDef="Score">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>Score</mat-header-cell>
-      <mat-cell mat-cell *matCellDef="let row">{{row.Score}}</mat-cell>
-    </ng-container>
-
-    <ng-container matColumnDef="SubmissionId">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>SubmissionId</mat-header-cell>
-      <mat-cell *matCellDef="let row">{{row.SubmissionId}}</mat-cell>
-    </ng-container>
-
-
-    <ng-container matColumnDef="SubmissionDateTime">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>SubmissionDateTime</mat-header-cell>
-      <mat-cell *matCellDef="let row">{{row.SubmissionDateTime}}</mat-cell>
-    </ng-container>
 
 
 
-
-    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-  </mat-table>
-
-  <mat-paginator #paginator
-                 [length]="dataSource.data.length"
-                 [pageIndex]="0"
-                 [pageSize]="50"
-                 [pageSizeOptions]="[2,5,10,25,100]">
-  </mat-paginator>
-
+<div *ngIf="dataToShow == 'false'">
+  <p>You have not made any Submission </p>
 </div>
+
+
+
+  <div class="mat-elevation-z8 data-table" [hidden] ="dataToShow == 'false' ">
+    <mat-table class="full-width-table" [dataSource]="dataSource" matSort aria-label="Elements">
+      <!-- Id Column -->
+      <ng-container matColumnDef="Status">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Status</mat-header-cell>
+        <mat-cell *matCellDef="let row">{{row.Status}}</mat-cell>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="Score">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Score</mat-header-cell>
+        <mat-cell mat-cell *matCellDef="let row">{{row.Score}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="SubmissionId">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>SubmissionId</mat-header-cell>
+        <mat-cell *matCellDef="let row">{{row.SubmissionId}}</mat-cell>
+      </ng-container>
+
+
+      <ng-container matColumnDef="SubmissionDateTime">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>SubmissionDateTime</mat-header-cell>
+        <mat-cell *matCellDef="let row">{{row.SubmissionDateTime}}</mat-cell>
+      </ng-container>
+
+
+
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+
+    <mat-paginator #paginator
+                   [length]="dataSource.data.length"
+                   [pageSizeOptions]="[2,5,10,25,100]"
+                   [pageIndex]="0"
+                   [pageSize]="50">
+    </mat-paginator>
+
+  </div>
+
+
+ 
 
 
 

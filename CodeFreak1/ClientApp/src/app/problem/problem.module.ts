@@ -26,9 +26,12 @@ import { MatButtonModule, MatToolbarModule, MatSidenavModule, MatIconModule,MatL
 import { SubmissionViewModel } from './dtos/submission-view-model';
 import { ResultComponent } from './result/result.component';
 
+
+
+
 @NgModule({
   imports: [
-
+    CommonModule,
     MatToolbarModule,
     MatSidenavModule,
     MatIconModule,

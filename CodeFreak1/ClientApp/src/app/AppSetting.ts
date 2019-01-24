@@ -1,5 +1,5 @@
 export class AppSettings {
-  public static baseUrl: string = 'https://localhost:44390/';
+  public static baseUrl: string = 'https://localhost:44312/';
 
   //Controller Path
   public static authURl: string = `/api/Auth/`; 
