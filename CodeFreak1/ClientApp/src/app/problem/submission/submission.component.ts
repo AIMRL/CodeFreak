@@ -15,6 +15,7 @@ import { ProblemService } from '../problem.service';
 
 
 
+
 @Component({
   selector: 'app-submission',
   templateUrl: './submission.component.html',
@@ -28,24 +29,31 @@ export class SubmissionComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  title = "CodeFreak";
+  ProblemId = "0E984725-C51C-4BF4-9960-E1C80E27ABA1";
 
   submissionViewModelList: Array<SubmissionViewModel>;
   displayedColumns = ['Status', 'Score', 'SubmissionId', 'SubmissionDateTime'];
 
   dataSource: DataTableDataSource;
 
+  dataToShow = "true";
+
   constructor(private problemService: ProblemService) { }
 
+
   ngOnInit() {
-    debugger;
     
     this.submissionViewModelList = new Array<SubmissionViewModel>();
-    this.problemService.getSubmissionOfUser(this.title).subscribe(res => {
+    this.problemService.getSubmissionOfUser(this.ProblemId).subscribe(res => {
 
 
       this.submissionViewModelList = res;
       this.dataSource = new DataTableDataSource(this.submissionViewModelList, this.paginator, this.sort);
+
+      if (this.dataSource.data.length == 0) {
+        this.dataToShow = "false";
+      }
+   
 
     })
   }
@@ -57,7 +65,7 @@ export class SubmissionComponent implements OnInit {
 
 export class DataTableDataSource {
 
-  constructor(private data: Array<SubmissionViewModel> , private paginator: MatPaginator, private sort: MatSort) {
+  constructor(public data: Array<SubmissionViewModel> , private paginator: MatPaginator, private sort: MatSort) {
    
   }
 

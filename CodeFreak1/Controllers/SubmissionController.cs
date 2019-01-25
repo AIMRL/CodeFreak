@@ -19,6 +19,8 @@ namespace CodeFreak1.Controllers
     {
         SubmissionRepository rep = new SubmissionRepository();
         LanguageRepository languageRep = new LanguageRepository();
+        UserRepository userRepository = new UserRepository();
+
 
         [HttpGet]
         [Route("byUserId")]
@@ -32,6 +34,41 @@ namespace CodeFreak1.Controllers
 
             return Ok(Mapper.Map<List<Submission>, List<SubmissionViewModel>>(subList));
         }
+
+        [HttpGet]
+        [Route("byProblemId")]
+        [AllowAnonymous]
+
+        public IActionResult getSubmissionByProblemId(Guid ProblemId)
+        {
+            Users user = getApplicationUser();
+
+            List<Submission> subList = rep.getSubmissionOfUserIdProblemId(user.UserId, ProblemId);
+
+            return Ok(Mapper.Map<List<Submission>, List<SubmissionViewModel>>(subList));
+        }
+
+        public Users getApplicationUser()
+        {
+            var identity = User.Identities.FirstOrDefault(s => s.Name.ToLower() == "user");
+            var claims = identity.Claims;
+            string id = null;
+            foreach (var c in claims)
+            {
+                if (c.Type == "userId")
+                {
+                    id = c.Value;
+                }
+            }
+            Users user = null;
+            if (id != null)
+            {
+                user = userRepository.getUserById(new Guid(id));
+            }
+
+            return user;
+        }
+
 
     }
 }

@@ -10,6 +10,7 @@ import { ProblemCompleteViewModel } from './dtos/problem-complete-view-model';
 import {ProblemUserCodeViewModel} from './dtos/Problem-user-code-view-model';
 import { SubmissionViewModel } from './dtos/submission-view-model';
 import {CompilerOutputViewModel} from './dtos/compiler-output-view-model';
+import { UsersViewModel } from '../Security/Dtos/users-view-model';
 
 
 @Injectable()
@@ -25,8 +26,7 @@ export class ProblemService {
   problemByIdUrl: string = `problemById?id=`;
 
   submissionUrl: string = AppSettings.submissionURl;
-  UserSubmissionUrl: string = `byUserId/`;
-
+  UserSubmissionUrl: string = `byProblemId?ProblemId=`;
 
   constructor(private http: HttpClient) { }
   compileCode(credentials: ProblemUserCodeViewModel): Observable<CompilerOutputViewModel> {
@@ -69,12 +69,16 @@ export class ProblemService {
     return res;
   }
 
-  getSubmissionOfUser(UserId: string): Observable<Array<SubmissionViewModel>> {
-    let httpOptions = CodeFreakHeaders.GetSimpleHeader();
+  getSubmissionOfUser(ProblemId : string): Observable<Array<SubmissionViewModel>> {
 
-    UserId = '?id=0E984725-C51C-4BF4-9960-E1C80E27ABA0';
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Authorization': 'Bearer ' + localStorage.getItem('token'), 'Content-Type': 'application/json' })
+    };
+    httpOptions.headers.append('Content-Type', 'application/json');
+    httpOptions.headers.append('Accept', 'application/json');
+    httpOptions.headers.append('Authorization', `bearer ${localStorage.getItem('token')}`);
 
-    let url = `${this.baseUrl}${this.submissionUrl}${this.UserSubmissionUrl}${UserId}`;
+    let url = `${this.baseUrl}${this.submissionUrl}${this.UserSubmissionUrl}${ProblemId}`;
 
     var res = this.http.get<Array<SubmissionViewModel>>(url, httpOptions).pipe(
       tap((cre: Array<SubmissionViewModel>) => this.log(`added employee w / Success=${cre.length}`)),
