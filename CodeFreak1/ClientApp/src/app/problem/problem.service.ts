@@ -51,7 +51,14 @@ export class ProblemService {
 
   
   getAllProblems(): Observable<Array<ProblemCompleteViewModel>> {
-    let httpOptions = CodeFreakHeaders.GetSimpleHeader();
+//    let httpOptions = CodeFreakHeaders.GetSimpleHeader();
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Authorization': 'Bearer ' + localStorage.getItem('token'), 'Content-Type': 'application/json' })
+    };
+    httpOptions.headers.append('Content-Type', 'application/json');
+    httpOptions.headers.append('Accept', 'application/json');
+    httpOptions.headers.append('Authorization', `bearer ${localStorage.getItem('token')}`);
+
     let url = `${this.baseUrl}${this.problemHandlerUrl}${this.allProblemsUrl}`;
     var res = this.http.get<Array<ProblemCompleteViewModel>>(url, httpOptions).pipe(
       tap((cre: Array<ProblemCompleteViewModel>) => this.log(`added employee w/ Success=${cre.length}`)),
@@ -61,11 +68,18 @@ export class ProblemService {
 
 
   getProblembyId(id): Observable<ProblemCompleteViewModel> {
-    let httpOptions = CodeFreakHeaders.GetSimpleHeader();
+//    let httpOptions = CodeFreakHeaders.GetSimpleHeader();
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Authorization': 'Bearer ' + localStorage.getItem('token'), 'Content-Type': 'application/json' })
+    };
+    httpOptions.headers.append('Content-Type', 'application/json');
+    httpOptions.headers.append('Accept', 'application/json');
+    httpOptions.headers.append('Authorization', `bearer ${localStorage.getItem('token')}`);
+
     let url = `${this.baseUrl}${this.problemHandlerUrl}${this.problemByIdUrl}${id}`;
     var res = this.http.get<ProblemCompleteViewModel>(url, httpOptions).pipe(
       tap((cre: ProblemCompleteViewModel) => this.log(`added employee w/ Success=${cre.Success}`)),
-      catchError(this.handleError<ProblemCompleteViewModel>('Error in login')));
+      catchError(this.handleError<ProblemCompleteViewModel>('Error in login',res)));
     return res;
   }
 
@@ -90,6 +104,7 @@ export class ProblemService {
 
 
   private handleError<T>(operation = 'operation', result?: T) {
+    debugger;
     return (error: any): Observable<T> => {
       // TODO: send the error to remote logging infrastructure
       console.error(error); // log to console instead

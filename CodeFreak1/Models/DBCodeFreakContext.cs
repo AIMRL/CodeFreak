@@ -38,7 +38,7 @@ namespace CodeFreak1.Models
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
 
-                optionsBuilder.UseSqlServer("Data Source=DESKTOP-BFAK281;Initial Catalog=DBCodeFreak;Integrated Security=True");
+                optionsBuilder.UseSqlServer("Server=.;Database=DBCodeFreak;User Id=sa;Password=123456;MultipleActiveResultSets=true");
 
             }
         }

@@ -121,7 +121,36 @@ namespace CodeFreak1.Controllers
             return user;
         }
 
+        //public IActionResult IsUserLogin()
+        //{
+        //    if (User != null)
+        //    {
+        //        if (User.Identities != null)
+        //        {
+        //            var identity = User.Identities.FirstOrDefault(s => s.Name.ToLower() == "user");
+        //            if (identity != null)
+        //            {
+        //                var claims = identity.Claims;
+        //                string id = null;
+        //                foreach (var c in claims)
+        //                {
+        //                    if (c.Type == "userId")
+        //                    {
+        //                        RequestStatus request1 = new RequestStatus();
+        //                        request1.makeSuccess();
+        //                        return Ok(request1);
+        //                    }
+        //                }
 
+        //            }
+
+        //        }
+        //    }
+
+        //    RequestStatus request1 = new RequestStatus();
+        //    return Ok(request1);
+
+        //}
 
 
 

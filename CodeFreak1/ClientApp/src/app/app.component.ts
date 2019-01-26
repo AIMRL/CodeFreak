@@ -11,9 +11,7 @@ export class AppComponent {
   title = 'app';
   constructor(private loadingBar: LoadingBarService, private router: Router) {}
   ngOnInit() {
-    //if (localStorage.getItem('token') != null) {
-    //  this.router.navigate(['home']);
-    //}
+      //this.router.navigate(['home']);
 
   }
   startLoading() {
