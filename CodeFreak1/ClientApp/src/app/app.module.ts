@@ -80,7 +80,7 @@ import { ToastModule } from './toast/toast.module';
         path: '', component: SiteLayoutComponent,
         children: [
           { path: 'fetch-data', component: FetchDataComponent },
-          { path: 'home', component: HomeComponent }
+          { path: 'home', component: HomeComponent, canActivate: [AdminRoleGuard] }
 
         ]
       },

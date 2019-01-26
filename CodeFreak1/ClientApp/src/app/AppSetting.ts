@@ -1,4 +1,5 @@
 export class AppSettings {
+
   public static baseUrl: string = 'https://localhost:44332/';
 
   //Controller Path

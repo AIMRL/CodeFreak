@@ -10,6 +10,7 @@ import { ProblemCompleteViewModel } from './dtos/problem-complete-view-model';
 import {ProblemUserCodeViewModel} from './dtos/Problem-user-code-view-model';
 import { SubmissionViewModel } from './dtos/submission-view-model';
 import {CompilerOutputViewModel} from './dtos/compiler-output-view-model';
+import { UsersViewModel } from '../Security/Dtos/users-view-model';
 
 
 @Injectable()
@@ -25,8 +26,7 @@ export class ProblemService {
   problemByIdUrl: string = `problemById?id=`;
 
   submissionUrl: string = AppSettings.submissionURl;
-  UserSubmissionUrl: string = `byUserId/`;
-
+  UserSubmissionUrl: string = `byProblemId?ProblemId=`;
 
   constructor(private http: HttpClient) { }
   compileCode(credentials: ProblemUserCodeViewModel): Observable<CompilerOutputViewModel> {
@@ -51,7 +51,14 @@ export class ProblemService {
 
   
   getAllProblems(): Observable<Array<ProblemCompleteViewModel>> {
-    let httpOptions = CodeFreakHeaders.GetSimpleHeader();
+//    let httpOptions = CodeFreakHeaders.GetSimpleHeader();
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Authorization': 'Bearer ' + localStorage.getItem('token'), 'Content-Type': 'application/json' })
+    };
+    httpOptions.headers.append('Content-Type', 'application/json');
+    httpOptions.headers.append('Accept', 'application/json');
+    httpOptions.headers.append('Authorization', `bearer ${localStorage.getItem('token')}`);
+
     let url = `${this.baseUrl}${this.problemHandlerUrl}${this.allProblemsUrl}`;
     var res = this.http.get<Array<ProblemCompleteViewModel>>(url, httpOptions).pipe(
       tap((cre: Array<ProblemCompleteViewModel>) => this.log(`added employee w/ Success=${cre.length}`)),
@@ -61,20 +68,31 @@ export class ProblemService {
 
 
   getProblembyId(id): Observable<ProblemCompleteViewModel> {
-    let httpOptions = CodeFreakHeaders.GetSimpleHeader();
+//    let httpOptions = CodeFreakHeaders.GetSimpleHeader();
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Authorization': 'Bearer ' + localStorage.getItem('token'), 'Content-Type': 'application/json' })
+    };
+    httpOptions.headers.append('Content-Type', 'application/json');
+    httpOptions.headers.append('Accept', 'application/json');
+    httpOptions.headers.append('Authorization', `bearer ${localStorage.getItem('token')}`);
+
     let url = `${this.baseUrl}${this.problemHandlerUrl}${this.problemByIdUrl}${id}`;
     var res = this.http.get<ProblemCompleteViewModel>(url, httpOptions).pipe(
       tap((cre: ProblemCompleteViewModel) => this.log(`added employee w/ Success=${cre.Success}`)),
-      catchError(this.handleError<ProblemCompleteViewModel>('Error in login')));
+      catchError(this.handleError<ProblemCompleteViewModel>('Error in login',res)));
     return res;
   }
 
-  getSubmissionOfUser(UserId: string): Observable<Array<SubmissionViewModel>> {
-    let httpOptions = CodeFreakHeaders.GetSimpleHeader();
+  getSubmissionOfUser(ProblemId : string): Observable<Array<SubmissionViewModel>> {
 
-    UserId = '?id=0E984725-C51C-4BF4-9960-E1C80E27ABA0';
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Authorization': 'Bearer ' + localStorage.getItem('token'), 'Content-Type': 'application/json' })
+    };
+    httpOptions.headers.append('Content-Type', 'application/json');
+    httpOptions.headers.append('Accept', 'application/json');
+    httpOptions.headers.append('Authorization', `bearer ${localStorage.getItem('token')}`);
 
-    let url = `${this.baseUrl}${this.submissionUrl}${this.UserSubmissionUrl}${UserId}`;
+    let url = `${this.baseUrl}${this.submissionUrl}${this.UserSubmissionUrl}${ProblemId}`;
 
     var res = this.http.get<Array<SubmissionViewModel>>(url, httpOptions).pipe(
       tap((cre: Array<SubmissionViewModel>) => this.log(`added employee w / Success=${cre.length}`)),
@@ -86,6 +104,7 @@ export class ProblemService {
 
 
   private handleError<T>(operation = 'operation', result?: T) {
+    debugger;
     return (error: any): Observable<T> => {
       // TODO: send the error to remote logging infrastructure
       console.error(error); // log to console instead
