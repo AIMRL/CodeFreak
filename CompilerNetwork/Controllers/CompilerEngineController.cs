@@ -27,6 +27,8 @@ namespace CompileNetwork.Controllers
             // declare the process class instance
             Process myProcess;
 
+            bool errorExists = false;
+
             // declaring the testCase and trueOut
             string testCase, trueOut;
 
@@ -73,12 +75,15 @@ namespace CompileNetwork.Controllers
 
             // write the batch file of the specific user in his directory
             string batchPath = Path.Combine(baseUrl, @"User\" + obj.SubmissionViewModel.UserId.ToString() + @"\Batch.bat");
+            string uniqueNameError = "ERROR_" + obj.SubmissionViewModel.UserId.ToString() + "_" + obj.SubmissionViewModel.ProblemId.ToString() + "_" + obj.SubmissionViewModel.SubmissionId.ToString() + ".txt";
             try
             {
                 StreamWriter sw = new StreamWriter(batchPath);
                 sw.WriteLine("cd " + baseUrl + @"\User\" + obj.SubmissionViewModel.UserId.ToString());
-                sw.WriteLine("g++ Code.cpp -o Code.exe");
+                sw.WriteLine("g++ Code.cpp -o Code.exe 2> " + uniqueNameError);
+                sw.WriteLine("IF EXIST Code.exe (");
                 sw.WriteLine("Code.exe");
+                sw.WriteLine(")");
                 sw.Close();
             }
             catch (Exception e)
@@ -114,14 +119,14 @@ namespace CompileNetwork.Controllers
                     testCaseCount++;
 
                     // read the first true output for the first test case
-                    trueOut = TrueOutSR.ReadLine(); 
+                    trueOut = TrueOutSR.ReadLine();
 
                     // looping the file to the end with particular test case declaration and file naming convention
-                    string userOutputPath = null;
+                    string uniqueName = "";
+                    string userOutputPath = "";
                     int successTestCaseCount = 0, failTestCaseCount = 0;
-                    string uniqueName = obj.SubmissionViewModel.UserId.ToString() + "_" + TestCaseFile.ProblemId.ToString() + "_" + TestCaseFile.ProblemTestCaseId + "_" + Guid.NewGuid().ToString() + ".txt";
-                    userOutputPath = Path.Combine(baseUrl, @"User\" + obj.SubmissionViewModel.UserId.ToString() + @"\" + uniqueName);
-                    while (testCase != null)
+
+                    while (testCase != null && errorExists == false)
                     {
                         // starting a process
                         myProcess = new Process();
@@ -145,80 +150,91 @@ namespace CompileNetwork.Controllers
                         myProcess.WaitForExit();
                         myProcess.Close();
 
-                        // writing the the taken output in a file userout.txt in specific user directory
-                        string tempPath = Path.Combine(baseUrl, @"User\" + obj.SubmissionViewModel.UserId.ToString() + @"\temp.txt");
-                        try
+                        string errorFilePath = Path.Combine(baseUrl, @"User\" + obj.SubmissionViewModel.UserId.ToString() + @"\" + uniqueNameError);
+                        if (System.IO.File.Exists(errorFilePath) && new FileInfo(errorFilePath).Length > 0)
                         {
-                            StreamWriter sw = new StreamWriter(tempPath);
-                            sw.WriteLine(output);
-                            sw.Close();
-                        }
-                        catch (Exception e)
-                        {
-                            Debug.WriteLine("Exception: " + e.Message);
-                        }
-
-                        // comparison of the file userout.txt with the true output of the test cases
-                        string userOut = "";
-                        bool match = false;
-                        try
-                        {
-                            StreamReader UserOutSR = new StreamReader(tempPath);
-                            for (int i = 0; i < 6; i++)
-                            {
-                                UserOutSR.ReadLine();
-                            }
-                            userOut = UserOutSR.ReadLine();
-                            if (string.Equals(userOut, trueOut))
-                            {
-                                match = true;
-                            }
-                            UserOutSR.Close();
-                        }
-                        catch (Exception e)
-                        {
-                            Debug.WriteLine("Exception: " + e.Message);
-                        }
-
-                        // writing the result of the test case in result.txt for a specific user in his directory
-                        if (match)
-                        {
-                            try
-                            {
-                                StreamWriter sw = System.IO.File.AppendText(userOutputPath);
-                                sw.WriteLine(userOut);
-                                sw.Close();
-                            }
-                            catch (Exception e)
-                            {
-                                Debug.WriteLine("Exception: " + e.Message);
-                            }
-                            successTestCaseCount++;
+                            errorExists = true;
                         }
                         else
                         {
+                            uniqueName = obj.SubmissionViewModel.UserId.ToString() + "_" + TestCaseFile.ProblemId.ToString() + "_" + TestCaseFile.ProblemTestCaseId + "_" + Guid.NewGuid().ToString() + ".txt";
+                            userOutputPath = Path.Combine(baseUrl, @"User\" + obj.SubmissionViewModel.UserId.ToString() + @"\" + uniqueName);
+
+                            // writing the the taken output in a file userout.txt in specific user directory
+                            string tempPath = Path.Combine(baseUrl, @"User\" + obj.SubmissionViewModel.UserId.ToString() + @"\temp.txt");
                             try
                             {
-                                StreamWriter sw = System.IO.File.AppendText(userOutputPath);
-                                sw.WriteLine(userOut);
+                                StreamWriter sw = new StreamWriter(tempPath);
+                                sw.WriteLine(output);
                                 sw.Close();
                             }
                             catch (Exception e)
                             {
                                 Debug.WriteLine("Exception: " + e.Message);
                             }
-                            failTestCaseCount++;
+
+                            // comparison of the file userout.txt with the true output of the test cases
+                            string userOut = "";
+                            bool match = false;
+                            try
+                            {
+                                StreamReader UserOutSR = new StreamReader(tempPath);
+                                for (int i = 0; i < 6; i++)
+                                {
+                                    UserOutSR.ReadLine();
+                                }
+                                userOut = UserOutSR.ReadLine();
+                                if (string.Equals(userOut, trueOut))
+                                {
+                                    match = true;
+                                }
+                                UserOutSR.Close();
+                            }
+                            catch (Exception e)
+                            {
+                                Debug.WriteLine("Exception: " + e.Message);
+                            }
+
+                            // writing the result of the test case in result.txt for a specific user in his directory
+                            if (match)
+                            {
+                                try
+                                {
+                                    StreamWriter sw = System.IO.File.AppendText(userOutputPath);
+                                    sw.WriteLine(userOut);
+                                    sw.Close();
+                                }
+                                catch (Exception e)
+                                {
+                                    Debug.WriteLine("Exception: " + e.Message);
+                                }
+                                successTestCaseCount++;
+                            }
+                            else
+                            {
+                                try
+                                {
+                                    StreamWriter sw = System.IO.File.AppendText(userOutputPath);
+                                    sw.WriteLine(userOut);
+                                    sw.Close();
+                                }
+                                catch (Exception e)
+                                {
+                                    Debug.WriteLine("Exception: " + e.Message);
+                                }
+                                failTestCaseCount++;
+                            }
+
+                            // making the match false so that for next test case it will be clear.
+                            match = false;
+
+                            // reading the next text case and also increasing the count
+                            testCase = TestCaseSR.ReadLine();
+                            testCaseCount++;
+
+                            // reading the next true output
+                            trueOut = TrueOutSR.ReadLine();
                         }
-
-                        // making the match false so that for next test case it will be clear.
-                        match = false;
-
-                        // reading the next text case and also increasing the count
-                        testCase = TestCaseSR.ReadLine();
-                        testCaseCount++;
-
-                        // reading the next true output
-                        trueOut = TrueOutSR.ReadLine();
                     }
                     // closing the TrueOutSR stream
                     TrueOutSR.Close();
