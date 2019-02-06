@@ -1,7 +1,0 @@
-Code.cpp: In function 'int main()':
-Code.cpp:7:5: error: 'cinn' was not declared in this scope
-     cinn>>a>>b>>c;
-     ^
-Code.cpp:8:5: error: 'coutt' was not declared in this scope
-     coutt<<a+b+c;
-     ^
