@@ -1,0 +1,98 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using AutoMapper;
+using CodeFreak1.Models;
+using CodeFreak1.Repositories;
+using CodeFreak1.ViewModel;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+
+namespace CodeFreak1.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class EventController : ControllerBase
+    {
+        EventRepository eveRep = new EventRepository();
+        UserRepository userRepository = new UserRepository();
+        [Route("addEvent")]
+        [HttpPost("addEvent")]
+        public IActionResult addEvent(EventViewModel eventViewModel)
+        {
+            if(eventViewModel==null || eventViewModel.Name == null) {
+                RequestStatus requestStatus = new RequestStatus();
+                requestStatus.makeObjectNull();
+                return Ok(requestStatus);
+            }
+            try
+            {
+                Event isExistEev = eveRep.getEventByName(eventViewModel.Name);
+                if (isExistEev != null)
+                {
+                    RequestStatus requestStatus = new RequestStatus();
+                    requestStatus.makeNameAlreadyEist();
+                    return Ok(requestStatus);
+                }
+                Event eve = Mapper.Map<EventViewModel, Event>(eventViewModel);
+                Users curUser = getApplicationUser();
+                eve.CreatedBy = curUser.UserId;
+                eve.CreatedOn = DateTime.Now;
+                eve.IsActive = true;
+                eve = eveRep.AddEvent(eve);
+                EventViewModel addedEvent = Mapper.Map<Event, EventViewModel>(eve);
+                addedEvent.makeSuccess();
+                return Ok(addedEvent);
+
+            }
+            catch (Exception ex)
+            {
+                RequestStatus requestStatus = new RequestStatus();
+                requestStatus.makeFailed(ex.Message);
+                return Ok(requestStatus);
+            }
+        }
+
+        [Route("getEvent")]
+        [HttpGet("getEvent")]
+        public IActionResult getEventById(int id)
+        {
+            Event eve = eveRep.getEventById(id);
+            if (eve == null)
+            {
+                RequestStatus requestStatus = new RequestStatus();
+                requestStatus.ItemNotFound();
+                return Ok(requestStatus);
+            }
+            EventUserViewModel eventUserViewModel = new EventUserViewModel();
+            eventUserViewModel.Event= Mapper.Map<Event,EventViewModel>(eve);
+            eventUserViewModel.User = Mapper.Map<Users, UsersViewModel>(eve.CreatedByNavigation);
+            eventUserViewModel.User.makeSuccess();
+            eventUserViewModel.Event.makeSuccess();
+            eventUserViewModel.makeSuccess();
+
+            return Ok(eventUserViewModel);
+        }
+        public Users getApplicationUser()
+        {
+            var identity = User.Identities.FirstOrDefault(s => s.Name.ToLower() == "user");
+            var claims = identity.Claims;
+            string id = null;
+            foreach (var c in claims)
+            {
+                if (c.Type == "userId")
+                {
+                    id = c.Value;
+                }
+            }
+            Users user = null;
+            if (id != null)
+            {
+                user = userRepository.getUserById(new Guid(id));
+            }
+            return user;
+        }
+
+    }
+}

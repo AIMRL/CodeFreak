@@ -31,5 +31,25 @@ namespace CodeFreak1.ViewModel
             Error = "Record Not Found";
             StatusCode = 404;
         }
+        public void makeNameAlreadyEist()
+        {
+            Success = false;
+            Error = "Name Already Exist";
+            StatusCode = 10;
+        }
+        public void makeObjectNull()
+        {
+            Success = false;
+            Error = "Object/Name is null";
+            StatusCode = 20;
+        }
+        public void makeFailed(string msg)
+        {
+            Success = false;
+            Error = msg;
+            StatusCode = 20;
+            Message = msg;
+        }
+
     }
 }

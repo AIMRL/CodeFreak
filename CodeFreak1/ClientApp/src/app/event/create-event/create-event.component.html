@@ -1,0 +1,81 @@
+<div class="container">
+  <div class="row">
+    <div style="text-align: center;margin-top:5px;margin-bottom:0;padding-bottom:0">
+      <img [src]="logoPath" width="100px" height="100px" />
+    </div>
+  </div>
+  <h1 style="text-align:center;margin:0;padding:0;">Event</h1>
+
+  <form name="createEventForm" #f="ngForm" novalidate
+        (ngSubmit)="f.form.valid ? createEvent():
+        (!name.valid && showAlertMessage('Name is required','Please enter a valid name'));
+        (!ald.valid && showAlertMessage('Applying last date is missing','Provide valid Applying last date'));
+        (!sdt.valid && showAlertMessage('Event start date time is missing','Provide valid start event date time'));
+        (!edt.valid && showAlertMessage('Event end date time is missing','Provide valid event end date time'));">
+
+    <div class="row">
+
+      <div class="col-md-5 col-md-offset-1">
+        <mat-form-field class="cf-input">
+          <input matInput [formControl]="nameFormControl" [(ngModel)]="event.Name" name="name" id="name" #name="ngForm" placeholder="Enter Event Name" required>
+          <!--<mat-error *ngIf="f.submitted && !name.valid">
+            Name is <strong>required</strong>
+          </mat-error>-->
+        </mat-form-field>
+      </div>
+      <div class="col-md-5">
+        <md2-datepicker class="cf-input" #ald="ngModel" name="applyingLastDate"
+                        [(ngModel)]="event.ApplyingLastDate"
+                        [mode]="'lanscape'"
+                        [type]="'date'"
+                        [placeholder]="'Event Applying last date'"
+                        [openOnFocus]="true"
+                        [required]="true">
+
+        </md2-datepicker>
+      </div>
+
+    </div>
+
+    <div class="row">
+
+      <div class="col-md-5 col-md-offset-1">
+        <md2-datepicker class="cf-input" #sdt="ngModel" name="startDateTime"
+                        [(ngModel)]="event.StartDateTime"
+                        [mode]="'lanscape'"
+                        [type]="'datetime'"
+                        [placeholder]="'Event Start date and time'"
+                        [openOnFocus]="true"
+                        [required]="true">
+
+        </md2-datepicker>
+      </div>
+      <div class="col-md-5">
+        <md2-datepicker class="cf-input" #edt="ngModel" name="endDateTime"
+                        [(ngModel)]="event.EndDateTime"
+                        [mode]="'lanscape'"
+                        [type]="'datetime'"
+                        [placeholder]="'Event End date and time'"
+                        [openOnFocus]="true"
+                        [required]="true">
+
+        </md2-datepicker>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-10 col-md-offset-1" style="padding:10px 20px" [froalaEditor] required name="desc" id="desc"
+           [(froalaModel)]="event.Description" >
+      </div>
+    </div>
+
+    <div class="row" style="margin-top:20px;">
+      <div class="col-md-offset-3 col-md-6">
+        <input type="submit" class="btn btn-success" value="Publish Event" style="width:100%;" />
+      </div>
+    </div>
+
+
+  </form>
+
+</div>

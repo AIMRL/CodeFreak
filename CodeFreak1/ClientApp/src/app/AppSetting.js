@@ -11,6 +11,7 @@ var AppSettings = /** @class */ (function () {
     AppSettings.difficultyURl = "/api/Difficulty/";
     AppSettings.problemTypeURl = "/api/ProblemType/";
     AppSettings.programmingLanguageURl = "/api/ProgrammingLanguage/";
+    AppSettings.eventURl = "/api/Event/";
     //Images path
     AppSettings.SignInPath = '../../assets/images/loginback.jpg';
     AppSettings.logoPath = '../../assets/images/cflogo.png';

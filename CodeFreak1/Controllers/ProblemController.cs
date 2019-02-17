@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using AutoMapper;
 using CodeFreak1.Models;
 using CodeFreak1.Repositories;
 using CodeFreak1.ViewModel;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CodeFreak1.Controllers
@@ -16,6 +19,45 @@ namespace CodeFreak1.Controllers
     public class ProblemController : ControllerBase
     {
         ProblemRepository rep = new ProblemRepository();
+
+        private IHostingEnvironment _hostingEnvironment;
+
+        public ProblemController(IHostingEnvironment hostingEnvironment)
+        {
+            _hostingEnvironment = hostingEnvironment;
+        }
+
+        [Route("addProlem")]
+        [HttpGet("addProlem")]
+        [DisableRequestSizeLimit]
+        public IActionResult addProblem()
+        {
+            try
+            {
+                var file = Request.Form.Files[0];
+                string folderName = "Upload";
+                string webRootPath = _hostingEnvironment.WebRootPath;
+                string newPath = Path.Combine(webRootPath, folderName);
+                if (!Directory.Exists(newPath))
+                {
+                    Directory.CreateDirectory(newPath);
+                }
+                if (file.Length > 0)
+                {
+                    string fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+                    string fullPath = Path.Combine(newPath, fileName);
+                    using (var stream = new FileStream(fullPath, FileMode.Create))
+                    {
+                        file.CopyTo(stream);
+                    }
+                }
+            }
+            catch (System.Exception ex)
+            {
+            }
+
+            return Ok();
+        }
 
 
         [Route("allProblem")]

@@ -18,7 +18,7 @@ namespace CodeFreak1.Models
         public DateTime SubmissionDateTime { get; set; }
         public string Code { get; set; }
         public int LanguageId { get; set; }
-
+        public int? EventId { get; set; }
 
         public ProgrammingLanguage Language { get; set; }
         public Problem Problem { get; set; }

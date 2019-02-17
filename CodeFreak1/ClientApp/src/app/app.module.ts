@@ -31,6 +31,8 @@ import { ProgrammingLanguageModule } from './programming-language/programming-la
 import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
 import { ToastrModule } from 'ngx-toastr';
 import { ToastModule } from './toast/toast.module';
+import { EventModule } from './event/event.module';
+import { RequestStatus } from './request-status';
 
 @NgModule({
   declarations: [
@@ -66,6 +68,7 @@ import { ToastModule } from './toast/toast.module';
     FroalaViewModule.forRoot(),
     ToastrModule.forRoot({ timeOut:3000 }),
     LoadingBarHttpClientModule,
+    EventModule,
     RouterModule.forRoot([
 
       {
@@ -86,7 +89,7 @@ import { ToastModule } from './toast/toast.module';
       },
     ])
   ],
-  providers: [AdminRoleGuard],
+  providers: [AdminRoleGuard, RequestStatus],
   bootstrap: [AppComponent]
   //exports: [AppheaderComponent]
 })

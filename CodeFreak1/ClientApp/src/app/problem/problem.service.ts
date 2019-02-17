@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { AppSettings } from '../AppSetting';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { CodeFreakHeaders } from '../Interceptors/CodeFreakHeaders';
-import { Observable ,  of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
+import { CodeFreakHeaders } from '../Interceptors/CodeFreakHeaders';
 import { CodeViewModel } from './dtos/code-view-model';
 import { CompilerResultViewModel } from './dtos/compiler-result-view-model';
 import { ProblemCompleteViewModel } from './dtos/problem-complete-view-model';
@@ -11,24 +11,54 @@ import {ProblemUserCodeViewModel} from './dtos/Problem-user-code-view-model';
 import { SubmissionViewModel } from './dtos/submission-view-model';
 import {CompilerOutputViewModel} from './dtos/compiler-output-view-model';
 import { UsersViewModel } from '../Security/Dtos/users-view-model';
+import { forEach } from '@angular/router/src/utils/collection';
+import { AddProblemViewModel } from './dtos/add-problem-view-model';
+import { ProblemViewModel } from './dtos/problem-view-model';
 
 
 @Injectable()
 export class ProblemService {
 
 
-  storage:any;
-  baseUrl: string = AppSettings.baseUrl;
-  handlerUrl: string = AppSettings.compilerURl;
-  problemHandlerUrl: string = AppSettings.problemURl;
-  compileUrl: string = `compile/`;
-  allProblemsUrl: string = `allProblem/`;
-  problemByIdUrl: string = `problemById?id=`;
+  storage: any;
+  private baseUrl: string = AppSettings.baseUrl;
+  private handlerUrl: string = AppSettings.compilerURl;
+  private problemHandlerUrl: string = AppSettings.problemURl;
+  private compileUrl: string = `compile/`;
+  private allProblemsUrl: string = `allProblem/`;
+  private problemByIdUrl: string = `problemById?id=`;
 
-  submissionUrl: string = AppSettings.submissionURl;
-  UserSubmissionUrl: string = `byProblemId?ProblemId=`;
-
+  private submissionUrl: string = AppSettings.submissionURl;
+  private UserSubmissionUrl: string = `byProblemId?ProblemId=`;
+  private addProblemUrl: string = `addProblem`;
   constructor(private http: HttpClient) { }
+
+  addProblem(problemData: AddProblemViewModel): Observable<ProblemViewModel> {
+    debugger;
+
+    var formData = new FormData();
+    for (var i = 0; i < problemData.TestFiles.length;i=i+1) {
+      formData.append(problemData.TestFiles[i].InputFilePath, problemData.TestFiles[i].InputFile);
+      formData.append(problemData.TestFiles[i].OutputFilePath, problemData.TestFiles[i].outFile);
+    }
+    formData.append("problem", JSON.stringify(problemData.Problem));
+    formData.append("editorial", JSON.stringify(problemData.Editorial));
+
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Authorization': 'Bearer ' + localStorage.getItem('token'), 'Content-Type': 'application/json' })
+    };
+    httpOptions.headers.append('Content-Type', 'application/json');
+    httpOptions.headers.append('Accept', 'application/json');
+    httpOptions.headers.append('Authorization', `bearer ${localStorage.getItem('token')}`);
+
+    let url = `${this.baseUrl}${this.handlerUrl}${this.addProblemUrl}`;
+
+    var res = this.http.post<ProblemViewModel>(url, formData, httpOptions).pipe(
+      tap((cre: ProblemViewModel) => this.log(`added employee w/ Success=${cre.Success}`)),
+      catchError(this.handleError<ProblemViewModel>('Error in login')));
+    return res;
+  }
+
   compileCode(credentials: ProblemUserCodeViewModel): Observable<CompilerOutputViewModel> {
 
 

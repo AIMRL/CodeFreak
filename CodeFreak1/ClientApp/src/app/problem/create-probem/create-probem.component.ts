@@ -11,6 +11,7 @@ import { ProgrammingLanguageViewModel } from '../../programming-language/dtos/pr
 import { ProgrammingLanguageService } from '../../programming-language/programming-language.service';
 import { EditorialViewModel } from '../dtos/editorial-view-model';
 import { ProblemTestCaseViewModel } from '../dtos/problem-test-case-view-model';
+import { AddProblemViewModel } from '../dtos/add-problem-view-model';
 
 @Component({
   selector: 'app-create-probem',
@@ -26,7 +27,7 @@ export class CreateProbemComponent implements OnInit {
   difficulties: Array<DifficultyViewModel>;
   problemTypes: Array<ProblemTypeViewModel>;
   languages: Array<ProgrammingLanguageViewModel>;
-
+  createProblem: AddProblemViewModel;
   @ViewChild('inputFile') inputFile;
   @ViewChild('outputFile') outputFile;
 
@@ -34,6 +35,7 @@ export class CreateProbemComponent implements OnInit {
 
   ngOnInit() {
     debugger;
+    this.createProblem = new AddProblemViewModel();
     this.problem = new ProblemViewModel();
     this.editorial = new EditorialViewModel();
     this.files = new Array<ProblemTestCaseViewModel>();
@@ -64,7 +66,12 @@ export class CreateProbemComponent implements OnInit {
   ]);
 
   add() {
+    this.createProblem.Editorial = this.editorial;
+    this.createProblem.Problem = this.problem;
+    this.createProblem.TestFiles = this.files;
+    this.problemService.addProblem(this.createProblem);
     debugger;
+
   }
 
   previousTab() {
@@ -106,15 +113,6 @@ export class CreateProbemComponent implements OnInit {
         this.files[index].outFile = event.target.files[0];
         this.files[index].OutputFilePath = event.target.files[0].name;
       }
-      //this.files[index].InputFile.push(event.target.files[0]);
-      //var file: File;
-      //file = event.target.files[0];
-      //var reader = new FileReader();
-      //var im = this.images.find(s => s.index == idx);
-      //reader.onload = (e) => {
-      //  im.url = reader.result;
-      //}
-      //reader.readAsDataURL(event.target.files[0]);
     }
   }
 }

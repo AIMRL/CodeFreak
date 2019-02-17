@@ -1,0 +1,65 @@
+.timer-box {
+  background-color: darkorchid;
+  border-radius: 15px;
+  margin: 10px 70px;
+}
+.event-sub-box {
+  margin: 10px 70px;
+}
+.eve-name {
+  text-align: center;
+  color: white;
+  font-size: 25px;
+  padding:8px;
+}
+.couter-item {
+  color: white;
+  font-size: 34px;
+  margin: 0;
+  text-align:center;
+  padding-right:0;
+}
+.counter-item-box{
+  padding:0;
+}
+.item-label {
+  padding-top: 0;
+  margin-top: 0;
+  font-size: 10px;
+}
+.eve-d{
+  text-align:center;
+  font-size:15px;
+  color:white;
+  padding:10px 0;
+  margin:0;
+}
+.spr {
+  height:30px;
+  float:left;
+  width:21px;
+  background-position:-574px -64px;
+  border-right:solid 1px white;
+}
+.h-eve-name {
+  text-align: center;
+  color: black;
+  font-size: 50px;
+  padding: 8px;
+}
+.event-box {
+  border-right: solid 1px #D3D3D3;
+}
+.event-creater-box{
+  margin-top:30px;
+}
+.event-desc{
+  color:gray;
+  font-size:15px;
+}
+
+.creater-label{
+  padding:5px 5px 5px 30px;
+  float:left;
+  color:gray;
+}

@@ -8,7 +8,8 @@ export class AppSettings {
   public static problemURl: string = `/api/Problem/`;
   public static difficultyURl: string = `/api/Difficulty/`;
   public static problemTypeURl: string = `/api/ProblemType/`; 
-  public static programmingLanguageURl: string = `/api/ProgrammingLanguage/`; 
+  public static programmingLanguageURl: string = `/api/ProgrammingLanguage/`;
+  public static eventURl: string = `/api/Event/`; 
   //Images path
   public static SignInPath = '../../assets/images/loginback.jpg';
   public static logoPath = '../../assets/images/cflogo.png';
