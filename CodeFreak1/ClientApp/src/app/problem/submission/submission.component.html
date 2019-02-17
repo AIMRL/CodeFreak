@@ -6,9 +6,6 @@
 </div>
 
 <div *ngIf="isData">
-
-
-
   <div class="mat-elevation-z8" [hidden]="dataToShow == 'false' ">
     <table mat-table class="full-width-table" [dataSource]="dataSource" matSort (matSortChange)="sortData($event)">
       <!-- Id Column -->
