@@ -114,6 +114,9 @@ namespace CodeFreak1
 
                 m.CreateMap<Event,EventViewModel>();
                 m.CreateMap<EventViewModel, Event>();
+
+                m.CreateMap<Editorial, EditorialViewModel>();
+                m.CreateMap<EditorialViewModel, Editorial>();
             });
             #endregion
         }

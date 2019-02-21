@@ -47,7 +47,7 @@ namespace CodeFreak1.ViewModel
         {
             Success = false;
             Error = msg;
-            StatusCode = 20;
+            StatusCode = 30;
             Message = msg;
         }
 

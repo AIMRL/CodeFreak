@@ -1,0 +1,18 @@
+<body style="background-color:#eee">
+  <div class="container">
+    <div class="cf-all-prob-main">
+      <h1><b>Problem Solving</b></h1>
+      <div class="col-md-9">
+        <div class="row cf-prob-row" *ngFor="let prob of problems">
+          <div class="col-md-8">
+            <h2>{{prob.Problem.Title}}</h2>
+            <h5 class="cf-prob-row-desc">{{prob.Difficulty.Name}},Problem Type:{{prob.ProblemType.Name}},Max Score:{{prob.Problem.MaxScore}}</h5>
+          </div>
+          <div class="col-md-3 cf-prob-row-btn">
+            <button mat-stroked-button color="primary" [routerLink]="['/problem',prob.Problem.ProblemId]"><b>Solve Challange</b></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>

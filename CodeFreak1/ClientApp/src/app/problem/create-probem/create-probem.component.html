@@ -1,15 +1,26 @@
 <div class="container">
 
   <h3>Add problem</h3>
-  <form #addForm (ngSubmit)="add()">
+  <form #f="ngForm" name="createProblemForm"
+        (ngSubmit)="f.form.valid?add():
+                (!title.valid && showAlertMessage('Title is required','Please enter a valid Title'));
+                (!diffId.valid && showAlertMessage('Title is required','Please enter a valid Title'));
+                (!title.valid && showAlertMessage('Title is required','Please enter a valid Title'));">
 
     <mat-tab-group dynamicHeight [selectedIndex]="selected" (selectedIndexChange)="setSelected($event)">
       <mat-tab label="Problem Detail">
         <div class="container" style="margin:10px 40px 10px 40px">
           <div class="row">
+            <div class="col-md-10" style="padding:10px 20px; ">
+              <mat-form-field class="" style="width:100%">
+                <input matInput #name placeholder="Problem Unique Name" required [(ngModel)]="problem.Title" #title="ngModel" name="title" type="text">
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
             <div class="col-md-4">
               <mat-form-field>
-                <mat-select placeholder="Difficulty" [(ngModel)]="problem.DifficultyId" name="DifficultyId">
+                <mat-select placeholder="Difficulty" [(ngModel)]="problem.DifficultyId" #diffId="ngModel" name="DifficultyId">
                   <mat-option *ngFor="let diff of difficulties" [value]="diff.DifficultyId">
                     {{diff.Name}}
                   </mat-option>
@@ -19,7 +30,7 @@
 
             <div class="col-md-4">
               <mat-form-field>
-                <mat-select placeholder="Problem Type" [(ngModel)]="problem.ProblemTypeId" name="DifficultyId">
+                <mat-select placeholder="Problem Type" [(ngModel)]="problem.ProblemTypeId" #ptId="ngModel" name="ProblemTypeId">
                   <mat-option *ngFor="let df of problemTypes" [value]="df.ProblemTypeId">
                     {{df.Name}}
                   </mat-option>
@@ -29,7 +40,7 @@
 
             <div class="col-md-4">
               <mat-form-field class="">
-                <input matInput #maxscore maxlength="3" placeholder="Total score" [(ngModel)]="problem.MaxScore" name="MaxScore" type="number" value="10">
+                <input matInput #maxscore maxlength="3" required placeholder="Total score" #maxScore="ngModel" [(ngModel)]="problem.MaxScore" name="MaxScore" type="number" value="10">
               </mat-form-field>
             </div>
 
@@ -45,14 +56,66 @@
           </mat-error>
 
           <div class="row cf-npb">
-            <!--<button *ngIf="selected!=0" (click)="previousTab()" mat-flat-button color="primary">Previous</button>-->
-            <button mat-flat-button *ngIf="selected!=2" (click)="nextTab()" color="primary">Next</button>
+            <button mat-flat-button type="button" *ngIf="selected!=2" (click)="nextTab()" color="primary">Next</button>
           </div>
         </div>
       </mat-tab>
 
       <mat-tab label="Test Files">
         <div class="container">
+
+          <!--start add files-->
+          <div *ngFor="let tFiles of files;let i=index">
+            <div class="form-group">
+              <div class="row">
+                <!--Input File-->
+                <div class="col-md-5">
+                  <div class="input-group">
+                    <span class="input-group-btn">
+                      <span class="btn btn-primary btn-file">
+                        Browse Input File
+                        <input  class="file-upload__input" type="file" #inputFile placeholder="Input File" (change)="readUrl($event,i,0)"
+                               required />
+                      </span>
+                    </span>
+                    <input type="text" class="form-control" style="margin: 0;" name="InputFilePath" [value]="tFiles.InputFilePath" readonly>
+                  </div>
+                </div>
+                <!--output File-->
+                <div class="col-md-5">
+                  <div class="input-group">
+                    <span class="input-group-btn">
+                      <span class="btn btn-primary btn-file">
+                        Browse output File
+                        <input  class="file-upload__input" type="file" #outputFile placeholder="Output File" (change)="readUrl($event,i,1)"
+                               required />
+                      </span>
+                    </span>
+                    <input type="text" class="form-control" style="margin: 0;" name="OutputFilePath" [value]="tFiles.OutputFilePath" readonly>
+                  </div>
+                </div>
+                <div class="col-md-1">
+                  <button class="btn btn-danger" type="button" style="background:red" (click)="deleteRow(index)">Delete</button>
+                  <!--<button class="cf-btn-addFile" (click)="addFile()" mat-mini-fab color="warm"><mat-icon>{{'delete_forever'}}</mat-icon></button>-->
+                </div>
+
+              </div>
+            </div>
+          </div>
+          <!--End Add Files-->
+
+          <button type="button" class="cf-btn-addFile" (click)="addFile()" mat-fab color="grey"><mat-icon>{{'add_circle'}}</mat-icon></button>
+
+          <div class="row cf-npb">
+            <button *ngIf="selected!=0" type="button" (click)="previousTab()" mat-flat-button color="primary">Previous</button>
+            <button mat-flat-button type="button" *ngIf="selected!=2" (click)="nextTab()" color="primary">Next</button>
+          </div>
+        </div>
+      </mat-tab>
+
+      <mat-tab label="Editorial Solution">
+        <div class="container">
+          <!--select language for editorial-->
           <div class="row">
             <div class="col-md-4">
               <mat-form-field>
@@ -64,59 +127,6 @@
               </mat-form-field>
             </div>
           </div>
-
-
-          <!--start add files-->
-          <div *ngFor="let tFiles of files;let index">
-            <div class="form-group">
-              <div class="row">
-                <!--Input File-->
-                <div class="col-md-5">
-                  <div class="input-group">
-                    <span class="input-group-btn">
-                      <span class="btn btn-primary btn-file">
-                        Browse Input File
-                        <input id="uploadIn" class="file-upload__input" type="file" #inputFile placeholder="Input File" (change)="readUrl($event,index,0)"
-                               required />
-                      </span>
-                    </span>
-                    <input type="text" class="form-control" style="margin: 0;" name="InputFilePath" [(ngModel)]="tFiles.InputFilePath" readonly>
-                  </div>
-                </div>
-                <!--output File-->
-                <div class="col-md-5">
-                  <div class="input-group">
-                    <span class="input-group-btn">
-                      <span class="btn btn-primary btn-file">
-                        Browse output File
-                        <input id="uploadOut" class="file-upload__input" type="file" #outputFile placeholder="Output File" (change)="readInUrl($event,index,1)"
-                               required />
-                      </span>
-                    </span>
-                    <input type="text" class="form-control" style="margin: 0;" name="OutputFilePath" [(ngModel)]="tFiles.OutputFilePath" readonly>
-                  </div>
-                </div>
-                <div class="col-md-1">
-                  <button class="btn btn-danger" style="background:red" (click)="deleteRow(index)">Delete</button>
-                  <!--<button class="cf-btn-addFile" (click)="addFile()" mat-mini-fab color="warm"><mat-icon>{{'delete_forever'}}</mat-icon></button>-->
-                </div>
-
-              </div>
-            </div>
-          </div>
-          <!--End Add Files-->
-
-          <div class="cf-btn-addFile" (click)="addFile()" mat-fab color="grey"><mat-icon>{{'add_circle'}}</mat-icon></div>
-
-          <div class="row cf-npb">
-            <button *ngIf="selected!=0" (click)="previousTab()" mat-flat-button color="primary">Previous</button>
-            <button mat-flat-button *ngIf="selected!=2" (click)="nextTab()" color="primary">Next</button>
-          </div>
-        </div>
-      </mat-tab>
-
-      <mat-tab label="Editorial Solution">
-        <div class="container">
           <!--Editorial Editor-->
           <div class="row">
             <div class="col-md-10" ace-editor
@@ -136,15 +146,14 @@
                  [readOnly]="false"
                  [autoUpdateContent]="true"
                  [durationBeforeCallback]="1000"
-                 (textChanged)="onChange($event)"
                  style="min-height: 200px; width:100%; overflow: auto;">
             </div>
           </div>
 
           <!--next previous button-->
           <div class="row cf-npb">
-            <button *ngIf="selected!=0" (click)="previousTab()" mat-flat-button color="primary">Previous</button>
-            <button mat-flat-button *ngIf="selected!=2" (click)="nextTab()" color="primary">Next</button>
+            <button *ngIf="selected!=0" type="button" (click)="previousTab()" mat-flat-button color="primary">Previous</button>
+            <button mat-flat-button type="button" *ngIf="selected!=2" (click)="nextTab()" color="primary">Next</button>
           </div>
           <!--Add Button-->
           <div class="row" style="margin-top:20px;">

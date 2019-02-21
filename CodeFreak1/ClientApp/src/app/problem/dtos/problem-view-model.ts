@@ -12,4 +12,5 @@ export class ProblemViewModel extends RequestStatus
   public PostDateTime: Date;
   public NoOfTestCaseFiles: number;
   public Title: string;
+  public IsPublic: boolean;
 }

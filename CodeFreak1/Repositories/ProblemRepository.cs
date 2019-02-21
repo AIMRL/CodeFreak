@@ -17,23 +17,14 @@ namespace CodeFreak1.Repositories
 
         public Problem InsertProblem(Problem problem)
         {
-            Difficulty diff = new Difficulty();
-
-
-           // diff.Name = "sample name";
-            //diff.Description = "sample description";
-
-
-            //db.Difficulty.Add(diff);
-
             db.Problem.Add(problem);
-
             db.SaveChanges();
-
-
             return problem;
         }
-
+        public Problem getProblemByName(string name)
+        {
+            return db.Problem.FirstOrDefault(p => p.Title.ToLower() == name.ToLower());
+        }
         public Problem getProblemById(Guid id)
         {
             Problem problem = db.Problem.Include(p => p.Difficulty).Include(p => p.ProblemType).FirstOrDefault(p => p.ProblemId == id);

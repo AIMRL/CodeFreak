@@ -22,6 +22,7 @@ export class SubmissionComponent implements OnInit {
 
   @Input()
   problemId: string;
+
   @ViewChild(MatPaginator)
   set paginator(value: MatPaginator) {
     this.dataSource.paginator = value;
@@ -48,7 +49,7 @@ export class SubmissionComponent implements OnInit {
   ngOnInit() {
     debugger;
     this.submissionViewModelList = new Array<SubmissionViewModel>();
-    this.problemService.getSubmissionOfUser(this.ProblemId).subscribe(res => {
+    this.problemService.getSubmissionOfUser(this.problemId).subscribe(res => {
       debugger;
       if (res != null) {
         this.submissionViewModelList = res;

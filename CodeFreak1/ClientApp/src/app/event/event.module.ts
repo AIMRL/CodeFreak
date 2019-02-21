@@ -12,6 +12,10 @@ import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 import { Md2Module } from 'md2';
 import { SiteLayoutComponent } from '../layouts/site-layout/site-layout.component';
 import { EventHomeComponent } from './event-home/event-home.component';
+import { EventProblemsComponent } from './event-problems/event-problems.component';
+import { EventUsersComponent } from './event-users/event-users.component';
+import { EventSubmissionsComponent } from './event-submissions/event-submissions.component';
+import { EventBoardComponent } from './event-board/event-board.component';
 
 
 @NgModule({
@@ -36,6 +40,6 @@ import { EventHomeComponent } from './event-home/event-home.component';
     ])
 
   ],
-  declarations: [CreateEventComponent, EventHomeComponent]
+  declarations: [CreateEventComponent, EventHomeComponent, EventProblemsComponent, EventUsersComponent, EventSubmissionsComponent, EventBoardComponent]
 })
 export class EventModule { }

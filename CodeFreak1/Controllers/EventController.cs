@@ -74,6 +74,45 @@ namespace CodeFreak1.Controllers
 
             return Ok(eventUserViewModel);
         }
+        [HttpPost("addEventProblem")]
+        [Route("addEventProblem")]
+        public IActionResult addEventProblem(EventProblemsViewModel eventProblemsViewModel)
+        {
+            RequestStatus requestStatus = new RequestStatus();
+            if (eventProblemsViewModel == null)
+            {
+                requestStatus.makeObjectNull();
+                return Ok(requestStatus);
+            }
+            EventProblems eventProblems = eveRep.getEventProblemByIdEventIdProblemId(eventProblemsViewModel.EventId, eventProblemsViewModel.ProblemId);
+            if (eventProblems == null)
+            {
+                requestStatus.makeNameAlreadyEist();
+                return Ok(requestStatus);
+            }
+            EventProblems eventProblem = Mapper.Map<EventProblemsViewModel,EventProblems>(eventProblemsViewModel);
+            eventProblem.EventProblemId = Guid.NewGuid();
+            EventProblems insertedEventProblems =eveRep.insertEventProblem(eventProblem);
+            EventProblemsViewModel inserted = Mapper.Map<EventProblems, EventProblemsViewModel>(insertedEventProblems);
+            inserted.makeSuccess();
+            return Ok(insertedEventProblems);
+        }
+        [HttpGet("getEventProblems")]
+        [Route("getEventProblems")]
+        public IActionResult getEventProblems(int eventId)
+        {
+            var list=eveRep.getProblemsByEventId(eventId);
+            List<ProblemCompleteViewModel> problems = new List<ProblemCompleteViewModel>();
+            foreach (var item in list)
+            {
+                ProblemCompleteViewModel problemListViewModel = new ProblemCompleteViewModel();
+                problemListViewModel.Problem = Mapper.Map<Problem, ProblemViewModel>(item);
+                problemListViewModel.Difficulty = Mapper.Map<Difficulty, DifficultyViewModel>(item.Difficulty);
+                problemListViewModel.ProblemType = Mapper.Map<ProblemType, ProblemTypeViewModel>(item.ProblemType);
+                problems.Add(problemListViewModel);
+            }
+            return Ok(problems);
+        }
         public Users getApplicationUser()
         {
             var identity = User.Identities.FirstOrDefault(s => s.Name.ToLower() == "user");

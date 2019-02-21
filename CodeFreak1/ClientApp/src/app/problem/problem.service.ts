@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AppSettings } from '../AppSetting';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError, tap, map } from 'rxjs/operators';
 import { CodeFreakHeaders } from '../Interceptors/CodeFreakHeaders';
 import { CodeViewModel } from './dtos/code-view-model';
 import { CompilerResultViewModel } from './dtos/compiler-result-view-model';
@@ -33,32 +33,39 @@ export class ProblemService {
   private addProblemUrl: string = `addProblem`;
   constructor(private http: HttpClient) { }
 
+
   addProblem(problemData: AddProblemViewModel): Observable<ProblemViewModel> {
     debugger;
-
-    var formData = new FormData();
-    for (var i = 0; i < problemData.TestFiles.length;i=i+1) {
-      formData.append(problemData.TestFiles[i].InputFilePath, problemData.TestFiles[i].InputFile);
-      formData.append(problemData.TestFiles[i].OutputFilePath, problemData.TestFiles[i].outFile);
+    var formData= new FormData();
+    for (var i = 0; i < problemData.TestFiles.length; i = i + 1) {
+      formData.append(problemData.TestFiles[i].InputFilePath, problemData.TestFiles[i].InputFile, problemData.TestFiles[i].InputFilePath);
+      formData.append(problemData.TestFiles[i].OutputFilePath, problemData.TestFiles[i].outFile, problemData.TestFiles[i].OutputFilePath);
     }
     formData.append("problem", JSON.stringify(problemData.Problem));
     formData.append("editorial", JSON.stringify(problemData.Editorial));
-
     let httpOptions = {
-      headers: new HttpHeaders({ 'Authorization': 'Bearer ' + localStorage.getItem('token'), 'Content-Type': 'application/json' })
+      headers: new HttpHeaders({ 'Authorization': 'Bearer ' + localStorage.getItem('token')})
     };
-    httpOptions.headers.append('Content-Type', 'application/json');
     httpOptions.headers.append('Accept', 'application/json');
     httpOptions.headers.append('Authorization', `bearer ${localStorage.getItem('token')}`);
-
-    let url = `${this.baseUrl}${this.handlerUrl}${this.addProblemUrl}`;
-
+    let url = `${this.baseUrl}${this.problemHandlerUrl}${this.addProblemUrl}`;
     var res = this.http.post<ProblemViewModel>(url, formData, httpOptions).pipe(
       tap((cre: ProblemViewModel) => this.log(`added employee w/ Success=${cre.Success}`)),
       catchError(this.handleError<ProblemViewModel>('Error in login')));
     return res;
   }
+  handleError1(errorResponse: HttpErrorResponse) {
+    debugger;
+    if (errorResponse.error instanceof ErrorEvent) {
+      console.error('Client Side Error :', errorResponse.error.message);
+    } else {
+      console.error('Server Side Error :', errorResponse);
+    }
 
+    // return an observable with a meaningful error message to the end user
+    //return throwError('There is a problem with the service.We are notified & 
+     //working on it.Please try again later.');
+  }
   compileCode(credentials: ProblemUserCodeViewModel): Observable<CompilerOutputViewModel> {
 
 
@@ -145,6 +152,7 @@ export class ProblemService {
     };
   }
   private log(message: string) {
+    debugger;
     //
   }
 }

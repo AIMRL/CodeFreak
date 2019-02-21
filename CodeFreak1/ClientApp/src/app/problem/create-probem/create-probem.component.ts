@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Output, Input, EventEmitter } from '@angular/core';
 import { ProblemViewModel } from '../dtos/problem-view-model';
 import { FormControl, Validators } from '@angular/forms';
 import { TouchedSubmittedErrorStateMatcher } from '../../Angular Material/touched-submitted-error-state-matcher';
@@ -12,6 +12,10 @@ import { ProgrammingLanguageService } from '../../programming-language/programmi
 import { EditorialViewModel } from '../dtos/editorial-view-model';
 import { ProblemTestCaseViewModel } from '../dtos/problem-test-case-view-model';
 import { AddProblemViewModel } from '../dtos/add-problem-view-model';
+import { ToastService } from '../../toast/toast.service';
+import { Router } from '@angular/router';
+import { EventService } from '../../event/event.service';
+import { EventProblemsViewModel } from 'src/app/event/dtos/event-problems-view-model';
 
 @Component({
   selector: 'app-create-probem',
@@ -31,10 +35,20 @@ export class CreateProbemComponent implements OnInit {
   @ViewChild('inputFile') inputFile;
   @ViewChild('outputFile') outputFile;
 
-  constructor(private diffService: DifficultyService, private probTypeService: ProblemTypeService, private problemService: ProblemService) { }
+  @Input() eventId: number;
+  @Output() outProblem = new EventEmitter<ProblemViewModel>();
+  isEventProblem = false;
+
+  constructor(private toastService: ToastService, private router: Router, private diffService: DifficultyService,
+    private probTypeService: ProblemTypeService, private problemService: ProblemService,
+    private languageService: ProgrammingLanguageService, private eventService: EventService) { }
 
   ngOnInit() {
     debugger;
+    if (this.eventId != null && this.eventId != undefined) {
+      this.isEventProblem = true;
+    }
+
     this.createProblem = new AddProblemViewModel();
     this.problem = new ProblemViewModel();
     this.editorial = new EditorialViewModel();
@@ -52,28 +66,88 @@ export class CreateProbemComponent implements OnInit {
         this.problemTypes = data;
       }
     });
-    //this.languageService.getAllLanguages().subscribe(data => {
-    //  debugger;
-    //  if (data != null) {
-    //    this.languages = data;
-    //  }
-    //});
+    this.languageService.getAllLanguages().subscribe(data => {
+      debugger;
+      if (data != null) {
+        this.languages = data;
+      }
+    });
   }
 
   matcher = new TouchedSubmittedErrorStateMatcher();
   descrpitionFormControl= new FormControl('', [
     Validators.required
   ]);
-
+  showAlertMessage(caption, message) {
+    this.toastService.makeWarning(caption, message);
+  }
   add() {
+    debugger;
+    if (!this.validateForm()) { return; }
+    if (this.isEventProblem) {
+      this.problem.IsPublic = false;
+    } else {
+      this.problem.IsPublic = true;
+    }
     this.createProblem.Editorial = this.editorial;
     this.createProblem.Problem = this.problem;
     this.createProblem.TestFiles = this.files;
-    this.problemService.addProblem(this.createProblem);
-    debugger;
-
+    this.problemService.addProblem(this.createProblem).subscribe(res => {
+      debugger;
+      if (res == null || res == undefined) {
+        this.toastService.makeError("UnAuthorize", "Server is not accessible");
+        return;
+      }
+      if (!res.Success) {
+        this.toastService.makeError(res.Message, res.Message);
+        return;
+      }
+      this.toastService.makeSuccess("Problem Successfully added", res.Message);
+      if (this.isEventProblem) {
+        this.router.navigate(['problem', res.ProblemId]);
+        return;
+      }
+      //if problem is added by an event
+      var eventProblem = new EventProblemsViewModel();
+      eventProblem.EventId = this.eventId;
+      eventProblem.ProblemId = res.ProblemId;
+      this.eventService.addEventProblem(eventProblem).subscribe(eveProbResult => {
+        if (eveProbResult == null || !eveProbResult.Success) {
+          this.showAlertMessage("Partial successful", "Add Problem from existing Problem");
+          return;
+        }
+        this.showAlertMessage("Problem Successfully added", "Problem is added in event");
+        this.outProblem.emit(res);
+        return;
+      });
+    });
   }
-
+  validateForm() {
+    var status = true;
+    if (this.problem.DifficultyId == undefined) {
+      this.showAlertMessage("Difficulty Name is missing", "Please select difficult value");
+      status = false;
+    }
+    if (this.problem.ProblemTypeId == undefined) {
+      this.showAlertMessage("Problem Type Name is missing", "Please select problem type value");
+      status = false;
+    }
+    if (this.problem.Description== undefined) {
+      this.showAlertMessage("Problem description is missing", "provide problem explainatio in word editor");
+      status = false;
+    }
+    for (var i = 0; i < this.files.length; i++) {
+      if (this.files[i].InputFile == undefined || this.files[i].InputFile == null) {
+        this.showAlertMessage("Input file is missing","select input file of Row "+(i+1));
+        status = false;
+      }
+      if (this.files[i].outFile == undefined || this.files[i].outFile == null) {
+        this.showAlertMessage("Output file is missing", "select output file of Row " + (i + 1));
+        status = false;
+      }
+    }
+    return status;
+  }
   previousTab() {
     this.selected = this.selected - 1;
     if (this.selected < 0) {
@@ -89,11 +163,10 @@ export class CreateProbemComponent implements OnInit {
     }
   }
   setSelected(n) {
-    debugger;
     this.selected = n;
   }
-
   addFile() {
+    debugger;
     var testCase: ProblemTestCaseViewModel;
     testCase = new ProblemTestCaseViewModel();
     this.files.push(testCase);
