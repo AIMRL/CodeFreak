@@ -22,6 +22,7 @@ import { AppmenuComponent } from './layouts/appmenu/appmenu.component';
 import { AppsettingComponent } from './layouts/appsetting/appsetting.component';
 import { AdminRoleGuard } from './Gaurds/admin-role.guard';
 import { SecurityModule } from './Security/security.module';
+import { ChatService} from './chat/chat.service'
 import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 import { ProblemTypeModule } from './problem-type/problem-type.module';
 import { ProblemModule } from './problem/problem.module';
@@ -31,6 +32,7 @@ import { ProgrammingLanguageModule } from './programming-language/programming-la
 import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
 import { ToastrModule } from 'ngx-toastr';
 import { ToastModule } from './toast/toast.module';
+import { ChatComponent } from './chat/chat.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +48,8 @@ import { ToastModule } from './toast/toast.module';
     LoginComponent,
     AdminHomeComponent,
     AdminLayoutComponent,
-    SiteLayoutComponent
+    SiteLayoutComponent,
+    ChatComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -76,6 +79,7 @@ import { ToastModule } from './toast/toast.module';
         ]
       },
       { path: 'login', component: LoginComponent },
+      {path: 'chat', component: ChatComponent},
       {
         path: '', component: SiteLayoutComponent,
         children: [
@@ -86,7 +90,7 @@ import { ToastModule } from './toast/toast.module';
       },
     ])
   ],
-  providers: [AdminRoleGuard],
+  providers: [AdminRoleGuard , ChatService],
   bootstrap: [AppComponent]
   //exports: [AppheaderComponent]
 })

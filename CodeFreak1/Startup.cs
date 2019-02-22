@@ -15,6 +15,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Serialization;
 using System.Text;
+using CodeFreak1.Hubs;
+using System;
+using Microsoft.Extensions.Primitives;
+using System.Threading.Tasks;
 
 namespace CodeFreak1
 {
@@ -37,7 +41,18 @@ namespace CodeFreak1
                     .Build();
                 o.Filters.Add(new AuthorizeFilter(policy));
             }).AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver()).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            
+            services.AddCors(options =>
+            {
+                options.AddPolicy(
+                    "CorsPolicy",
+                    builder =>
+                        builder
+                        .AllowAnyOrigin()
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowCredentials()
+                );
+            });
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
@@ -55,6 +70,8 @@ namespace CodeFreak1
             {
                 option.SaveToken = true;
                 option.RequireHttpsMetadata = false;
+
+                option.Authority = "https://localhost:44380/";
                 option.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters()
                 {
                     ValidateIssuer = true,
@@ -63,7 +80,27 @@ namespace CodeFreak1
                     ValidIssuer = Configuration.GetConnectionString("BasePath"),
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("MySuperSecureKey"))
                 };
+                option.Events = new JwtBearerEvents
+                {
+                    OnMessageReceived = context =>
+                    {
+                            var accessToken = context.Request.Query["token"];
+
+                        // If the request is for our hub...
+                        var path = context.HttpContext.Request.Path;
+                        if (!string.IsNullOrEmpty(accessToken) &&
+                            (path.StartsWithSegments("/chathub")))
+                        {
+                            // Read the token out of the query string
+                            context.Token = accessToken;
+                        }
+                        return Task.CompletedTask;
+                    }
+                };
             });
+
+
+            services.AddSignalR();
             #endregion
 
             #region Mapper Initializer
@@ -128,18 +165,24 @@ namespace CodeFreak1
                 app.UseHsts();
             }
 
-            app.UseAuthentication();
-
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
 
+            app.UseAuthentication();
+
+            app.UseCors("CorsPolicy");
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<MesaageHub>("/chathub");
+            });
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
                     template: "{controller}/{action=Index}/{id?}");
             });
+
 
             app.UseSpa(spa =>
             {
@@ -150,6 +193,7 @@ namespace CodeFreak1
 
                 if (env.IsDevelopment())
                 {
+                    spa.Options.StartupTimeout = new TimeSpan(0, 0, 80);
                     spa.UseAngularCliServer(npmScript: "start");
                 }
             });
