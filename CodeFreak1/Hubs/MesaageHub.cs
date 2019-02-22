@@ -49,6 +49,7 @@ namespace CodeFreak1.Hubs
             {
                 foreach( Connection conn in connection_list)
                 {
+                    //sends message to user 
                     Clients.Client(conn.ConnectionId).recieveMessage(msg);
                 }
             }
@@ -70,6 +71,7 @@ namespace CodeFreak1.Hubs
         {
 
             var handler = new JwtSecurityTokenHandler();
+            
 
             var token = handler.ReadToken(jwt) as JwtSecurityToken;
             
