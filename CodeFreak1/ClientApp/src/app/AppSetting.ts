@@ -10,5 +10,9 @@ export class AppSettings {
   public static programmingLanguageURl: string = `/api/ProgrammingLanguage/`; 
   //Images path
   public static SignInPath = '../../assets/images/loginback.jpeg';
-  public static submissionURl: string = `/api/Submission/`; 
+  public static Profile_DefaultUser = '../../assets/images/default-user.png';
+  public static submissionURl: string = `/api/Submission/`;
+
+  public static ProfileURl: string = `/api/Profile/`;
+  
 }

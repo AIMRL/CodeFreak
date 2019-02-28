@@ -16,7 +16,7 @@
             </mat-error>
           </mat-form-field>
         </div>
-        <div class="col-md-6 cf-nameloginInput" >
+        <div class="col-md-6 cf-nameloginInput">
           <mat-form-field class="cf-input">
             <input matInput [formControl]="loginFormControl" [(ngModel)]="user.Login" [errorStateMatcher]="matcher" placeholder="Enter Name">
             <mat-error *ngIf="loginFormControl.hasError('required')">
@@ -26,16 +26,16 @@
         </div>
       </div>
       <div class="row">
-          <mat-form-field class="cf-input">
-            <input matInput [matDatepicker]="picker" [(ngModel)]="user.DateOfBirth" name="DateOfBirth" placeholder="Choose a date">
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-          </mat-form-field>
-        </div>
+        <mat-form-field class="cf-input">
+          <input matInput [matDatepicker]="picker" [(ngModel)]="user.DateOfBirth" name="DateOfBirth" placeholder="Choose a date">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
       <div class="row">
         <mat-form-field class="cf-input">
           <input matInput [formControl]="emailFormControl" [(ngModel)]="user.Email" [errorStateMatcher]="matcher" placeholder="Enter Email">
-          <mat-icon class="cf-iconCursor" matSuffix >email</mat-icon>
+          <mat-icon class="cf-iconCursor" matSuffix>email</mat-icon>
           <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
             Please enter a valid email address
           </mat-error>
@@ -66,3 +66,4 @@
     </div>
   </div>
 </div>
+

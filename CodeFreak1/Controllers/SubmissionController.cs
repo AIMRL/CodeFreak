@@ -41,6 +41,7 @@ namespace CodeFreak1.Controllers
 
         public IActionResult getSubmissionByProblemId(Guid ProblemId)
         {
+           
             Users user = getApplicationUser();
 
             List<Submission> subList = rep.getSubmissionOfUserIdProblemId(user.UserId, ProblemId);
@@ -68,6 +69,25 @@ namespace CodeFreak1.Controllers
 
             return user;
         }
+
+
+        [HttpGet]
+        [Route("Test")]
+        [AllowAnonymous]
+
+        public IActionResult test()
+        {
+
+            ///  System.Web.HttpContext;
+
+            int wow = 1;
+
+
+            return Ok();
+
+        }
+
+
 
 
     }

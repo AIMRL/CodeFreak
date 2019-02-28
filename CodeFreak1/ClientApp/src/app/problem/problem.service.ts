@@ -25,6 +25,8 @@ export class ProblemService {
   allProblemsUrl: string = `allProblem/`;
   problemByIdUrl: string = `problemById?id=`;
 
+  
+
   submissionUrl: string = AppSettings.submissionURl;
   UserSubmissionUrl: string = `byProblemId?ProblemId=`;
 

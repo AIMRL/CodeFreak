@@ -37,6 +37,7 @@
   <ItemGroup>
     <None Remove="ClientApp\src\app\AppSetting.ts" />
     <None Remove="ClientApp\src\app\Interceptors\CodeFreakHeaders.ts" />
+    <None Remove="ClientApp\src\app\Security\Dtos\profile-view-model.ts" />
     <None Remove="ClientApp\src\app\Security\SignInViewModel.ts" />
   </ItemGroup>
 
@@ -48,8 +49,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="System.Web">
+      <HintPath>..\..\..\..\..\Windows\Microsoft.NET\Framework\v4.0.30319\System.Web.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
     <TypeScriptCompile Include="ClientApp\src\app\AppSetting.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\Interceptors\CodeFreakHeaders.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\Security\Dtos\profile-view-model.ts" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
