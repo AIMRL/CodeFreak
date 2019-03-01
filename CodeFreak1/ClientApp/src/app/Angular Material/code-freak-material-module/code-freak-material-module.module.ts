@@ -38,7 +38,9 @@ import {
 import { CdkTableModule } from '@angular/cdk/table';
 
 @NgModule({
-  
+  imports: [
+    CommonModule, MatButtonModule, MatCheckboxModule, MatFormFieldModule, MatInputModule
+  ],
   exports: [MatButtonModule, MatCheckboxModule, MatFormFieldModule, MatInputModule, CdkTableModule,
     MatAutocompleteModule,
     MatButtonModule,

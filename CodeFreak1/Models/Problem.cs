@@ -19,7 +19,7 @@ namespace CodeFreak1.Models
         public int ProblemTypeId { get; set; }
         public int DifficultyId { get; set; }
         public string Description { get; set; }
-        public int? MaxScore { get; set; }
+        public int MaxScore { get; set; }
         public int NoOfSubmission { get; set; }
         public DateTime? PostDateTime { get; set; }
         public int? NoOfTestCaseFiles { get; set; }

@@ -22,7 +22,6 @@ import { AppmenuComponent } from './layouts/appmenu/appmenu.component';
 import { AppsettingComponent } from './layouts/appsetting/appsetting.component';
 import { AdminRoleGuard } from './Gaurds/admin-role.guard';
 import { SecurityModule } from './Security/security.module';
-import { ChatService} from './chat/chat.service'
 import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 import { ProblemTypeModule } from './problem-type/problem-type.module';
 import { ProblemModule } from './problem/problem.module';
@@ -32,7 +31,6 @@ import { ProgrammingLanguageModule } from './programming-language/programming-la
 import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
 import { ToastrModule } from 'ngx-toastr';
 import { ToastModule } from './toast/toast.module';
-import { ChatComponent } from './chat/chat.component';
 
 @NgModule({
   declarations: [
@@ -48,8 +46,7 @@ import { ChatComponent } from './chat/chat.component';
     LoginComponent,
     AdminHomeComponent,
     AdminLayoutComponent,
-    SiteLayoutComponent,
-    ChatComponent
+    SiteLayoutComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -79,18 +76,17 @@ import { ChatComponent } from './chat/chat.component';
         ]
       },
       { path: 'login', component: LoginComponent },
-      {path: 'chat', component: ChatComponent},
       {
         path: '', component: SiteLayoutComponent,
         children: [
           { path: 'fetch-data', component: FetchDataComponent },
-          { path: 'home', component: HomeComponent, canActivate: [AdminRoleGuard] }
+          { path: 'home', component: HomeComponent }
 
         ]
       },
     ])
   ],
-  providers: [AdminRoleGuard , ChatService],
+  providers: [AdminRoleGuard],
   bootstrap: [AppComponent]
   //exports: [AppheaderComponent]
 })

@@ -1,0 +1,43 @@
+
+
+.container{
+
+  margin-left:250px;
+  margin-top:50px;
+}
+
+.image_inner_container {
+  float:left;
+  border-radius: 50%;
+  padding: 5px;
+  height: 200px;
+  width: 200px;
+  background: #833ab4;
+  background: -webkit-linear-gradient(to bottom, #fcb045, #fd1d1d, #833ab4);
+  background: linear-gradient(to bottom, #fcb045, #fd1d1d, #833ab4);
+}
+
+.profile_image {
+  height: 190px;
+  width: 190px;
+  border-radius: 50%;
+  border: 5px solid white;
+}
+
+.tagline_text {
+  height: 200px;
+  width: 200px;
+}
+
+.expansion_panel{
+  margin-top:30px;
+  margin-left:100px;
+  margin-right:100px;
+}
+.main_header
+{
+  float:left;
+  padding-left:75px;
+  padding-top:75px;
+}
+
