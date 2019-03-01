@@ -32,6 +32,7 @@ namespace CodeFreak1.Controllers
 
         public IActionResult Token(SignInViewModel credential)
         {
+            
             if(credential==null || string.IsNullOrEmpty(credential.Password) || string.IsNullOrEmpty(credential.Email))
             {
                 UsersViewModel result = new UsersViewModel();
