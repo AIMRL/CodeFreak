@@ -29,6 +29,7 @@ namespace CodeFreak1.Controllers
 
         [Route("compile")]
         [HttpPost("compile")]
+        [AllowAnonymous]
         public IActionResult compileCode(ProblemUserCodeViewModel code)
         {
             
@@ -96,7 +97,7 @@ namespace CodeFreak1.Controllers
 
                 }
                 Problem prob = probReops.getProblemById(Guid.Parse(code.problemId));
-                int maxScore = (int)prob.MaxScore;
+                int maxScore = prob.MaxScore;
                 if (flag == false)
                 {
                     submission.Status = "passed";
@@ -123,7 +124,6 @@ namespace CodeFreak1.Controllers
         }
         public Users getApplicationUser()
         {
-
             var identity = User.Identities.FirstOrDefault(s => s.Name.ToLower() == "user");
             var claims = identity.Claims;
             string id = null;

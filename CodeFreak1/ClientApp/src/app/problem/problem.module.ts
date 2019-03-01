@@ -25,10 +25,6 @@ import { TestComponent } from './test/test.component';
 import { MatButtonModule, MatToolbarModule, MatSidenavModule, MatIconModule,MatListModule, MatTableModule, MatPaginatorModule, MatSortModule } from '@angular/material';
 import { SubmissionViewModel } from './dtos/submission-view-model';
 import { ResultComponent } from './result/result.component';
-import { AdminRoleGuard } from '../Gaurds/admin-role.guard';
-
-
-
 
 
 
@@ -56,15 +52,15 @@ import { AdminRoleGuard } from '../Gaurds/admin-role.guard';
     RouterModule.forRoot([
       {
         path: '', component: SiteLayoutComponent, children: [
-          { path: 'problem/:id', component: ProblemComponent },
-          { path: 'create-problem', component: CreateProbemComponent, canActivate: [AdminRoleGuard] },
+      { path: 'problem/:id', component: ProblemComponent },
+          { path: 'create-problem', component: CreateProbemComponent },
 
-//          { path: 'submission', component: SubmissionComponent },
+          { path: 'submission', component: SubmissionComponent },
 
           { path: 'test', component: TestComponent },
 
-          { path: 'allProblems', component: ProblemsListComponent, canActivate: [AdminRoleGuard] },
-          { path: 'allProblems/:which/:name', component: ProblemsListComponent, canActivate: [AdminRoleGuard ]},
+          { path: 'allProblems', component: ProblemsListComponent },
+          { path: 'allProblems/:which/:name', component: ProblemsListComponent },
           {path : 'result',component:ResultComponent}
 
         ]
