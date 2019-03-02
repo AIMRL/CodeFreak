@@ -39,7 +39,8 @@ import { ProblemModule } from '../problem/problem.module';
           { path: 'event-home/:eventId', component: EventHomeComponent }
         ]
       },
-      { path: 'event-problem', component: EventProblemsComponent }
+      { path: 'event-problem', component: EventProblemsComponent },
+      { path: 'event-sub', component: EventSubmissionsComponent }
 
     ])
 

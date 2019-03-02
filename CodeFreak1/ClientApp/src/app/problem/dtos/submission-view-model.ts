@@ -1,4 +1,6 @@
-export class SubmissionViewModel {
+import { RequestStatus } from "../../Security/Dtos/request-status";
+
+export class SubmissionViewModel extends RequestStatus {
 
   public SubmissionId: string;
   public UserId: string;
