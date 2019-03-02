@@ -85,7 +85,7 @@ namespace CodeFreak1.Controllers
                 return Ok(requestStatus);
             }
             EventProblems eventProblems = eveRep.getEventProblemByIdEventIdProblemId(eventProblemsViewModel.EventId, eventProblemsViewModel.ProblemId);
-            if (eventProblems == null)
+            if (eventProblems != null)
             {
                 requestStatus.makeNameAlreadyEist();
                 return Ok(requestStatus);
@@ -95,7 +95,23 @@ namespace CodeFreak1.Controllers
             EventProblems insertedEventProblems =eveRep.insertEventProblem(eventProblem);
             EventProblemsViewModel inserted = Mapper.Map<EventProblems, EventProblemsViewModel>(insertedEventProblems);
             inserted.makeSuccess();
-            return Ok(insertedEventProblems);
+            return Ok(inserted);
+        }
+        [HttpPost("deleteEventProblem")]
+        [Route("deleteEventProblem")]
+        public IActionResult deleteEventProblem(EventProblemsViewModel eventProblemsViewModel)
+        {
+            RequestStatus requestStatus = new RequestStatus();
+            if (eventProblemsViewModel == null)
+            {
+                requestStatus.makeObjectNull();
+                return Ok(requestStatus);
+            }
+            EventProblems eventProblem = eveRep.getEventProblemByIdEventIdProblemId(eventProblemsViewModel.EventId, eventProblemsViewModel.ProblemId);
+            EventProblems removedEventProblems = eveRep.removeEventProblem(eventProblem);
+            EventProblemsViewModel removed = Mapper.Map<EventProblems, EventProblemsViewModel>(removedEventProblems);
+            removed.makeSuccess();
+            return Ok(removed);
         }
         [HttpGet("getEventProblems")]
         [Route("getEventProblems")]
@@ -113,6 +129,24 @@ namespace CodeFreak1.Controllers
             }
             return Ok(problems);
         }
+        [HttpGet("getEventSubmissions")]
+        [Route("getEventSubmissions")]
+        public IActionResult getEventSubmissions(int eventId)
+        {
+            List<Submission> submissions = eveRep.getEventSubmissions(eventId);
+            List<CompleteSubmissionViewModel> submissionsViewModel = new List<CompleteSubmissionViewModel>();
+            foreach (var item in submissions)
+            {
+                CompleteSubmissionViewModel submission = new CompleteSubmissionViewModel();
+                submission.Submission = Mapper.Map<Submission, SubmissionViewModel>(item);
+                submission.Problem = Mapper.Map<Problem, ProblemViewModel>(item.Problem);
+                submission.User = Mapper.Map<Users, UsersViewModel>(item.User);
+                submission.Language= Mapper.Map<ProgrammingLanguage, ProgrammingLanguageViewModel>(item.Language);
+                submissionsViewModel.Add(submission); 
+            }
+            return Ok(submissionsViewModel); 
+        }
+
         public Users getApplicationUser()
         {
             var identity = User.Identities.FirstOrDefault(s => s.Name.ToLower() == "user");

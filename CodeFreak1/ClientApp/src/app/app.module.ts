@@ -33,7 +33,8 @@ import { ToastrModule } from 'ngx-toastr';
 import { ToastModule } from './toast/toast.module';
 import { EventModule } from './event/event.module';
 import { RequestStatus } from './request-status';
-
+import { NoConflictStyleCompatibilityMode, Md2Module } from 'md2';
+//import {} from '@angular/material';
 @NgModule({
   declarations: [
     AppComponent,
@@ -69,6 +70,8 @@ import { RequestStatus } from './request-status';
     ToastrModule.forRoot({ timeOut:3000 }),
     LoadingBarHttpClientModule,
     EventModule,
+    NoConflictStyleCompatibilityMode,
+    Md2Module,
     RouterModule.forRoot([
 
       {
@@ -90,8 +93,8 @@ import { RequestStatus } from './request-status';
     ])
   ],
   providers: [AdminRoleGuard, RequestStatus],
-  bootstrap: [AppComponent]
-  //exports: [AppheaderComponent]
+  bootstrap: [AppComponent],
+  exports: [ProblemModule]
 })
 export class AppModule { }
 

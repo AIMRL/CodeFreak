@@ -72,6 +72,7 @@ import { AdminRoleGuard } from '../Gaurds/admin-role.guard';
     ])
   ],
   declarations: [ProblemComponent, CreateProbemComponent, ProblemsListComponent, SubmissionComponent, TestComponent, ResultComponent],
-  providers: [ProblemService, CompilerResultViewModel, CodeViewModel, ProblemViewModel, ProblemCompleteViewModel, SubmissionViewModel]
+  providers: [ProblemService, CompilerResultViewModel, CodeViewModel, ProblemViewModel, ProblemCompleteViewModel, SubmissionViewModel],
+  exports:[CreateProbemComponent]
 })
 export class ProblemModule { }

@@ -1,18 +1,94 @@
-<body style="background-color:#eee">
+<body>
   <div class="container">
     <div class="cf-all-prob-main">
-      <h1><b>Problem Solving</b></h1>
-      <div class="col-md-9">
-        <div class="row cf-prob-row" *ngFor="let prob of problems">
+
+      <div class="row" style="text-align:center;">
+        <button mat-flat-button color="primary" [disabled]="isNew" (click)="showNewProblme()" style="margin: 5px;">New Problem</button>
+        <button mat-flat-button [disabled]="!isNew" color="primary" (click)="showExistProblme()" style="margin: 5px;">Existing Problem</button>
+      </div>
+      <div class="row" *ngIf="!isNew">
+        <div class="col-md-6 col-md-offset-3">
+          <form #f="ngForm" class="example-form">
+            <mat-form-field class="example-full-width">
+              <input type="text" placeholder="Select Problem" [(ngModel)]="problemIdToAdd" required aria-label="Number" matInput [formControl]="myControl" [matAutocomplete]="auto">
+              <mat-autocomplete #auto="matAutocomplete">
+                <mat-option *ngFor="let item of allProblems" [value]="item.Problem.Title">
+                  {{item.Problem.Title}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+            <div style="text-align: center">
+              <button type="submit" (click)="modelClass('')" color="accent" mat-flat-button data-toggle="modal" data-target="#myModal">Add Problem</button>
+            </div>
+
+          </form>
+        </div>
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+          <div [class]="dialogueClass" style="margin-top: 100px;" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+              </div>
+              <div class="modal-body">
+
+                <h3 style="text-align: center">Are you sure to add Problem</h3>
+
+                <div style="text-align: center">
+                  <button type="button" mat-flat-button color="accent" style="margin:5px;" (click)="modelClass('roolOut');addExistingProlem()" data-dismiss="modal">Yes</button>
+                  <button type="button" mat-flat-button color="warn" (click)="modelClass('rollOut')" data-dismiss="modal">No</button>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row" *ngIf="isNew">
+        <app-create-probem [eventId]="eventId" (outProblem)="addedProblem($event)"></app-create-probem>
+      </div>
+
+      <h1 style="text-align: center;"><b>Event Problems</b></h1>
+      <div class="row">
+        <div class="row cf-prob-row" *ngFor="let prob of problems;let i=index">
+
           <div class="col-md-8">
             <h2>{{prob.Problem.Title}}</h2>
             <h5 class="cf-prob-row-desc">{{prob.Difficulty.Name}},Problem Type:{{prob.ProblemType.Name}},Max Score:{{prob.Problem.MaxScore}}</h5>
           </div>
-          <div class="col-md-3 cf-prob-row-btn">
+          <div class="col-md-2 cf-prob-row-btn">
+            <button type="button" (click)="modelClass('bounceIn');assignRemoveProblem(prob.Problem)" data-toggle="modal" attr.data-target="#removeProlemModal{{i}}" mat-stroked-button color="warn"><b>Remove</b></button>
+          </div>
+          <div class="col-md-2 cf-prob-row-btn">
             <button mat-stroked-button color="primary" [routerLink]="['/problem',prob.Problem.ProblemId]"><b>Solve Challange</b></button>
+          </div>
+
+          <div class="modal fade" id="removeProlemModal{{i}}" tabindex="-1" role="dialog" attr.aria-labelledby="removeProlemModal{{i}}">
+            <div [class]="dialogueClass" style="margin-top: 100px;" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title" id="removeProlemModalLabel{{i}}">Remove Event Problem</h4>
+                </div>
+                <div class="modal-body">
+
+                  <h3 style="text-align: center">Are you sure to delete Problem</h3>
+                  <h3 style="text-align: center"><b>{{problemToBeRemoved?.Title}}</b></h3>
+
+                  <div style="text-align: center">
+                    <button type="button" mat-flat-button color="accent" style="margin:5px;" (click)="modelClass('bounceOut');removeProblem();" data-dismiss="modal">Yes</button>
+                    <button type="button" mat-flat-button color="warn" (click)="modelClass('bounceOut')"  data-dismiss="modal">No</button>
+                  </div>
+
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
+      <!-- Model for remove problem -->
+
+
     </div>
   </div>
 </body>

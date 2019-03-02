@@ -20,7 +20,7 @@ export class EventService {
   getEventyIdUrl: string = `getEvent`;
   addEventProblemUrl: string = `addEventProblem`;
   getEventProblemsUrl: string = `getEventProblems`;
-
+  removeEventProblemsUrl: string =`deleteEventProblem`
   constructor(private http: HttpClient) { }
   addEvent(eve): Observable<EventViewModel> {
     let httpOptions = {
@@ -61,6 +61,20 @@ export class EventService {
     httpOptions.headers.append('Authorization', `bearer ${localStorage.getItem('token')}`);
 
     let url = `${this.baseUrl}${this.handlerUrl}${this.addEventProblemUrl}`;
+    var res = this.http.post<EventProblemsViewModel>(url, JSON.stringify(eveProb), httpOptions).pipe(
+      tap((cre: EventProblemsViewModel) => this.log(`added employee w/ Success=${cre.Success}`)),
+      catchError(this.handleError<EventProblemsViewModel>('Error in adding Event', res)));
+    return res;
+  }
+  removeEventProblem(eveProb): Observable<EventProblemsViewModel> {
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Authorization': 'Bearer ' + localStorage.getItem('token'), 'Content-Type': 'application/json' })
+    };
+    httpOptions.headers.append('Content-Type', 'application/json');
+    httpOptions.headers.append('Accept', 'application/json');
+    httpOptions.headers.append('Authorization', `bearer ${localStorage.getItem('token')}`);
+
+    let url = `${this.baseUrl}${this.handlerUrl}${this.removeEventProblemsUrl}`;
     var res = this.http.post<EventProblemsViewModel>(url, JSON.stringify(eveProb), httpOptions).pipe(
       tap((cre: EventProblemsViewModel) => this.log(`added employee w/ Success=${cre.Success}`)),
       catchError(this.handleError<EventProblemsViewModel>('Error in adding Event', res)));

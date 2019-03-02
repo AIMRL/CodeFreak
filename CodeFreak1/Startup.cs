@@ -117,6 +117,9 @@ namespace CodeFreak1
 
                 m.CreateMap<Editorial, EditorialViewModel>();
                 m.CreateMap<EditorialViewModel, Editorial>();
+
+                m.CreateMap<EventProblems, EventProblemsViewModel>();
+                m.CreateMap<EventProblemsViewModel, EventProblems>();
             });
             #endregion
         }

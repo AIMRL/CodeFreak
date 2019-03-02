@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+//import {NoConflictStyleCompatibilityMode} from '@angular/material';
 import {
   MatFormFieldModule,
   MatAutocompleteModule,
@@ -72,6 +73,8 @@ import { CdkTableModule } from '@angular/cdk/table';
     MatTabsModule,
     MatToolbarModule,
     MatTooltipModule,
+
+//    NoConflictStyleCompatibilityMode
   ],
   declarations: []
 })

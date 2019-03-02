@@ -16,6 +16,8 @@ import { EventProblemsComponent } from './event-problems/event-problems.componen
 import { EventUsersComponent } from './event-users/event-users.component';
 import { EventSubmissionsComponent } from './event-submissions/event-submissions.component';
 import { EventBoardComponent } from './event-board/event-board.component';
+import { EventProblemsViewModel } from './dtos/event-problems-view-model';
+import { ProblemModule } from '../problem/problem.module';
 
 
 @NgModule({
@@ -27,6 +29,7 @@ import { EventBoardComponent } from './event-board/event-board.component';
     BrowserAnimationsModule,
     CodeFreakMaterialModuleModule,
     Md2Module,
+    ProblemModule,
     FroalaEditorModule.forRoot(), FroalaViewModule.forRoot(),
     RouterModule.forRoot([
       {
@@ -35,7 +38,8 @@ import { EventBoardComponent } from './event-board/event-board.component';
           { path: 'create-event', component: EventHomeComponent },
           { path: 'event-home/:eventId', component: EventHomeComponent }
         ]
-      }
+      },
+      { path: 'event-problem', component: EventProblemsComponent }
 
     ])
 

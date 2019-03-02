@@ -33,6 +33,17 @@ namespace CodeFreak1.Repositories
             db.SaveChanges();
             return eventProblem;
         }
+        public EventProblems removeEventProblem(EventProblems eventProblem)
+        {
+            db.EventProblems.Remove(eventProblem);
+            db.SaveChanges();
+            return eventProblem;
+        }
+        public List<Submission> getEventSubmissions(int id)
+        {
+            return db.Submission.Where(s => s.EventId == id).Include(s => s.User).Include(s => s.Problem).Include(s => s.Language).ToList();
+        }
+
         public EventProblems getEventProblemByIdEventIdProblemId(int eventId,Guid problemId)
         {
             return db.EventProblems.FirstOrDefault(ep => ep.EventId == eventId && ep.ProblemId == problemId);

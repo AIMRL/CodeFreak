@@ -15,7 +15,7 @@ import { AddProblemViewModel } from '../dtos/add-problem-view-model';
 import { ToastService } from '../../toast/toast.service';
 import { Router } from '@angular/router';
 import { EventService } from '../../event/event.service';
-import { EventProblemsViewModel } from 'src/app/event/dtos/event-problems-view-model';
+import { EventProblemsViewModel } from '../../event/dtos/event-problems-view-model';
 
 @Component({
   selector: 'app-create-probem',
@@ -35,7 +35,8 @@ export class CreateProbemComponent implements OnInit {
   @ViewChild('inputFile') inputFile;
   @ViewChild('outputFile') outputFile;
 
-  @Input() eventId: number;
+  @Input() 
+  eventId: number;
   @Output() outProblem = new EventEmitter<ProblemViewModel>();
   isEventProblem = false;
 
@@ -103,7 +104,11 @@ export class CreateProbemComponent implements OnInit {
         return;
       }
       this.toastService.makeSuccess("Problem Successfully added", res.Message);
-      if (this.isEventProblem) {
+      this.createProblem = new AddProblemViewModel();
+      this.problem = new ProblemViewModel();
+      this.editorial = new EditorialViewModel();
+      this.files = new Array<ProblemTestCaseViewModel>();  
+      if (!this.isEventProblem) {
         this.router.navigate(['problem', res.ProblemId]);
         return;
       }
@@ -116,7 +121,8 @@ export class CreateProbemComponent implements OnInit {
           this.showAlertMessage("Partial successful", "Add Problem from existing Problem");
           return;
         }
-        this.showAlertMessage("Problem Successfully added", "Problem is added in event");
+        this.toastService.makeSuccess("Problem Successfully added", "Problem is added in event");
+        
         this.outProblem.emit(res);
         return;
       });

@@ -6,21 +6,30 @@
 .cf-prob-row {
   padding: 20px 30px;
   color: black;
-  background-color: #fff;
+  background-color: lightgray;
   margin: 5px 0;
 }
 
   .cf-prob-row:hover {
-    background-color: lightgray;
+    background-color: pink;
     cursor: pointer;
     color: forestgreen;
   }
 
 .cf-prob-row-desc {
-  color: gray;
+  color: darkgray;
 }
 
 .cf-prob-row-btn {
   padding: 30px 30px 20px 30px;
   float: right;
+}
+.example-form {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.example-full-width {
+  width: 100%;
 }

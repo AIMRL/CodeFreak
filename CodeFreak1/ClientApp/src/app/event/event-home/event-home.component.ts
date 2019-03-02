@@ -46,7 +46,7 @@ export class EventHomeComponent implements OnInit {
       this.eventUser = res;
   //    this.event = res.Event;
       this.startCountDown = new Date(this.eventUser.Event.StartDateTime.valueOf()).valueOf() - Date.now();
-      this.endCountDown = new Date(this.eventUser.Event.EndDateTime.valueOf()).valueOf() - new Date(this.eventUser.Event.StartDateTime.valueOf()).valueOf();
+      this.endCountDown = new Date(this.eventUser.Event.EndDateTime.valueOf()).valueOf() - Date.now();
       this.interval = interval(1000);
       this.subcription=this.interval.subscribe((x) => {
         debugger;
