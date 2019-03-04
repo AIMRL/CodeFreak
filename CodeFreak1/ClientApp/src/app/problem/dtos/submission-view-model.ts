@@ -1,3 +1,5 @@
+import { SubmissionProblemTestCaseViewModel } from "./submission-problem-testcase-view-model";
+
 export class SubmissionViewModel {
 
   public SubmissionId: string;
@@ -6,5 +8,7 @@ export class SubmissionViewModel {
   public Score: number;
   public Status: string;
   public SubmissionDateTime: string;
+  public Code: string;
 
+  public submissionProblemTestCase: Array<SubmissionProblemTestCaseViewModel>;
 }

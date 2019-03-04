@@ -11,6 +11,7 @@ import {ProblemUserCodeViewModel} from './dtos/Problem-user-code-view-model';
 import { SubmissionViewModel } from './dtos/submission-view-model';
 import {CompilerOutputViewModel} from './dtos/compiler-output-view-model';
 import { UsersViewModel } from '../Security/Dtos/users-view-model';
+import { debug } from 'util';
 
 
 @Injectable()
@@ -27,6 +28,8 @@ export class ProblemService {
 
   submissionUrl: string = AppSettings.submissionURl;
   UserSubmissionUrl: string = `byProblemId?ProblemId=`;
+  UserSubmissionDetailUrl: string = `bySubId?sId=`;
+  UserFileCodeUrl: string = `byUrlFile?urlFile=`;
 
   constructor(private http: HttpClient) { }
   compileCode(credentials: ProblemUserCodeViewModel): Observable<CompilerOutputViewModel> {
@@ -85,12 +88,7 @@ export class ProblemService {
 
   getSubmissionOfUser(ProblemId : string): Observable<Array<SubmissionViewModel>> {
 
-    let httpOptions = {
-      headers: new HttpHeaders({ 'Authorization': 'Bearer ' + localStorage.getItem('token'), 'Content-Type': 'application/json' })
-    };
-    httpOptions.headers.append('Content-Type', 'application/json');
-    httpOptions.headers.append('Accept', 'application/json');
-    httpOptions.headers.append('Authorization', `bearer ${localStorage.getItem('token')}`);
+    let httpOptions = CodeFreakHeaders.GetSimpleHeader();
 
     let url = `${this.baseUrl}${this.submissionUrl}${this.UserSubmissionUrl}${ProblemId}`;
 
@@ -102,6 +100,33 @@ export class ProblemService {
     return res;
   }
 
+
+  getSubmissionDetail(sId: string): Observable<SubmissionViewModel> {
+
+    let httpOptions = CodeFreakHeaders.GetSimpleHeader();
+
+    let url = `${this.baseUrl}${this.submissionUrl}${this.UserSubmissionDetailUrl}${sId}`;
+
+    var res = this.http.get<SubmissionViewModel>(url, httpOptions);
+
+    return res;
+  }
+
+  getUrlDetail(urlFile: string): Observable<string> {
+
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Authorization': 'Bearer ' + localStorage.getItem('token'), 'Content-Type': 'application/json' })
+    };
+    httpOptions.headers.append('Content-Type', 'application/json');
+    httpOptions.headers.append('Accept', 'application/json');
+    httpOptions.headers.append('Authorization', `bearer ${localStorage.getItem('token')}`);
+
+    let url = `${this.baseUrl}${this.handlerUrl}${this.UserFileCodeUrl}${urlFile}`;
+
+    var res = this.http.get<string>(url, httpOptions);
+
+    return res;
+  }
 
   private handleError<T>(operation = 'operation', result?: T) {
     debugger;
