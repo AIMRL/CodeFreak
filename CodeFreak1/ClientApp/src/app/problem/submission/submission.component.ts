@@ -30,7 +30,7 @@ export class SubmissionComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
 
   ProblemId = "0E984725-C51C-4BF4-9960-E1C80E27ABA1";
-
+  
   submissionViewModelList: Array<SubmissionViewModel>;
   displayedColumns = ['Status', 'Score', 'SubmissionId', 'SubmissionDateTime'];
 

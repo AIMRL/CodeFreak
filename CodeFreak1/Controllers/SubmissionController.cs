@@ -20,7 +20,7 @@ namespace CodeFreak1.Controllers
         SubmissionRepository rep = new SubmissionRepository();
         LanguageRepository languageRep = new LanguageRepository();
         UserRepository userRepository = new UserRepository();
-
+        SubmissionProblemTestCaseRepository submissionProblemTestCaseRepository = new SubmissionProblemTestCaseRepository();
 
         [HttpGet]
         [Route("byUserId")]
@@ -70,6 +70,18 @@ namespace CodeFreak1.Controllers
             return user;
         }
 
+        [HttpGet]
+        [Route("bySubId")]
+        [AllowAnonymous]
+
+        public IActionResult getSubmissionDetail(Guid sId)
+        {
+
+
+            Submission sub = rep.getSubmissionDetail(sId);
+            sub.SubmissionProblemTestCase = submissionProblemTestCaseRepository.getSubmissionProblemTestCase(sId);
+            return Ok(Mapper.Map<Submission, SubmissionViewModel>(sub));
+        }
 
         [HttpGet]
         [Route("Test")]
@@ -86,10 +98,6 @@ namespace CodeFreak1.Controllers
             return Ok();
 
         }
-
-
-
-
     }
 }
  

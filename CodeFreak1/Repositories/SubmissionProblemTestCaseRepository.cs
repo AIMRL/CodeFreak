@@ -26,6 +26,17 @@ namespace CodeFreak1.Repositories
             return status;
         }
 
+        public List<SubmissionProblemTestCase> getSubmissionProblemTestCase(Guid sId)
+        {
+            List<SubmissionProblemTestCase> lit = new List<SubmissionProblemTestCase>();
+
+            lit=db.SubmissionProblemTestCase.Where(s => s.SubmissionId == sId).ToList<SubmissionProblemTestCase>();
+
+
+            return lit;
+        }
+
+
 
     }
 }
