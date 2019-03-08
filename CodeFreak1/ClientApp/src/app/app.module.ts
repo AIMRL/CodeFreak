@@ -86,7 +86,7 @@ import { NoConflictStyleCompatibilityMode, Md2Module } from 'md2';
         path: '', component: SiteLayoutComponent,
         children: [
           { path: 'fetch-data', component: FetchDataComponent },
-          { path: 'home', component: HomeComponent, canActivate: [AdminRoleGuard] }
+          { path: 'home', component: HomeComponent }
 
         ]
       },

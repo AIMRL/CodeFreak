@@ -1,0 +1,214 @@
+<!--https://i0.wp.com/tricksmaze.com/wp-content/uploads/2017/04/Stylish-Girls-Profile-Pictures-36.jpg?resize=300%2C300&ssl=1-->
+
+
+<div class="container">
+  <div class="d-flex justify-content-center">
+    <div class="image_inner_container ">
+      <img class="profile_image" [src]="imageURL">
+
+
+      <input type="file" (change)="onFileChanged($event)">
+      <button (click)="onUpload()">Upload</button>
+
+
+    </div>
+
+    <div class="main_header">
+
+      <p> <b> CodeFreak Rank </b>   <span ng-model="[codefreak_rank]"> 7 </span> </p>
+      <p> <b> Competition Won </b>   <span ng-model="[competition_won]"> 2 </span> </p>
+      <p> <b> Problem Solved </b>   <span ng-model="[problem_solved]"> 12 </span> </p>
+
+     
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<!--<form [formGroup]="profileForm">
+
+  <div>
+    <label>
+      First Name:
+    </label>
+    <input type="text" formControlName="firstName" readonly>
+  </div>
+
+  <div>
+    <label>
+      Last Name:
+    </label>
+      <input type="text" formControlName="lastName">
+
+  </div>
+
+</form>-->
+
+<div class="expansion_panel">
+
+  <mat-accordion>
+
+
+    <mat-expansion-panel [expanded]="true">
+
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Personal Information
+        </mat-panel-title>
+
+
+      </mat-expansion-panel-header>
+
+      <div>
+
+        <mat-form-field>
+
+          <div>
+            <label for="name">Name</label>
+          </div>
+
+          <input matInput [readonly]="[personal_name_readonly]" [(ngModel)]="personal_name">
+
+        </mat-form-field>
+
+      </div>
+
+      <div>
+
+        <mat-form-field>
+
+          <div>
+            <label for="email">Email</label>
+          </div>
+
+          <input matInput [readonly]="[personal_email_readonly]" [(ngModel)]="personal_email">
+        </mat-form-field>
+
+      </div>
+
+      <div>
+
+      <button (click)="editPersonalInformat()">{{editPersonal}}</button>
+
+      </div>
+
+      
+
+    </mat-expansion-panel>
+
+    <mat-expansion-panel>
+
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Security Information
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+
+    
+
+      <div>
+
+        <div *ngIf="verifyUser">
+
+          <label>First, let us verify , is it Really You</label>
+          <br />
+
+          <label>Enter Your Email</label>
+          <br />
+
+          <input [(ngModel)]="send_code_email" type="text"/>
+          <button (click)="sendEmail()">Submit</button>
+
+        </div>
+
+        <div *ngIf="codeUser">
+
+          <label>Enter the Code Here , We have Sent You</label>
+          <br />
+
+          <input [(ngModel)]="send_user_code" type="text" /><button (click)="matchCode()">Submit</button>
+
+
+          <div *ngIf="user_code_mismatch">
+          <p>Sorry You Entered Code doesnt Match with the Code we sent You </p>
+          <button (click)="togglePasswordChild()">ReEnter Email</button>
+          </div>
+
+        </div>
+
+        <div *ngIf="ChangePassword">
+
+          <label>Enter Your New Password</label>
+          <br />
+
+          <input type="password" [(ngModel)]="pass1" />
+          <br />
+
+          <label>Enter Your Password Again</label>
+          <br />
+
+          <input type="password" [(ngModel)]="pass2" />
+          <br />
+
+          <div *ngIf="mismatchPassword">
+            <p>Your Both Password Doesn't Match</p>
+          </div>
+
+          <button (click)="ChangePasswordBackend()">Submit</button>
+        </div>
+
+
+        <div *ngIf="EditPassword">
+        <button mat-button (click)="togglePasswordChild()">Change Your Password</button>
+        </div>
+
+      </div>
+
+
+    </mat-expansion-panel>
+
+
+    <mat-expansion-panel>
+
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Submissions
+        </mat-panel-title>
+
+
+      </mat-expansion-panel-header>
+
+
+
+
+      <div *ngFor="let submission of submissionlist">
+        <a href="{{submission.link}}">{{submission.name}}</a>
+      </div>
+
+
+    </mat-expansion-panel>
+
+
+    <mat-expansion-panel>
+
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Achievments
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+
+
+    </mat-expansion-panel>
+
+
+
+  </mat-accordion>
+
+</div>
+
+
+
+

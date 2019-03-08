@@ -33,6 +33,40 @@ namespace CodeFreak1.Repositories
 
             return user;
         }
+        public void UpdateUserPassword(Users user)
+        {
+
+            Users userTo = db.Users.FirstOrDefault(u => u.Login.ToLower() == user.Login.ToLower());
+
+       
+
+            if(userTo.Login.Equals(user.Login))
+            {
+                userTo.Password = user.Password;
+
+                db.Users.Update(userTo);
+                db.SaveChanges();
+            }
+        }
+
+        public void UpdateUserPersonalInfo(Users user)
+        {
+
+            Users userTo = db.Users.FirstOrDefault(u => u.Login.ToLower() == user.Login.ToLower());
+
+
+
+            if (userTo.Login.Equals(user.Login))
+            {
+                userTo.Email = user.Email;
+                userTo.Name = user.Name;
+
+                db.Users.Update(userTo);
+                db.SaveChanges();
+            }
+        }
+
+
         public Users getByEmail(string email)
         {
             return db.Users.FirstOrDefault(u => u.Email.ToLower() == email.ToLower());
@@ -41,6 +75,7 @@ namespace CodeFreak1.Repositories
         {
             return db.Users.Include(o=>o.UserRoles).FirstOrDefault(u => u.Email.ToLower() == email.ToLower() && u.Password == password);
         }
+
         public Users getUserById(Guid id)
         {
             //Guid g = Guid.Empty;

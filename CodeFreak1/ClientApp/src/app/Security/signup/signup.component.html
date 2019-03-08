@@ -16,7 +16,7 @@
             </mat-error>
           </mat-form-field>
         </div>
-        <div class="col-md-6 cf-nameloginInput" >
+        <div class="col-md-6 cf-nameloginInput">
           <mat-form-field class="cf-input">
             <input matInput [formControl]="loginFormControl" [(ngModel)]="user.Login" [errorStateMatcher]="matcher" placeholder="Enter Login">
             <mat-error *ngIf="loginFormControl.hasError('required')">
@@ -66,3 +66,4 @@
     </div>
   </div>
 </div>
+

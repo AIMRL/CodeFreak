@@ -1,4 +1,5 @@
 import { RequestStatus } from "../../Security/Dtos/request-status";
+import { SubmissionProblemTestCaseViewModel } from "./submission-problem-testcase-view-model";
 
 export class SubmissionViewModel extends RequestStatus {
 
@@ -8,5 +9,7 @@ export class SubmissionViewModel extends RequestStatus {
   public Score: number;
   public Status: string;
   public SubmissionDateTime: string;
+  public Code: string;
 
+  public submissionProblemTestCase: Array<SubmissionProblemTestCaseViewModel>;
 }

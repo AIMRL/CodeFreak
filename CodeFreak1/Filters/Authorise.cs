@@ -10,7 +10,6 @@ namespace CodeFreak1.Filters
     {
         public void OnAuthorization(AuthorizationFilterContext context)
         {
-
             var a = 0;
             if (a == 0)
             {

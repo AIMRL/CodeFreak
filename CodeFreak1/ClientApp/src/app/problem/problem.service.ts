@@ -11,9 +11,11 @@ import {ProblemUserCodeViewModel} from './dtos/Problem-user-code-view-model';
 import { SubmissionViewModel } from './dtos/submission-view-model';
 import {CompilerOutputViewModel} from './dtos/compiler-output-view-model';
 import { UsersViewModel } from '../Security/Dtos/users-view-model';
+
 import { forEach } from '@angular/router/src/utils/collection';
 import { AddProblemViewModel } from './dtos/add-problem-view-model';
 import { ProblemViewModel } from './dtos/problem-view-model';
+import { debug } from 'util';
 
 
 @Injectable()
@@ -26,10 +28,13 @@ export class ProblemService {
   private problemHandlerUrl: string = AppSettings.problemURl;
   private compileUrl: string = `compile/`;
   private allProblemsUrl: string = `allProblem/`;
-  private problemByIdUrl: string = `problemById?id=`;
+  private problemByIdUrl: string = `problemById?id=`;  
 
-  private submissionUrl: string = AppSettings.submissionURl;
-  private UserSubmissionUrl: string = `byProblemId?ProblemId=`;
+  submissionUrl: string = AppSettings.submissionURl;
+  UserSubmissionUrl: string = `byProblemId?ProblemId=`;
+  UserSubmissionDetailUrl: string = `bySubId?sId=`;
+  UserFileCodeUrl: string = `byUrlFile?urlFile=`;
+
   private addProblemUrl: string = `addProblem`;
   constructor(private http: HttpClient) { }
 
@@ -88,14 +93,7 @@ export class ProblemService {
 
   
   getAllProblems(): Observable<Array<ProblemCompleteViewModel>> {
-//    let httpOptions = CodeFreakHeaders.GetSimpleHeader();
-    let httpOptions = {
-      headers: new HttpHeaders({ 'Authorization': 'Bearer ' + localStorage.getItem('token'), 'Content-Type': 'application/json' })
-    };
-    httpOptions.headers.append('Content-Type', 'application/json');
-    httpOptions.headers.append('Accept', 'application/json');
-    httpOptions.headers.append('Authorization', `bearer ${localStorage.getItem('token')}`);
-
+    let httpOptions = CodeFreakHeaders.GetSimpleHeader();
     let url = `${this.baseUrl}${this.problemHandlerUrl}${this.allProblemsUrl}`;
     var res = this.http.get<Array<ProblemCompleteViewModel>>(url, httpOptions).pipe(
       tap((cre: Array<ProblemCompleteViewModel>) => this.log(`added employee w/ Success=${cre.length}`)),
@@ -105,29 +103,17 @@ export class ProblemService {
 
 
   getProblembyId(id): Observable<ProblemCompleteViewModel> {
-//    let httpOptions = CodeFreakHeaders.GetSimpleHeader();
-    let httpOptions = {
-      headers: new HttpHeaders({ 'Authorization': 'Bearer ' + localStorage.getItem('token'), 'Content-Type': 'application/json' })
-    };
-    httpOptions.headers.append('Content-Type', 'application/json');
-    httpOptions.headers.append('Accept', 'application/json');
-    httpOptions.headers.append('Authorization', `bearer ${localStorage.getItem('token')}`);
-
+    let httpOptions = CodeFreakHeaders.GetSimpleHeader();
     let url = `${this.baseUrl}${this.problemHandlerUrl}${this.problemByIdUrl}${id}`;
     var res = this.http.get<ProblemCompleteViewModel>(url, httpOptions).pipe(
       tap((cre: ProblemCompleteViewModel) => this.log(`added employee w/ Success=${cre.Success}`)),
-      catchError(this.handleError<ProblemCompleteViewModel>('Error in login',res)));
+      catchError(this.handleError<ProblemCompleteViewModel>('Error in login')));
     return res;
   }
 
   getSubmissionOfUser(ProblemId : string): Observable<Array<SubmissionViewModel>> {
 
-    let httpOptions = {
-      headers: new HttpHeaders({ 'Authorization': 'Bearer ' + localStorage.getItem('token'), 'Content-Type': 'application/json' })
-    };
-    httpOptions.headers.append('Content-Type', 'application/json');
-    httpOptions.headers.append('Accept', 'application/json');
-    httpOptions.headers.append('Authorization', `bearer ${localStorage.getItem('token')}`);
+    let httpOptions = CodeFreakHeaders.GetSimpleHeader();
 
     let url = `${this.baseUrl}${this.submissionUrl}${this.UserSubmissionUrl}${ProblemId}`;
 
@@ -140,8 +126,34 @@ export class ProblemService {
   }
 
 
+  getSubmissionDetail(sId: string): Observable<SubmissionViewModel> {
+
+    let httpOptions = CodeFreakHeaders.GetSimpleHeader();
+
+    let url = `${this.baseUrl}${this.submissionUrl}${this.UserSubmissionDetailUrl}${sId}`;
+
+    var res = this.http.get<SubmissionViewModel>(url, httpOptions);
+
+    return res;
+  }
+
+  getUrlDetail(urlFile: string): Observable<string> {
+
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Authorization': 'Bearer ' + localStorage.getItem('token'), 'Content-Type': 'application/json' })
+    };
+    httpOptions.headers.append('Content-Type', 'application/json');
+    httpOptions.headers.append('Accept', 'application/json');
+    httpOptions.headers.append('Authorization', `bearer ${localStorage.getItem('token')}`);
+
+    let url = `${this.baseUrl}${this.handlerUrl}${this.UserFileCodeUrl}${urlFile}`;
+
+    var res = this.http.get<string>(url, httpOptions);
+
+    return res;
+  }
+
   private handleError<T>(operation = 'operation', result?: T) {
-    debugger;
     return (error: any): Observable<T> => {
       // TODO: send the error to remote logging infrastructure
       console.error(error); // log to console instead
