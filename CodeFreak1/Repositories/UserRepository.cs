@@ -67,5 +67,9 @@ namespace CodeFreak1.Repositories
             return user;
 
         }
+        public List<Users> getAllUsers()
+        {
+            return db.Users.Where(s => s.UserId != null).ToList();
+        }
     }
 }

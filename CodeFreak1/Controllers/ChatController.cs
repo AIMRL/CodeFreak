@@ -11,41 +11,60 @@ using System.Net.Http;
 using System.Net;
 using CodeFreak1.Models;
 using CodeFreak1.Repositories;
+using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CodeFreak1.Controllers
 {
-    
+
+    [AllowAnonymous]
     [Route("api/[controller]")]
     [ApiController]
+    
     public class ChatController : ControllerBase
     {
         UserRepository userRepository = new UserRepository();
-        private IHubContext<MesaageHub, ITypedHub> _hubContext;
-        public ChatController(IHubContext<MesaageHub, ITypedHub> hubContext)
-        {
-            _hubContext = hubContext;
+        MessageRepository message_repo = new MessageRepository();
 
+        [Route("test")]
+        [HttpGet("test")]
+        public IActionResult test()
+        {
+            return Ok("hello world");
         }
 
-        [HttpPost]
-        public OkObjectResult Post([FromBody]MessageViewModel msg)
+        [Route("allMessages")]
+        [HttpGet("allMessages")]
+        public IActionResult GetCurrentUserMessagesWith(Guid userId)
         {
-            string retMessage = string.Empty;
             Users user = getApplicationUser();
 
-            try
-            {
-                _hubContext.Clients.All.BroadcastMessage("hi this time from server "+user.Name.ToString());
+            var list = message_repo.getAllMessages(user.UserId);
 
-                // _hubContext.Clients.All.BroadcastMessage(msg);
-                retMessage = "Success";
-            }
-            catch (Exception e)
+            //  List<MessageCompleteViewModel> messages_list = new List<MessageCompleteViewModel>();
+            MessageReturnViewModel message_list = new MessageReturnViewModel();
+
+            foreach (var item in list)
             {
-                retMessage = e.ToString();
+                MessageCompleteViewModel messageListViewModel = new MessageCompleteViewModel();
+                messageListViewModel.message = Mapper.Map<Messages, MessageViewModel>(item);
+                messageListViewModel.sender = Mapper.Map<Users, UsersViewModel>(item.Sender);
+                messageListViewModel.reciever = Mapper.Map<Users, UsersViewModel>(item.Reciever);
+                if ((item.RecieverId == user.UserId && item.SenderId == userId) ||( item.SenderId == user.UserId && item.RecieverId == userId))
+                {
+
+                    message_list.Message_list.Add(messageListViewModel);
+
+                }
+
             }
-            return Ok("hello");
+            message_list.currentUserId = user.UserId.ToString();
+
+            return Ok(message_list);
         }
+
+
+
         public Users getApplicationUser()
         {
 

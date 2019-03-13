@@ -9,6 +9,8 @@ export class AppSettings {
   public static problemURl: string = `/api/Problem/`;
   public static difficultyURl: string = `/api/Difficulty/`;
   public static problemTypeURl: string = `/api/ProblemType/`; 
+  public static chatURL: string = `/api/Chat/`; 
+
   public static programmingLanguageURl: string = `/api/ProgrammingLanguage/`; 
   //Images path
   public static SignInPath = '../../assets/images/loginback.jpg';

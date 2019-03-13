@@ -1,20 +1,34 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
+import { AppSettings } from '../AppSetting';
+import { catchError, tap } from 'rxjs/operators';
 import {MessageViewModel} from './Dtos/MessageViewModel';
+import {MessageCompleteViewModel} from './Dtos/Message-complete-view-model';
 
 import { HubConnection , HubConnectionBuilder, LogLevel, HttpTransportType} from '@aspnet/signalr';
 import { Hub } from './Dtos/HubModule';
+import { MessageReturnViewModel } from './Dtos/Message-return-model';
+import { UsersViewModel } from '../Security/Dtos/users-view-model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ChatService {
   private hub: Hub;
+  baseUrl: string = AppSettings.baseUrl;
+  chatURL: string = AppSettings.chatURL;
+  authURL: string = AppSettings.authURl;
+
+  allUsersURL: string= 'allUsers/';
+  allMessagesURL:string = 'allMessages/?userId=';
+
+
 
   private msg: MessageViewModel;
-  endpoint = 'https://localhost:44380/api/';
-  constructor(private http: HttpClient) { }
+  endpoint = 'https://localhost:44380/api/Chat/';
+  constructor(private http: HttpClient) {
+  }
   private extractData(res: Response) {
     const body = res;
     return body || { };
@@ -29,7 +43,7 @@ export class ChatService {
       return of(result as T);
     };
   }
-  postMessage (message: MessageViewModel): Observable<HttpResponse<any>> {
+ /* postMessage (message: MessageViewModel): Observable<HttpResponse<any>> {
     console.log(message);
     const httpOptions = {
       headers: new HttpHeaders({ 'Authorization': 'Bearer ' + localStorage.getItem('token'), 'Content-Type': 'application/json' })
@@ -40,12 +54,45 @@ export class ChatService {
 
     const httpHeaders = new HttpHeaders({ 'Authorization': 'Bearer ' + localStorage.getItem('token'), 'Content-Type': 'application/json' });
     return this.http.post<any>(this.endpoint + 'Chat', message, {headers : httpHeaders , observe: 'response'});
-  }
+  }*/
+
+   async sendSomeMessage(msg: MessageViewModel) {
+    await Hub._hubConnection.invoke('sendMessage', msg, localStorage.getItem('token'));
+ }
+ getCurrentUserMessagesWith(id): Observable<MessageReturnViewModel> {
+  //    let httpOptions = CodeFreakHeaders.GetSimpleHeader();
+
+
+
+      const httpOptions = {
+        headers: new HttpHeaders({ 'Authorization': 'Bearer ' + localStorage.getItem('token'), 'Content-Type': 'application/json' })
+      };
+      httpOptions.headers.append('Content-Type', 'application/json');
+      httpOptions.headers.append('Accept', 'application/json');
+      httpOptions.headers.append('Authorization', `bearer ${localStorage.getItem('token')}`);
+       const url = `${this.baseUrl}${this.chatURL}${this.allMessagesURL}${id}`;
+       const res = this.http.get<MessageReturnViewModel>(url, httpOptions).pipe(
+        tap((cre: MessageReturnViewModel) => this.log(`added employee w/ Success=${cre.Message_list.length}`)),
+        catchError(this.handleError<MessageReturnViewModel>('Error in login')));
+
+      return res;
+    }
+
+    getAllUsers(): Observable<Array<UsersViewModel>> {
+      //    let httpOptions = CodeFreakHeaders.GetSimpleHeader();
+          const httpOptions = {
+            headers: new HttpHeaders({ 'Authorization': 'Bearer ' + localStorage.getItem('token'), 'Content-Type': 'application/json' })
+          };
+          httpOptions.headers.append('Content-Type', 'application/json');
+          httpOptions.headers.append('Accept', 'application/json');
+          httpOptions.headers.append('Authorization', `bearer ${localStorage.getItem('token')}`);
+           const url = `${this.baseUrl}${this.authURL}${this.allUsersURL}`;
+           const res = this.http.get<Array<UsersViewModel>>(url, httpOptions).pipe(
+            tap((cre: Array<UsersViewModel>) => this.log(`added employee w/ Success=${cre.length}`)),
+            catchError(this.handleError<Array<UsersViewModel>>('Error in login')));
+          return res;
+        }
   private log(message: string) {
     //
   }
-  sendSomeMessage(msg: MessageViewModel) {
-    msg.recieverId = 'ED683A37-5571-4EB0-9AE1-48204E76D1B1';
-    Hub._hubConnection.invoke('sendMessage', msg, localStorage.getItem('token'));
- }
 }

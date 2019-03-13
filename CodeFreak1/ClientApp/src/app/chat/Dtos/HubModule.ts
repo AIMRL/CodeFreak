@@ -5,7 +5,7 @@ export class Hub {
   static _hubConnection: HubConnection;
   public async buildConnection() {
     Hub._hubConnection = new HubConnectionBuilder()
-    .withUrl('https://localhost:44380/chathub').build();
+    .withUrl('https://localhost:44380/chatHub').build();
     await Hub._hubConnection
       .start()
       .then(() => Hub._hubConnection.invoke('validate', localStorage.getItem('token')))

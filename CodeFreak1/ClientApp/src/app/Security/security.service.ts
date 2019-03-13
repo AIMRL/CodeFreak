@@ -42,6 +42,7 @@ export class SecurityService {
       catchError(this.handleError<RequestStatus>('Error in login')));
     return res;
   }
+  
 
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
@@ -53,6 +54,9 @@ export class SecurityService {
       return of(result as T);
     };
   }
+
+
+
   private log(message: string) {
     //
   }

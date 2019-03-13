@@ -20,6 +20,7 @@ namespace CodeFreak1.Models
         public virtual DbSet<Difficulty> Difficulty { get; set; }
         public virtual DbSet<Editorial> Editorial { get; set; }
         public virtual DbSet<LoginHistory> LoginHistory { get; set; }
+        public virtual DbSet<Messages> Messages { get; set; }
         public virtual DbSet<Permissions> Permissions { get; set; }
         public virtual DbSet<PermissionsMapping> PermissionsMapping { get; set; }
         public virtual DbSet<Problem> Problem { get; set; }
@@ -38,9 +39,7 @@ namespace CodeFreak1.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-
                 optionsBuilder.UseSqlServer("Server=.\\SQLExpress;Database=DBCodeFreak;Trusted_Connection=True;");
-
             }
         }
 
@@ -127,6 +126,27 @@ namespace CodeFreak1.Models
                     .IsUnicode(false);
 
                 entity.Property(e => e.UserId).HasColumnName("UserID");
+            });
+
+            modelBuilder.Entity<Messages>(entity =>
+            {
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
+                entity.Property(e => e.DateOfText).HasColumnType("datetime");
+
+                entity.Property(e => e.MessageText)
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.Reciever)
+                    .WithMany(p => p.MessagesReciever)
+                    .HasForeignKey(d => d.RecieverId)
+                    .HasConstraintName("FK__Messages__Reciev__1AD3FDA4");
+
+                entity.HasOne(d => d.Sender)
+                    .WithMany(p => p.MessagesSender)
+                    .HasForeignKey(d => d.SenderId)
+                    .HasConstraintName("FK__Messages__Sender__19DFD96B");
             });
 
             modelBuilder.Entity<Permissions>(entity =>

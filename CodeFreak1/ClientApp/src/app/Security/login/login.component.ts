@@ -55,8 +55,8 @@ export class LoginComponent implements OnInit {
 
         this.hub = new Hub();
        this.hub.buildConnection();
-         this.router.navigate(['chat']);
-       // this.router.navigate(['home']);
+       //  this.router.navigate(['chat']);
+        this.router.navigate(['home']);
         return;
       } else {
         this.toaster.makeError('Login Failed', res.Error);

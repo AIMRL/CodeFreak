@@ -6,6 +6,9 @@ import {ChatService} from './chat.service';
 import {MessageViewModel} from './Dtos/MessageViewModel';
 import { HttpHeaders } from '@angular/common/http';
 import { Hub } from './Dtos/HubModule';
+import { MessageCompleteViewModel } from './Dtos/Message-complete-view-model';
+import { MessageReturnViewModel } from './Dtos/Message-return-model';
+import { UsersViewModel } from '../Security/Dtos/users-view-model';
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
@@ -13,10 +16,15 @@ import { Hub } from './Dtos/HubModule';
 })
 export class ChatComponent implements OnInit {
 
+  messages: Array<MessageCompleteViewModel> = new Array<MessageCompleteViewModel>();
+  users: Array<UsersViewModel> = new Array<UsersViewModel>();
   private hub: Hub;
   private _hubConnection: HubConnection;
   private msg: MessageViewModel;
-
+  private curr_user: string;
+  private index: any;
+  private messageText: string;
+  private reciever_id: string ;
 
   constructor(private chatService: ChatService) {
   }
@@ -31,6 +39,11 @@ export class ChatComponent implements OnInit {
         console.log('in recieve');
         console.log(message);
       });*/
+      this.chatService.getAllUsers().subscribe(res => {
+        this.index = 0;
+        this.getChat(res[0], 0);
+        this.users = res;
+      });
 
     if (Hub._hubConnection == null) {
       this.hub = new Hub();
@@ -49,9 +62,23 @@ export class ChatComponent implements OnInit {
     }
   }
 
-  sendmessage(messageForm: NgForm) {
-   this.msg = new MessageViewModel();
-  this.msg = messageForm.value;
-  this.chatService.sendSomeMessage(this.msg);
+  sendmessage() {
+    this.msg = new MessageViewModel();
+    this.msg.MessageText = this.messageText;
+    this.msg.recieverId = this.reciever_id;
+    this.messageText = '';
+    this.chatService.sendSomeMessage(this.msg);
+    this.getChat(this.users[this.index], this.index);
+
+}
+getChat(user: UsersViewModel, index: any) {
+  this.index = index;
+  this.reciever_id = user.UserId;
+  this.chatService.getCurrentUserMessagesWith(user.UserId).subscribe(res => {
+    this.messages = res.Message_list;
+    this.curr_user = res.currentUserId;
+    console.log(this.messages.length);
+  });
+
 }
 }
