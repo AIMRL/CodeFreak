@@ -1,3 +1,98 @@
-<p>
-  event-users works!
-</p>
+<div class="container">
+  <form #f="ngForm" style="margin-top:50px;">
+    <div class="row  col-md-offset-1">
+      <div class="col-md-5" >
+        <mat-form-field style="display:inline-grid;width:100%">
+          <input type="text" placeholder="Select User to add" [(ngModel)]="selectedUser" required aria-label="Number" matInput [formControl]="myControl" [matAutocomplete]="auto">
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option *ngFor="let item of users" [value]="item.User.Name" (onSelectionChange)="selectState(item)">
+              <img *ngIf="item.File!=null" class="example-option-img" aria-hidden [src]="item.FilePath" height="40">
+              <img *ngIf="!item.File" class="example-option-img" aria-hidden [src]="logoUrl" height="40">
+
+              <span>{{item.User.Name}}</span>|<small>{{item.User.Email}}</small>
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+      <div class="col-md-5" style="display:inline-grid;">
+        <mat-form-field style="display:inline-grid">
+          <mat-select placeholder="Role" [(ngModel)]="selectedRoles" [formControl]="roleFromControl" name="selectedRoles" multiple>
+            <mat-option *ngFor="let r of eventRoles" [value]="r.RoleId">{{r.Name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>  
+    </div>
+    <div class="row" style="justify-content: center;text-align:center">
+      <button type="submit" (click)="modelClass('')" color="accent" mat-flat-button data-toggle="modal" data-target="#myModal">Add Problem</button>
+    </div>
+
+  </form>
+</div>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div [class]="dialogueClass" style="margin-top: 100px;" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Add Candidate for event</h4>
+      </div>
+      <div class="modal-body">
+
+        <h3 style="text-align: center">Are you sure to add User</h3>
+        <h3 style="text-align:center;color:green">{{selectedUser}}</h3>
+        <div style="text-align: center">
+          <button type="button" mat-flat-button color="accent" style="margin:5px;" (click)="modelClass('roolOut');addUser()" data-dismiss="modal">Yes</button>
+          <button type="button" mat-flat-button color="warn" (click)="modelClass('rollOut')" data-dismiss="modal">No</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="container" style="margin-top:50px;">
+
+  <h1 style="text-align:center">All Candidates</h1>
+  <div class="row">
+    <div class="row cf-prob-row" *ngFor="let us of eventUsers;let i=index">
+
+      <div class="col-md-8">
+        <div style="display:flex">
+          <img *ngIf="us.UserImage!=null" class="example-option-img" aria-hidden [src]="item.FilePath" height="100">
+          <img *ngIf="!us.UserImage" class="example-option-img" aria-hidden [src]="logoUrl" height="100">
+          <div>
+            <h2>{{us.User.Name}}</h2>
+            <h5 class="cf-prob-row-desc">{{us.User.Email}}</h5>
+          </div>
+        </div>
+        
+      </div>  
+      <div class="col-md-2 cf-prob-row-btn">
+        <button type="button" (click)="modelClass('bounceIn');assignRemoveUser(us.User)" data-toggle="modal" attr.data-target="#removeProlemModal{{i}}" mat-stroked-button color="warn"><b>Remove</b></button>
+      </div>
+
+      <div class="modal fade" id="removeProlemModal{{i}}" tabindex="-1" role="dialog" attr.aria-labelledby="removeProlemModal{{i}}">
+        <div [class]="dialogueClass" style="margin-top: 100px;" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="removeProlemModalLabel{{i}}">Remove Event User</h4>
+            </div>
+            <div class="modal-body">
+
+              <h3 style="text-align: center">Are you sure to delete User</h3>
+              <h3 style="text-align: center"><b>{{userToBeRomoved?.Name}}</b></h3>
+
+              <div style="text-align: center">
+                <button type="button" mat-flat-button color="accent" style="margin:5px;" (click)="modelClass('bounceOut');removeUser();" data-dismiss="modal">Yes</button>
+                <button type="button" mat-flat-button color="warn" (click)="modelClass('bounceOut')" data-dismiss="modal">No</button>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

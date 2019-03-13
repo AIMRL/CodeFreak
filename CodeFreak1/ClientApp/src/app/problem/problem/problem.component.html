@@ -2,57 +2,12 @@
   <div class="container">
     <mat-tab-group dynamicHeight>
       <mat-tab label="Problem">
-        <div class="row col-md-9" *ngIf="problemComplete.Success">
+        <div class="row col-md-9" *ngIf="isData">
           <div class="cf-prob-box">
             <h2>{{problemComplete.Problem.Title}}</h2>
             <div [innerHtml]="problemComplete.Problem.Description">
 
             </div>
-            <!--<div class="cf-prob-head">
-    <b>Function Description</b>
-  </div>
-  <div class="cf-prob-desc">
-    Write a function in which you have to write the logic of sum of two numbers
-    <br />
-    For example 2+2=4
-  </div>
-
-  <div class="cf-prob-head">
-    <b>input Fromat</b>
-  </div>
-  <div class="cf-prob-desc">
-    There is only one of input in which only 2 numbers will be written by space separator
-  </div>
-
-  <div class="cf-prob-head">
-    <b>input Constraint</b>
-  </div>
-  <div class="cf-prob-desc">
-    if number is n
-    <br />
-    <i> n '<'100000 </i>
-  </div>
-
-  <div class="cf-prob-head">
-    <b>Output Format</b>
-  </div>
-  <div class="cf-prob-desc">
-    Print the sum of two number
-  </div>
-
-  <div class="cf-prob-head">
-    <b>Sampple Input</b>
-  </div>
-  <div class="cf-prob-sample">
-    20 40
-  </div>
-
-  <div class="cf-prob-head">
-    <b>Sampple Output</b>
-  </div>
-  <div class="cf-prob-sample">
-    60
-  </div>-->
           </div>
           <div class="row cf-editor">
             <div ace-editor
@@ -80,7 +35,7 @@
           <div class="row cf-prob-btns">
             <button mat-raised-button (click)="compile()">Compile</button>
             <button mat-raised-button color="primary" (click)="submitCode()">Submit Code</button>
-            
+
           </div>
           <br /><br />
 
@@ -97,7 +52,7 @@
 
         <!--Problem Not found-->
 
-        <div *ngIf="!problemComplete.Success">
+        <div *ngIf="!isData">
           <h1 style="color:red">Problem Not Found</h1>
         </div>
 
@@ -105,9 +60,9 @@
       </mat-tab>
       <mat-tab label="Submissions">
         <h1>Your Submissions</h1>
-        <app-submission [problemId]="problemId">
+        <!--<app-submission [problemId]="problemId">
 
-        </app-submission>
+    </app-submission>-->
       </mat-tab>
     </mat-tab-group>
 

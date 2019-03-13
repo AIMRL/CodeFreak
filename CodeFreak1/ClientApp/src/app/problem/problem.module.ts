@@ -75,7 +75,7 @@ import { UrlDetailComponent } from './url-detail/url-detail.component';
     ])
   ],
   providers: [ProblemService, CompilerResultViewModel, CodeViewModel, ProblemViewModel, ProblemCompleteViewModel, SubmissionViewModel],
-  exports: [CreateProbemComponent],
+  exports: [CreateProbemComponent, ProblemComponent],
   declarations: [ProblemComponent, CreateProbemComponent, ProblemsListComponent, SubmissionComponent, TestComponent, ResultComponent, SubmissionDetailComponent, UrlDetailComponent]
 })
 export class ProblemModule { }

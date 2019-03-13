@@ -11,5 +11,5 @@ export class SubmissionViewModel extends RequestStatus {
   public SubmissionDateTime: string;
   public Code: string;
 
-  public submissionProblemTestCase: Array<SubmissionProblemTestCaseViewModel>;
+  //public submissionProblemTestCase: Array<SubmissionProblemTestCaseViewModel>;
 }

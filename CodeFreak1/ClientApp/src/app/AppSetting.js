@@ -12,12 +12,14 @@ var AppSettings = /** @class */ (function () {
     AppSettings.problemTypeURl = "/api/ProblemType/";
     AppSettings.programmingLanguageURl = "/api/ProgrammingLanguage/";
     AppSettings.eventURl = "/api/Event/";
+    AppSettings.submissionURl = "/api/Submission/";
+    AppSettings.roleURl = "/api/Role/";
+    AppSettings.ProfileURl = "/api/Profile/";
     //Images path
     AppSettings.SignInPath = '../../assets/images/loginback.jpg';
     AppSettings.logoPath = '../../assets/images/cflogo.png';
-    AppSettings.submissionURl = "/api/Submission/";
     AppSettings.Profile_DefaultUser = '../../assets/images/default-user.png';
-    AppSettings.ProfileURl = "/api/Profile/";
+    AppSettings.UserImagesBaseUrl = '../../assets/User/';
     return AppSettings;
 }());
 exports.AppSettings = AppSettings;

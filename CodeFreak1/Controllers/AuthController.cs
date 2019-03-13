@@ -189,7 +189,24 @@ namespace CodeFreak1.Controllers
             
         }
 
+        [HttpGet("getAllUserInfo")]
+        [Route("getAllUserInfo")]
+        public IActionResult getUsersInfo(int eventId)
+        {
+            List<UserInfoViewModel> list = new List<UserInfoViewModel>();
 
+            var users = userRepository.getAllPublicUserInfo(eventId);
+            foreach (var item in users)
+            {
+                UserInfoViewModel i = new UserInfoViewModel();
+                i.User = Mapper.Map<Users, UsersViewModel>(item);
+                i.File = Mapper.Map<Files, FileViewModel>(item.Files.FirstOrDefault());
+                list.Add(i);
+            }
+                
+
+             return Ok(list);
+        }
 
 
 

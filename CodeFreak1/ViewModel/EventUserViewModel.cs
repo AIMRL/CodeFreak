@@ -9,5 +9,7 @@ namespace CodeFreak1.ViewModel
     {
         public EventViewModel Event { get; set; }
         public UsersViewModel User { get; set; }
+        public List<RolesViewModel> Roles { get; set; }
+        public FileViewModel UserImage { get; set; }
     }
 }

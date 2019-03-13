@@ -10,13 +10,16 @@ export class AppSettings {
   public static problemTypeURl: string = `/api/ProblemType/`; 
   public static programmingLanguageURl: string = `/api/ProgrammingLanguage/`;
   public static eventURl: string = `/api/Event/`; 
+  public static submissionURl: string = `/api/Submission/`; 
+  public static roleURl: string = `/api/Role/`; 
+  public static ProfileURl: string = `/api/Profile/`;
+
   //Images path
   public static SignInPath = '../../assets/images/loginback.jpg';
   public static logoPath = '../../assets/images/cflogo.png';
-  public static submissionURl: string = `/api/Submission/`; 
-
   public static Profile_DefaultUser = '../../assets/images/default-user.png';
+  public static UserImagesBaseUrl = '../../assets/User/';
 
-  public static ProfileURl: string = `/api/Profile/`;
   
+
 }

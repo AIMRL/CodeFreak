@@ -18,6 +18,10 @@ import { EventSubmissionsComponent } from './event-submissions/event-submissions
 import { EventBoardComponent } from './event-board/event-board.component';
 import { EventProblemsViewModel } from './dtos/event-problems-view-model';
 import { ProblemModule } from '../problem/problem.module';
+import { UserEventHomeComponent } from './user-event-home/user-event-home.component';
+import { UserEventProblemsComponent } from './user-event-problems/user-event-problems.component';
+import { EventProblemEditorComponent } from './event-problem-editor/event-problem-editor.component';
+import { AceEditorModule } from 'ng2-ace-editor';
 
 
 @NgModule({
@@ -30,21 +34,25 @@ import { ProblemModule } from '../problem/problem.module';
     CodeFreakMaterialModuleModule,
     Md2Module,
     ProblemModule,
+    AceEditorModule,
     FroalaEditorModule.forRoot(), FroalaViewModule.forRoot(),
     RouterModule.forRoot([
       {
         path: '', component: SiteLayoutComponent, children: [
           { path: 'create-event', component: CreateEventComponent },
           { path: 'create-event', component: EventHomeComponent },
-          { path: 'event-home/:eventId', component: EventHomeComponent }
+          { path: 'event-home/:eventId', component: EventHomeComponent },
+          { path: 'event/:id', component: UserEventHomeComponent }
         ]
       },
       { path: 'event-problem', component: EventProblemsComponent },
-      { path: 'event-sub', component: EventSubmissionsComponent }
+      { path: 'event-sub', component: EventSubmissionsComponent },
+      { path: 'event-user', component: EventUsersComponent },
+      { path: 'user-event-prob', component: UserEventProblemsComponent }
 
     ])
 
   ],
-  declarations: [CreateEventComponent, EventHomeComponent, EventProblemsComponent, EventUsersComponent, EventSubmissionsComponent, EventBoardComponent]
+  declarations: [CreateEventComponent, EventHomeComponent, EventProblemsComponent, EventUsersComponent, EventSubmissionsComponent, EventBoardComponent, UserEventHomeComponent, UserEventProblemsComponent, EventProblemEditorComponent]
 })
 export class EventModule { }

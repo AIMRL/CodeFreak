@@ -22,6 +22,7 @@ namespace CodeFreak1.Models
         public virtual DbSet<EventProblems> EventProblems { get; set; }
         public virtual DbSet<EventUserRoles> EventUserRoles { get; set; }
         public virtual DbSet<EventUsers> EventUsers { get; set; }
+        public virtual DbSet<Files> Files { get; set; }
         public virtual DbSet<LoginHistory> LoginHistory { get; set; }
         public virtual DbSet<Permissions> Permissions { get; set; }
         public virtual DbSet<PermissionsMapping> PermissionsMapping { get; set; }
@@ -169,6 +170,23 @@ namespace CodeFreak1.Models
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_EventUsers_Users");
+            });
+
+            modelBuilder.Entity<Files>(entity =>
+            {
+                entity.HasKey(e => e.FileId);
+
+                entity.Property(e => e.FileId).ValueGeneratedNever();
+
+                entity.Property(e => e.Extention).HasMaxLength(50);
+
+                entity.Property(e => e.FilePath).IsRequired();
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.Files)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Files_Users");
             });
 
             modelBuilder.Entity<LoginHistory>(entity =>

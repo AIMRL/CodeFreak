@@ -120,6 +120,13 @@ namespace CodeFreak1
 
                 m.CreateMap<EventProblems, EventProblemsViewModel>();
                 m.CreateMap<EventProblemsViewModel, EventProblems>();
+
+                m.CreateMap<Files, FileViewModel>();
+                m.CreateMap<FileViewModel, Files>();
+
+                m.CreateMap<EventUsers, EventUserViewModel>();
+                m.CreateMap<EventUserViewModel, EventUsers>();
+
             });
             #endregion
         }

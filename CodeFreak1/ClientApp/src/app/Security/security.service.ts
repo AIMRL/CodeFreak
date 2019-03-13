@@ -13,14 +13,21 @@ import { ProfileEmailViewModel } from './Dtos/profile-email-view-model';
 import { ProfileViewModel } from './Dtos/profile-view-model';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
+import { UserInfoViewModel } from './Dtos/user-info-view-model';
+import { RolesViewModel } from './Dtos/roles-view-model';
 
 
 @Injectable()
 export class SecurityService {
   private baseUrl: string = AppSettings.baseUrl;
   private handlerUrl: string = AppSettings.authURl;
+  private roleUrl: string= AppSettings.roleURl;
+
   private getTokenUrl: string = `token/`;
   private signupUrl: string = `signup/`;
+  private getAllUserInfoUrl= `getAllUserInfo`;
+  private getEventRolesUrl = `getAllRoles`;
+
 
   ProfileURl: string = AppSettings.ProfileURl;
   postImageURl: string = `UploadImage`;
@@ -54,33 +61,13 @@ export class SecurityService {
     return res;
   }
   postImage(fileToUpload: File) {
-    
-
     let httpOptions = CodeFreakHeaders.GetSimpleHeader();
 
     const formData: FormData = new FormData();
     formData.append('Image', fileToUpload, fileToUpload.name);
-
-   // let url = `${this.baseUrl}${this.ProfileURl}${this.postImageURl}`;
-
-   // let url = `${this.baseUrl}${this.ProfileURl}${this.test}`;
       let url1 = 'https://localhost:44312/api/Profile/UploadImage';
-
-   // var test = { "name": "John" };
-
-  //  var res = this.http.get(url1, data, httpOptions);
-
-
     this.http.post(url1,formData,httpOptions)
       .subscribe(data => { console.log(data); })
-
-
-
-    //.pipe(
-    // tap((cre: RequestStatus) => this.log(`added employee w/ Success=${cre.Success}`)),
-    //  catchError(this.handleError<RequestStatus>('Error in login')));
-
-
   }
 
   sendCodeEmail(credentials: ProfileEmailViewModel): Observable<ProfileEmailViewModel> {
@@ -130,6 +117,38 @@ export class SecurityService {
 
    
     return this.http.post(url, JSON.stringify(cred), httpOptions).subscribe(data => { console.log(data); });
+
+  }
+
+  getUsersInfo(id):Observable<Array<UserInfoViewModel>>{    
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Authorization': 'Bearer ' + localStorage.getItem('token'), 'Content-Type': 'application/json' })
+    };
+    httpOptions.headers.append('Content-Type', 'application/json');
+    httpOptions.headers.append('Accept', 'application/json');
+    httpOptions.headers.append('Authorization', `bearer ${localStorage.getItem('token')}`);
+
+    let url = `${this.baseUrl}${this.handlerUrl}${this.getAllUserInfoUrl}?eventId=${id}`;
+    var res = this.http.get<Array<UserInfoViewModel>>(url, httpOptions).pipe(
+      tap((cre: Array<UserInfoViewModel>) => this.log(`added employee w/ Success`)),
+      catchError(this.handleError<Array<UserInfoViewModel>>('Error in login')));
+    return res;
+
+  }
+
+  getEventRoles(): Observable<Array<RolesViewModel>> {
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Authorization': 'Bearer ' + localStorage.getItem('token'), 'Content-Type': 'application/json' })
+    };
+    httpOptions.headers.append('Content-Type', 'application/json');
+    httpOptions.headers.append('Accept', 'application/json');
+    httpOptions.headers.append('Authorization', `bearer ${localStorage.getItem('token')}`);
+
+    let url = `${this.baseUrl}${this.roleUrl}${this.getEventRolesUrl}`;
+    var res = this.http.get<Array<RolesViewModel>>(url, httpOptions).pipe(
+      tap((cre: Array<RolesViewModel>) => this.log(`added employee w/ Success`)),
+      catchError(this.handleError<Array<RolesViewModel>>('Error in login')));
+    return res;
 
   }
 

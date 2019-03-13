@@ -1,20 +1,18 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { CodeViewModel } from '../dtos/code-view-model';
-import { CompilerResultViewModel } from '../dtos/compiler-result-view-model';
-import { ProblemService } from '../problem.service';
-import { ProblemCompleteViewModel } from '../dtos/problem-complete-view-model';
-import {ProblemUserCodeViewModel} from '../dtos/Problem-user-code-view-model';
 import { ActivatedRoute, Route } from '@angular/router';
-import {CompilerOutputViewModel} from '../dtos/compiler-output-view-model';
-import { Router,NavigationExtras } from '@angular/router';
+import { Router, NavigationExtras } from '@angular/router';
 import { isNullOrUndefined } from 'util';
+import { CompilerOutputViewModel } from '../../problem/dtos/compiler-output-view-model';
+import { ProblemCompleteViewModel } from '../../problem/dtos/problem-complete-view-model';
+import { ProblemUserCodeViewModel } from '../../problem/dtos/Problem-user-code-view-model';
+import { ProblemService } from '../../problem/problem.service';
 
 @Component({
-  selector: 'app-problem',
-  templateUrl: './problem.component.html',
-  styleUrls: ['./problem.component.css']
+  selector: 'event-problem-editor',
+  templateUrl: './event-problem-editor.component.html',
+  styleUrls: ['./event-problem-editor.component.css']
 })
-export class ProblemComponent implements OnInit {
+export class EventProblemEditorComponent implements OnInit {
   @Input() eventId: number;
   @Input() eventProblemId: string;
 
@@ -38,24 +36,20 @@ export class ProblemComponent implements OnInit {
   options: any = { maxLines: 1000, printMargin: false };
   backColor: string = "gray";
   color: string = "red";
-  constructor(private problemService: ProblemService, private route: ActivatedRoute,private myroute : Router) {
+  constructor(private problemService: ProblemService, private route: ActivatedRoute, private myroute: Router) {
 
   }
   ngOnInit() {
     this.compilerResult = new CompilerOutputViewModel();
-    this.problemUserCodeModel=new ProblemUserCodeViewModel();
+    this.problemUserCodeModel = new ProblemUserCodeViewModel();
     this.problemUserCodeModel.Code = this.text;
-    if (isNullOrUndefined(this.eventProblemId)) {
-      this.problemId = this.route.snapshot.paramMap.get('id');
-      this.problemUserCodeModel.isEvent = false;
-    } else {
+
       this.problemId = this.eventProblemId;
       this.problemUserCodeModel.eventId = this.eventId;
       this.problemUserCodeModel.isEvent = true;
-    }
 
 
-    this.problemUserCodeModel.problemId=this.problemId;
+    this.problemUserCodeModel.problemId = this.problemId;
 
     var id = "0E984725-C51C-4BF4-9960-E1C80E27ABA1";
     this.problemService.getProblembyId(this.problemId).subscribe(res => {
@@ -72,7 +66,7 @@ export class ProblemComponent implements OnInit {
   onRuleChange(code) {
     console.log("new code", code);
   }
-  
+
 
   compile() {
 
@@ -83,7 +77,7 @@ export class ProblemComponent implements OnInit {
       debugger;
       if (res.Success) {
         this.compilerResult = res;
-        
+
       } else {
         this.compilerResult.Error = "There is some probem in compiling";
       }
@@ -91,13 +85,13 @@ export class ProblemComponent implements OnInit {
       this.showResult = true;
       //this.data.storage=this.compilerResult;
 
-      this.problemService.storage=this.compilerResult;
-      
+      this.problemService.storage = this.compilerResult;
+
       let navigationExtras: NavigationExtras = {
         queryParams: {
-          "model":JSON.stringify(this.compilerResult)
+          "model": JSON.stringify(this.compilerResult)
         }
-    };
+      };
       this.myroute.navigate(['/result']);
     });
 

@@ -75,7 +75,24 @@ namespace CodeFreak1.Repositories
         {
             return db.Users.Include(o=>o.UserRoles).FirstOrDefault(u => u.Email.ToLower() == email.ToLower() && u.Password == password);
         }
-
+        public List<Users> getAllPublicUserInfo(int eventId)
+        {
+            //return db.Users.Include(u => u.Files).Include(u => u.EventUsers).ToList();
+            //            return (from a in db.Users join eu in db.EventUsers on a.UserId equals eu.UserId where a.UserId!=eu.UserId select new Users { Name = a.Name, UserId = a.UserId }).Include(u=>u.Files).ToList();
+            var users = (from a in db.Users select new Users { Name = a.Name, UserId = a.UserId,Email=a.Email }).Include(u => u.Files).ToList();
+            var eventusers = db.EventUsers.Where(eu => eu.EventId == eventId).ToList();
+            foreach (var item in eventusers)
+            {
+                var index = users.Find(u => u.UserId == item.UserId);
+                users.Remove(index);
+            }
+            return users;
+        }
+        public Users getPublicUserInfoById(Guid userId)
+        {
+            var user = (from a in db.Users select new Users { Name = a.Name, UserId = a.UserId, Email = a.Email }).Include(u => u.Files).FirstOrDefault(u => u.UserId == userId);
+            return user;
+        }
         public Users getUserById(Guid id)
         {
             //Guid g = Guid.Empty;

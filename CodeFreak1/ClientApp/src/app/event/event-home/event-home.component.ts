@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { EventViewModel } from '../dtos/event-view-model';
 import { ActivatedRoute } from '@angular/router';
 import { EventService } from '../event.service';
@@ -17,7 +17,7 @@ export class EventHomeComponent implements OnInit {
   eventUser: EventUserViewModel;
 //  event: EventViewModel;
   isEventFound = false;
-  eventId: number;
+  @Input() eventId: number;
   msg: string;
   startCountDown: number;
   endCountDown: number;
@@ -31,7 +31,7 @@ export class EventHomeComponent implements OnInit {
   ngOnInit() {
     debugger;
     this.eventUser = new EventUserViewModel();
-    this.eventId = Number.parseInt(this.route.snapshot.paramMap.get('eventId'));
+    //this.eventId = Number.parseInt(this.route.snapshot.paramMap.get('eventId'));
     if (this.eventId == null) {
       this.msg = "Event Id problem";
       return;
