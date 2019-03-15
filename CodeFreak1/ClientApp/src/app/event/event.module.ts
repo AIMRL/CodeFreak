@@ -9,7 +9,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { CreateEventComponent } from './create-event/create-event.component';
 import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
-import { Md2Module } from 'md2';
+import { Md2Module, Md2TabsModule } from 'md2';
 import { SiteLayoutComponent } from '../layouts/site-layout/site-layout.component';
 import { EventHomeComponent } from './event-home/event-home.component';
 import { EventProblemsComponent } from './event-problems/event-problems.component';
@@ -22,6 +22,7 @@ import { UserEventHomeComponent } from './user-event-home/user-event-home.compon
 import { UserEventProblemsComponent } from './user-event-problems/user-event-problems.component';
 import { EventProblemEditorComponent } from './event-problem-editor/event-problem-editor.component';
 import { AceEditorModule } from 'ng2-ace-editor';
+import { AdminEventHomeComponent } from './admin-event-home/admin-event-home.component';
 
 
 @NgModule({
@@ -33,6 +34,7 @@ import { AceEditorModule } from 'ng2-ace-editor';
     BrowserAnimationsModule,
     CodeFreakMaterialModuleModule,
     Md2Module,
+    Md2TabsModule,
     ProblemModule,
     AceEditorModule,
     FroalaEditorModule.forRoot(), FroalaViewModule.forRoot(),
@@ -42,7 +44,8 @@ import { AceEditorModule } from 'ng2-ace-editor';
           { path: 'create-event', component: CreateEventComponent },
           { path: 'create-event', component: EventHomeComponent },
           { path: 'event-home/:eventId', component: EventHomeComponent },
-          { path: 'event/:id', component: UserEventHomeComponent }
+          { path: 'event/:id', component: UserEventHomeComponent },
+          { path: 'event-ad/:id', component: AdminEventHomeComponent }
         ]
       },
       { path: 'event-problem', component: EventProblemsComponent },
@@ -53,6 +56,6 @@ import { AceEditorModule } from 'ng2-ace-editor';
     ])
 
   ],
-  declarations: [CreateEventComponent, EventHomeComponent, EventProblemsComponent, EventUsersComponent, EventSubmissionsComponent, EventBoardComponent, UserEventHomeComponent, UserEventProblemsComponent, EventProblemEditorComponent]
+  declarations: [CreateEventComponent, EventHomeComponent, EventProblemsComponent, EventUsersComponent, EventSubmissionsComponent, EventBoardComponent, UserEventHomeComponent, UserEventProblemsComponent, EventProblemEditorComponent, AdminEventHomeComponent]
 })
 export class EventModule { }

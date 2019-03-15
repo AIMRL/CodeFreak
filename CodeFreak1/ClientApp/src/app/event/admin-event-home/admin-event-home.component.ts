@@ -3,11 +3,12 @@ import { ActivatedRoute } from '@angular/router';
 import { isNullOrUndefined } from 'util';
 
 @Component({
-  selector: 'app-user-event-home',
-  templateUrl: './user-event-home.component.html',
-  styleUrls: ['./user-event-home.component.css']
+  selector: 'app-admin-event-home',
+  templateUrl: './admin-event-home.component.html',
+  styleUrls: ['./admin-event-home.component.css']
 })
-export class UserEventHomeComponent implements OnInit {
+export class AdminEventHomeComponent implements OnInit {
+
   eventId: number;
   isId= false;
 

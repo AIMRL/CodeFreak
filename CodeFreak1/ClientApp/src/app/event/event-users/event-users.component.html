@@ -23,12 +23,12 @@
       </div>  
     </div>
     <div class="row" style="justify-content: center;text-align:center">
-      <button type="submit" (click)="modelClass('')" color="accent" mat-flat-button data-toggle="modal" data-target="#myModal">Add Problem</button>
+      <button type="submit" (click)="modelClass('')" color="accent" mat-flat-button data-toggle="modal" data-target="#addUser">Add Problem</button>
     </div>
 
   </form>
 </div>
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="addUser" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div [class]="dialogueClass" style="margin-top: 100px;" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -69,15 +69,15 @@
         
       </div>  
       <div class="col-md-2 cf-prob-row-btn">
-        <button type="button" (click)="modelClass('bounceIn');assignRemoveUser(us.User)" data-toggle="modal" attr.data-target="#removeProlemModal{{i}}" mat-stroked-button color="warn"><b>Remove</b></button>
+        <button type="button" (click)="modelClass('bounceIn');assignRemoveUser(us.User)" data-toggle="modal" attr.data-target="#removeUserModal{{i}}" mat-stroked-button color="warn"><b>Remove</b></button>
       </div>
 
-      <div class="modal fade" id="removeProlemModal{{i}}" tabindex="-1" role="dialog" attr.aria-labelledby="removeProlemModal{{i}}">
+      <div class="modal fade" id="removeUserModal{{i}}" tabindex="-1" role="dialog" attr.aria-labelledby="removeUserModal{{i}}">
         <div [class]="dialogueClass" style="margin-top: 100px;" role="document">
           <div class="modal-content">
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <h4 class="modal-title" id="removeProlemModalLabel{{i}}">Remove Event User</h4>
+              <h4 class="modal-title" id="removeUserModalLabel{{i}}">Remove Event User</h4>
             </div>
             <div class="modal-body">
 

@@ -4,7 +4,7 @@ import { EventService } from '../event.service';
 import { CompleteSubmissionViewModel } from '../../problem/dtos/complete-submission-view-model';
 
 @Component({
-  selector: 'app-event-submissions',
+  selector: 'event-submissions',
   templateUrl: './event-submissions.component.html',
   styleUrls: ['./event-submissions.component.css']
 })

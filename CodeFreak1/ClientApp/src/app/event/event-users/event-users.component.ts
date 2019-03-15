@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { UserInfoViewModel } from '../../Security/Dtos/user-info-view-model';
 import { SecurityService } from '../../Security/security.service';
 import { AppSettings } from '../../AppSetting';
@@ -12,13 +12,13 @@ import { EventViewModel } from '../dtos/event-view-model';
 import { isNullOrUndefined } from 'util';
 
 @Component({
-  selector: 'app-event-users',
+  selector: 'event-users',
   templateUrl: './event-users.component.html',
   styleUrls: ['./event-users.component.css']
 })
 export class EventUsersComponent implements OnInit {
 
-  eventId = 1;
+  @Input() eventId: number;
 
   logoUrl: string = AppSettings.logoPath;
   userImageBaseUrl: string = AppSettings.UserImagesBaseUrl;

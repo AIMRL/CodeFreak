@@ -11,12 +11,12 @@ import { ToastService } from '../../toast/toast.service';
 import { EventProblemsViewModel } from '../dtos/event-problems-view-model';
 
 @Component({
-  selector: 'app-event-problems',
+  selector: 'event-problems',
   templateUrl: './event-problems.component.html',
   styleUrls: ['./event-problems.component.css']
 })
 export class EventProblemsComponent implements OnInit {
-  eventId=1;
+  @Input() eventId :number;
   isNew=false;
   dialogueClass="modal-dialog";
 
@@ -41,7 +41,7 @@ export class EventProblemsComponent implements OnInit {
 
     this.problems = new Array<ProblemCompleteViewModel>();
     this.allProblems = new Array<ProblemCompleteViewModel>();
-    this.eventId=1;
+    //this.eventId=1;
     this.problemService.getAllProblems().subscribe(res => {
       this.allProblems = res;
     });
@@ -131,7 +131,8 @@ export class EventProblemsComponent implements OnInit {
     this.toastService.makeWarning(caption, message);
   }
 
-  modelClass(cl){
+  modelClass(cl) {
+    $('.modal-backdrop').remove();
     this.dialogueClass="modal-dialog "+cl+" animated";
   }
 
