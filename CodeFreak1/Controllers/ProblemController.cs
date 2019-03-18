@@ -13,6 +13,7 @@ namespace CodeFreak1.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [AllowAnonymous]
     public class ProblemController : ControllerBase
     {
         ProblemRepository rep = new ProblemRepository();

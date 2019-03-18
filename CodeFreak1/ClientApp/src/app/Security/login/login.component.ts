@@ -49,6 +49,10 @@ export class LoginComponent implements OnInit {
         this.userRoles = res;
         localStorage.setItem("token", this.userRoles.Token);
         this.toaster.makeSuccess('Login Successfully', 'Welcome ' + this.userRoles.User.Name);
+
+        this.hub = new Hub();
+       this.hub.buildConnection();
+       //  this.router.navigate(['chat']);
         this.router.navigate(['home']);
         return;
       }
