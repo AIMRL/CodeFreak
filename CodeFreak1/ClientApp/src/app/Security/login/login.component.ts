@@ -8,16 +8,13 @@ import { SignInViewModel } from '../Dtos/sign-in-view-model';
 import { UserRolesViewModel } from '../Dtos/user-roles-view-model';
 import { AppSettings } from '../../AppSetting';
 import { ToastService } from '../../toast/toast.service';
-import { HubConnection , HubConnectionBuilder, LogLevel, HttpTransportType} from '@aspnet/signalr';
-import { Hub} from '../../chat/Dtos/HubModule';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  private _hubConnection: HubConnection;
-  private hub: Hub;
   imagePath = AppSettings.SignInPath;
   logoPath = AppSettings.logoPath;
   emailFormControl = new FormControl('', [
@@ -58,7 +55,8 @@ export class LoginComponent implements OnInit {
        //  this.router.navigate(['chat']);
         this.router.navigate(['home']);
         return;
-      } else {
+      }
+      else {
         this.toaster.makeError('Login Failed', res.Error);
       }
     });

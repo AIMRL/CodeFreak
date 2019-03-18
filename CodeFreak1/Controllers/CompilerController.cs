@@ -10,6 +10,8 @@ using CodeFreak1.HttpClients.CompilerNetworkApi;
 using CodeFreak1.Repositories;
 using AutoMapper;
 using CodeFreak1.Models;
+using System.IO;
+using System.Diagnostics;
 
 namespace CodeFreak1.Controllers
 {
@@ -17,24 +19,51 @@ namespace CodeFreak1.Controllers
     [ApiController]
     public class CompilerController : ControllerBase
     {
-
         SubmissionRepository subRepos = new SubmissionRepository();
         ProblemTestCaseRepository testRepos = new ProblemTestCaseRepository();
         SubmissionProblemTestCaseRepository subProbTestRepo = new SubmissionProblemTestCaseRepository();
         ProblemRepository probReops = new ProblemRepository();
         UserRepository userRepository = new UserRepository();
 
+        [HttpGet]
+        [Route("byUrlFile")]
+        [AllowAnonymous]
 
+        public IActionResult getCode(String urlFile)
+        {
+            Users user = this.getApplicationUser();
 
+            string folderName = Path.Combine("CompilerNetwork", "User");
+            string path = Directory.GetCurrentDirectory();
+            string path1 = new String(path.Reverse().ToArray());
+            path1 = path1.Substring(path1.IndexOf('\\') + 1, path1.Length - (path1.IndexOf('\\') + 1));
+            path1 = new String(path1.Reverse().ToArray());
+            string newPath = Path.Combine(path1, folderName);
+
+            string userOutputPath = Path.Combine(newPath + @"\" + user.UserId.ToString() + @"\" + urlFile);
+            string content = "";
+
+            try
+            {
+                StreamReader UserOutSR = new StreamReader(userOutputPath);
+                content = UserOutSR.ReadToEnd();
+                UserOutSR.Close();
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("Exception: " + e.Message);
+            }
+
+            return Ok(content);
+        }
 
         [Route("compile")]
         [HttpPost("compile")]
+        [AllowAnonymous]
         public IActionResult compileCode(ProblemUserCodeViewModel code)
         {
             
             CompilerInputViewModel input = new CompilerInputViewModel();
-
-       
 
             Users user = getApplicationUser();
 
@@ -96,7 +125,7 @@ namespace CodeFreak1.Controllers
 
                 }
                 Problem prob = probReops.getProblemById(Guid.Parse(code.problemId));
-                int maxScore = (int)prob.MaxScore;
+                int maxScore = prob.MaxScore;
                 if (flag == false)
                 {
                     submission.Status = "passed";
@@ -123,7 +152,6 @@ namespace CodeFreak1.Controllers
         }
         public Users getApplicationUser()
         {
-
             var identity = User.Identities.FirstOrDefault(s => s.Name.ToLower() == "user");
             var claims = identity.Claims;
             string id = null;

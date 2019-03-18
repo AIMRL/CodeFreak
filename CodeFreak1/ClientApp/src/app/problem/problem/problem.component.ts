@@ -38,34 +38,20 @@ export class ProblemComponent implements OnInit {
 
   }
   ngOnInit() {
-    debugger;
     this.compilerResult = new CompilerOutputViewModel();
-    this.problemUserCodeModel = new ProblemUserCodeViewModel();
-    this.problemComplete = new ProblemCompleteViewModel();
+    
+    this.problemUserCodeModel=new ProblemUserCodeViewModel();
     this.problemUserCodeModel.Code=this.text;
     this.problemId = this.route.snapshot.paramMap.get('id');
 
-    this.problemUserCodeModel.problemId = this.problemId;
-   // this.getProblem(this.problemId);
+    this.problemUserCodeModel.problemId=this.problemId;
 
-
+    var id = "0E984725-C51C-4BF4-9960-E1C80E27ABA1";
     this.problemService.getProblembyId(this.problemId).subscribe(res => {
-      debugger;
-      if (res != null) {
-        this.problemComplete = res;
-      }
-
+      
+      this.problemComplete = res;
     });
   }
-
-  async getProblem(id) {
-    var res = await this.problemService.getProblembyId(id).toPromise();
-    if (res != null) {
-      this.problemComplete = res;
-    }
-  }
-
-
   onChange(code) {
     console.log("new code", code);
   }

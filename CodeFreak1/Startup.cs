@@ -38,7 +38,7 @@ namespace CodeFreak1
                     .Build();
                 o.Filters.Add(new AuthorizeFilter(policy));
             }).AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver()).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-
+            
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
@@ -129,10 +129,7 @@ namespace CodeFreak1
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
-            app.UseSignalR(routes =>
-            {
-                routes.MapHub<MesaageHub>("/chatHub");
-            });
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

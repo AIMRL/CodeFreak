@@ -13,7 +13,7 @@ export class AdminRoleGuard implements CanActivate {
     if (localStorage.getItem("token")!=null) {
       return true;
     }
-    this.router.navigate(['login']);
+    this.router.navigate(['fetch-data']);
     return false;
   }
 }

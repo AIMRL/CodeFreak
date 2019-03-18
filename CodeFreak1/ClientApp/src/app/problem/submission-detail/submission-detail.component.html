@@ -1,0 +1,42 @@
+<table *ngIf="data">
+  <tbody>
+    <tr>
+      <th>UserId:</th>
+      <td>{{data.UserId}}</td>
+    </tr>
+    <tr>
+      <th>ProblemId:</th>
+      <td>{{data.ProblemId}}</td>
+    </tr>
+    <tr>
+      <th>Score:</th>
+      <td>{{data.Score}}</td>
+    </tr>
+    <tr>
+      <th>Status:</th>
+      <td>{{data.Status}}</td>
+    </tr>
+    <tr>
+      <th>SubmissionDateTime:</th>
+      <td>{{data.SubmissionDateTime}}</td>
+    </tr>
+    <tr>
+      <th>Code:</th>
+      <td>{{data.Code}}</td>
+    </tr>
+    <tr>
+      <th>URLs:</th>
+      <td>
+        <div>
+          <a *ngFor="let sub of data.submissionProblemTestCase" routerLink="/urlDetail/{{sub.UserOutputFilePath}}">
+            <div>
+              <h4>{{sub.UserOutputFilePath}}</h4>
+            </div>
+          </a>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+

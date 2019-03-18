@@ -14,6 +14,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CodeFreakMaterialModuleModule } from '../Angular Material/code-freak-material-module/code-freak-material-module.module';
 import { RouterModule } from '@angular/router';
+import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
   imports: [
@@ -25,11 +26,12 @@ import { RouterModule } from '@angular/router';
     CodeFreakMaterialModuleModule,
     RouterModule.forRoot([
       { path: 'signup', component: SignupComponent },
+      { path: 'profile', component: ProfileComponent }
 
     ])
 
   ],
-  declarations: [SignupComponent],
+  declarations: [SignupComponent, ProfileComponent],
   providers: [SignInViewModel, SecurityService, PermissionsViewModel, RequestStatus, RolesPermissionsViewModel, RolesViewModel, UserRolesViewModel, UsersViewModel]
 })
 export class SecurityModule { }
