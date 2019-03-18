@@ -4,7 +4,7 @@
       <div class="col-md-8  event-box" *ngIf="isEventFound">
         <div class="row">
           <div class="col-md-8 col-md-offset-2 event-sub-box" >
-            <div class="h-eve-name"><b>{{eventUser.Event.Name}}</b></div>
+            <div class="h-eve-name">{{eventUser.Event.Name}}</div>
             <div class="eve-d" *ngIf="isSCD" style="color:black;margin-bottom:0"><b>Event Start in:</b></div>
             <div class="eve-d" *ngIf="isECD" style="color:black;margin-bottom:0;"><b>Event Closed in:</b></div>
             <div class="eve-d" *ngIf="!isSCD && !isECD" style="color:black;margin-bottom:0"><b>Event is Over</b></div>

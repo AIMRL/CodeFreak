@@ -23,6 +23,9 @@ import { UserEventProblemsComponent } from './user-event-problems/user-event-pro
 import { EventProblemEditorComponent } from './event-problem-editor/event-problem-editor.component';
 import { AceEditorModule } from 'ng2-ace-editor';
 import { AdminEventHomeComponent } from './admin-event-home/admin-event-home.component';
+import { EventManegeComponent } from './event-manege/event-manege.component';
+import { EventManager } from '@angular/platform-browser';
+import { EventRouteGuard } from '../Gaurds/event-route.guard';
 
 
 @NgModule({
@@ -45,7 +48,8 @@ import { AdminEventHomeComponent } from './admin-event-home/admin-event-home.com
           { path: 'create-event', component: EventHomeComponent },
           { path: 'event-home/:eventId', component: EventHomeComponent },
           { path: 'event/:id', component: UserEventHomeComponent },
-          { path: 'event-ad/:id', component: AdminEventHomeComponent }
+          { path: 'event-ad/:id', component: AdminEventHomeComponent },
+          { path: 'event-m/:id', component: EventManager, canActivate:[ EventRouteGuard ]}
         ]
       },
       { path: 'event-problem', component: EventProblemsComponent },
@@ -56,6 +60,6 @@ import { AdminEventHomeComponent } from './admin-event-home/admin-event-home.com
     ])
 
   ],
-  declarations: [CreateEventComponent, EventHomeComponent, EventProblemsComponent, EventUsersComponent, EventSubmissionsComponent, EventBoardComponent, UserEventHomeComponent, UserEventProblemsComponent, EventProblemEditorComponent, AdminEventHomeComponent]
+  declarations: [CreateEventComponent, EventHomeComponent, EventProblemsComponent, EventUsersComponent, EventSubmissionsComponent, EventBoardComponent, UserEventHomeComponent, UserEventProblemsComponent, EventProblemEditorComponent, AdminEventHomeComponent, EventManegeComponent]
 })
 export class EventModule { }

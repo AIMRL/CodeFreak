@@ -28,6 +28,13 @@ namespace CodeFreak1.ViewModel
             StatusCode = 200;
             Message = "Successfully";
         }
+        public void makeUnAuthorized()
+        {
+            Success = true;
+            Error = "UnAuthorized";
+            StatusCode = 401;
+            Message = "UnAuthorized";
+        }
         public void ItemNotFound()
         {
             Success = false;

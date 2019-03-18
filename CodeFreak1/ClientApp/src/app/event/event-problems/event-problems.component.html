@@ -1,53 +1,55 @@
 <body>
   <div class="container">
     <div class="cf-all-prob-main">
+      <div *ngIf="!isEventClosed">
 
-      <div class="col-md-12" style="text-align:center;">
-        <button mat-flat-button color="primary" [disabled]="isNew" (click)="showNewProblme()" style="margin: 5px;">New Problem</button>
-        <button mat-flat-button [disabled]="!isNew" color="primary" (click)="showExistProblme()" style="margin: 5px;">Existing Problem</button>
-      </div>
-      <div class="col-md-12" *ngIf="!isNew">
-        <div class="col-md-6 col-md-offset-3">
-          <form #f="ngForm" class="example-form">
-            <mat-form-field class="example-full-width">
-              <input type="text" placeholder="Select Problem" [(ngModel)]="problemIdToAdd" required aria-label="Number" matInput [formControl]="myControl" [matAutocomplete]="auto">
-              <mat-autocomplete #auto="matAutocomplete">
-                <mat-option *ngFor="let item of allProblems" [value]="item.Problem.Title">
-                  {{item.Problem.Title}}
-                </mat-option>
-              </mat-autocomplete>
-            </mat-form-field>
-            <div style="text-align: center">
-              <button type="submit" (click)="modelClass('')" color="accent" mat-flat-button data-toggle="modal" data-target="#addProblem">Add Problem</button>
-            </div>
 
-          </form>
+        <div class="col-md-12" style="text-align:center;">
+          <button mat-flat-button color="primary" [disabled]="isNew" (click)="showNewProblme()" style="margin: 5px;">New Problem</button>
+          <button mat-flat-button [disabled]="!isNew" color="primary" (click)="showExistProblme()" style="margin: 5px;">Existing Problem</button>
         </div>
-        <div class="modal fade" id="addProblem" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-          <div [class]="dialogueClass" style="margin-top: 100px;" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+        <div class="col-md-12" *ngIf="!isNew">
+          <div class="col-md-6 col-md-offset-3">
+            <form #f="ngForm" class="example-form">
+              <mat-form-field class="example-full-width">
+                <input type="text" placeholder="Select Problem" [(ngModel)]="problemIdToAdd" required aria-label="Number" matInput [formControl]="myControl" [matAutocomplete]="auto">
+                <mat-autocomplete #auto="matAutocomplete">
+                  <mat-option *ngFor="let item of allProblems" [value]="item.Problem.Title">
+                    {{item.Problem.Title}}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+              <div style="text-align: center">
+                <button type="submit" (click)="modelClass('')" color="accent" mat-flat-button data-toggle="modal" data-target="#addProblem">Add Problem</button>
               </div>
-              <div class="modal-body">
 
-                <h3 style="text-align: center">Are you sure to add Problem</h3>
-
-                <div style="text-align: center">
-                  <button type="button" mat-flat-button color="accent" style="margin:5px;" (click)="modelClass('roolOut');addExistingProlem()" data-dismiss="modal">Yes</button>
-                  <button type="button" mat-flat-button color="warn" (click)="modelClass('rollOut')" data-dismiss="modal">No</button>
+            </form>
+          </div>
+          <div class="modal fade" id="addProblem" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div [class]="dialogueClass" style="margin-top: 100px;" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title" id="myModalLabel">Modal title</h4>
                 </div>
+                <div class="modal-body">
 
+                  <h3 style="text-align: center">Are you sure to add Problem</h3>
+
+                  <div style="text-align: center">
+                    <button type="button" mat-flat-button color="accent" style="margin:5px;" (click)="modelClass('roolOut');addExistingProlem()" data-dismiss="modal">Yes</button>
+                    <button type="button" mat-flat-button color="warn" (click)="modelClass('rollOut')" data-dismiss="modal">No</button>
+                  </div>
+
+                </div>
               </div>
             </div>
           </div>
         </div>
+        <div class="col-md-12" *ngIf="isNew">
+          <app-create-probem [eventId]="eventId" (outProblem)="addedProblem($event)"></app-create-probem>
+        </div>
       </div>
-      <div class="col-md-12" *ngIf="isNew">
-        <app-create-probem [eventId]="eventId" (outProblem)="addedProblem($event)"></app-create-probem>
-      </div>
-
       <h1 style="text-align: center;"><b>Event Problems</b></h1>
       <div class="col-md-12">
         <div class="col-md-12 cf-prob-row" *ngFor="let prob of problems;let i=index">

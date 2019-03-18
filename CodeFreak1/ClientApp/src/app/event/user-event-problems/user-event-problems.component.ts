@@ -11,6 +11,8 @@ import { ToastService } from '../../toast/toast.service';
 export class UserEventProblemsComponent implements OnInit {
   @Input() eventId:number;
   problems: Array<ProblemCompleteViewModel>;
+
+
   constructor(private eventService: EventService, private toastService: ToastService) { }
 
   ngOnInit() {

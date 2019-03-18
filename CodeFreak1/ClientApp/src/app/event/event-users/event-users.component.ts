@@ -34,6 +34,8 @@ export class EventUsersComponent implements OnInit {
   origEventUsers: Array<EventUserViewModel>;
   eventRoles: Array<RolesViewModel>;
   userIdToAdd: string;
+  event: EventUserViewModel;
+  isEventClosed = true;
   constructor(private securityService: SecurityService, private eventService: EventService, private toastService: ToastService) { }
 
   ngOnInit() {
@@ -43,6 +45,13 @@ export class EventUsersComponent implements OnInit {
     this.eventUsers = new Array<EventUserViewModel>();
     this.origEventUsers = new Array<EventUserViewModel>();
     this.users = new Array<UserInfoViewModel>();
+    var req = this.eventService.getEventById(this.eventId).toPromise();
+    req.then(res => {
+      if (!isNullOrUndefined(res)) {
+        this.event = res;
+        if ((new Date(res.Event.EndDateTime.valueOf()).valueOf()) > Date.now()) { this.isEventClosed = false; }
+      }
+    });
     this.securityService.getUsersInfo(this.eventId).toPromise().then(res => {
       debugger;
       if(res==null || res==undefined)

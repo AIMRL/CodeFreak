@@ -122,11 +122,7 @@ namespace CodeFreak1.Controllers
             return user;
         }
 
-
-
-
-
-
+        
         [HttpPost]
         [Route("signup")]
         [AllowAnonymous]
@@ -209,14 +205,22 @@ namespace CodeFreak1.Controllers
         }
 
 
-
-
-
-
-
-
-
-
-
+        [HttpGet("myInfo")]
+        [Route("myInfo")]
+        public IActionResult myInfo()
+        {
+            RequestStatus request = new RequestStatus();
+            Users user = getApplicationUser();
+            if (user == null)
+            {
+                request.makeUnAuthorized();
+                return Ok(request);
+            }
+            Users user1 = userRepository.getUserById(user.UserId);
+            UserRolesViewModel userRoles= CodeFreakMapper.UsersToUserRolesViewModel(user1);
+            userRoles.makeSuccess();
+            return Ok(userRoles);
+        }
+        
     }
 }

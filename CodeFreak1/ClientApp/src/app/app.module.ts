@@ -81,6 +81,7 @@ import { NoConflictStyleCompatibilityMode, Md2Module } from 'md2';
           { path: 'counter', component: CounterComponent, canActivate: [AdminRoleGuard] },
         ]
       },
+
       { path: 'login', component: LoginComponent },
       {
         path: '', component: SiteLayoutComponent,

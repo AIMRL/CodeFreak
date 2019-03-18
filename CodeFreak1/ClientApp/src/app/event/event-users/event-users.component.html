@@ -1,7 +1,7 @@
-<div class="container">
+<div class="container" *ngIf="!isEventClosed">
   <form #f="ngForm" style="margin-top:50px;">
     <div class="row  col-md-offset-1">
-      <div class="col-md-5" >
+      <div class="col-md-5">
         <mat-form-field style="display:inline-grid;width:100%">
           <input type="text" placeholder="Select User to add" [(ngModel)]="selectedUser" required aria-label="Number" matInput [formControl]="myControl" [matAutocomplete]="auto">
           <mat-autocomplete #auto="matAutocomplete">
@@ -20,33 +20,34 @@
             <mat-option *ngFor="let r of eventRoles" [value]="r.RoleId">{{r.Name}}</mat-option>
           </mat-select>
         </mat-form-field>
-      </div>  
+      </div>
     </div>
     <div class="row" style="justify-content: center;text-align:center">
       <button type="submit" (click)="modelClass('')" color="accent" mat-flat-button data-toggle="modal" data-target="#addUser">Add Problem</button>
     </div>
 
   </form>
-</div>
-<div class="modal fade" id="addUser" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div [class]="dialogueClass" style="margin-top: 100px;" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Add Candidate for event</h4>
-      </div>
-      <div class="modal-body">
-
-        <h3 style="text-align: center">Are you sure to add User</h3>
-        <h3 style="text-align:center;color:green">{{selectedUser}}</h3>
-        <div style="text-align: center">
-          <button type="button" mat-flat-button color="accent" style="margin:5px;" (click)="modelClass('roolOut');addUser()" data-dismiss="modal">Yes</button>
-          <button type="button" mat-flat-button color="warn" (click)="modelClass('rollOut')" data-dismiss="modal">No</button>
+  <div class="modal fade" id="addUser" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div [class]="dialogueClass" style="margin-top: 100px;" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel">Add Candidate for event</h4>
         </div>
+        <div class="modal-body">
 
+          <h3 style="text-align: center">Are you sure to add User</h3>
+          <h3 style="text-align:center;color:green">{{selectedUser}}</h3>
+          <div style="text-align: center">
+            <button type="button" mat-flat-button color="accent" style="margin:5px;" (click)="modelClass('roolOut');addUser()" data-dismiss="modal">Yes</button>
+            <button type="button" mat-flat-button color="warn" (click)="modelClass('rollOut')" data-dismiss="modal">No</button>
+          </div>
+
+        </div>
       </div>
     </div>
   </div>
+
 </div>
 
 
@@ -54,7 +55,7 @@
 <div class="container" style="margin-top:50px;">
 
   <h1 style="text-align:center">All Candidates</h1>
-  <div class="row">
+  <div class="row" style="width:95%"  >
     <div class="row cf-prob-row" *ngFor="let us of eventUsers;let i=index">
 
       <div class="col-md-8">
@@ -64,6 +65,11 @@
           <div>
             <h2>{{us.User.Name}}</h2>
             <h5 class="cf-prob-row-desc">{{us.User.Email}}</h5>
+          </div>
+          <div *ngIf="us.Roles!=null" style="margin-top:20px;">
+            <ul >
+              <li *ngFor="let r of us.Roles" class="cf-prob-row-desc">{{  r.Name}}</li>
+            </ul>
           </div>
         </div>
         

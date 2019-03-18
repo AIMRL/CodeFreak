@@ -9,6 +9,8 @@ import { startWith, map } from 'rxjs/operators';
 import { ProblemViewModel } from '../../problem/dtos/problem-view-model';
 import { ToastService } from '../../toast/toast.service';
 import { EventProblemsViewModel } from '../dtos/event-problems-view-model';
+import { EventUserViewModel } from '../dtos/event-user-view-model';
+import { isNullOrUndefined } from 'util';
 
 @Component({
   selector: 'event-problems',
@@ -28,7 +30,8 @@ export class EventProblemsComponent implements OnInit {
   allProblems: Array<ProblemCompleteViewModel>;
   problemIdToAdd:string;
   problemToBeRemoved:ProblemViewModel;
-
+  event: EventUserViewModel;
+  isEventClosed = true;
   constructor(private eventService: EventService, private route: ActivatedRoute,private problemService:ProblemService,private toastService: ToastService) { }
 
   ngOnInit() {
@@ -41,6 +44,16 @@ export class EventProblemsComponent implements OnInit {
 
     this.problems = new Array<ProblemCompleteViewModel>();
     this.allProblems = new Array<ProblemCompleteViewModel>();
+//geeting event and current user
+    var req = this.eventService.getEventById(this.eventId).toPromise();
+    req.then(res => {
+      if (!isNullOrUndefined(res)) {
+        this.event = res;
+        if ((new Date(res.Event.EndDateTime.valueOf()).valueOf()) > Date.now()) { this.isEventClosed = false; }
+      }
+    });
+
+
     //this.eventId=1;
     this.problemService.getAllProblems().subscribe(res => {
       this.allProblems = res;
