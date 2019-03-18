@@ -1,7 +1,5 @@
 import { MessageViewModel } from "./MessageViewModel";
 import { UsersViewModel } from "../../Security/Dtos/users-view-model";
-import { RequestStatus } from "../../request-status";
-
 export class MessageCompleteViewModel{
   public message: MessageViewModel;
   public sender: UsersViewModel;

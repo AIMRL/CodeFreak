@@ -33,6 +33,7 @@ import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
 import { ToastrModule } from 'ngx-toastr';
 import { ToastModule } from './toast/toast.module';
 import { ChatComponent } from './chat/chat.component';
+import { TeamComponent } from './team/team.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { ChatComponent } from './chat/chat.component';
     AdminHomeComponent,
     AdminLayoutComponent,
     SiteLayoutComponent,
-    ChatComponent
+    ChatComponent,
+    TeamComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -80,6 +82,7 @@ import { ChatComponent } from './chat/chat.component';
       },
       { path: 'login', component: LoginComponent },
       {path: 'chat', component: ChatComponent},
+      {path: 'team', component: TeamComponent},
       {
         path: '', component: SiteLayoutComponent,
         children: [
