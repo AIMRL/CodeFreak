@@ -8,6 +8,7 @@ import { SignInViewModel } from '../Dtos/sign-in-view-model';
 import { UserRolesViewModel } from '../Dtos/user-roles-view-model';
 import { AppSettings } from '../../AppSetting';
 import { ToastService } from '../../toast/toast.service';
+import { Hub } from 'src/app/chat/Dtos/HubModule';
 
 @Component({
   selector: 'app-login',
@@ -17,6 +18,7 @@ import { ToastService } from '../../toast/toast.service';
 export class LoginComponent implements OnInit {
   imagePath = AppSettings.SignInPath;
   logoPath = AppSettings.logoPath;
+  hub: Hub;
   emailFormControl = new FormControl('', [
     Validators.required,
     Validators.email,

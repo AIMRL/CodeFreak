@@ -33,9 +33,6 @@ namespace CodeFreak1.Repositories
 
             return user;
         }
-<<<<<<< HEAD
-        public Users getByEmail(string email)
-=======
         public void UpdateUserPassword(Users user)
         {
 
@@ -70,8 +67,7 @@ namespace CodeFreak1.Repositories
         }
 
 
-        private Users getByEmail(string email)
->>>>>>> develop
+        public Users getByEmail(string email)
         {
             return db.Users.FirstOrDefault(u => u.Email.ToLower() == email.ToLower());
         }

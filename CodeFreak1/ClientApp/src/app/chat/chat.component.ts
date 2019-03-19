@@ -25,7 +25,6 @@ export class ChatComponent implements OnInit {
   private index: any;
   private messageText: string;
   private reciever_id: string ;
-
   constructor(private chatService: ChatService) {
   }
   ngOnInit() {

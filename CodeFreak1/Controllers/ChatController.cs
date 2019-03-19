@@ -26,13 +26,6 @@ namespace CodeFreak1.Controllers
         UserRepository userRepository = new UserRepository();
         MessageRepository message_repo = new MessageRepository();
 
-        [Route("test")]
-        [HttpGet("test")]
-        public IActionResult test()
-        {
-            return Ok("hello world");
-        }
-
         [Route("allMessages")]
         [HttpGet("allMessages")]
         public IActionResult GetCurrentUserMessagesWith(Guid userId)

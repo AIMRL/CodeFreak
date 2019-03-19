@@ -46,18 +46,14 @@
                 <div  [ngClass]="{'received_msg' : curr_user==msg.reciever.UserId,'outgoing_msg': curr_user==msg.sender.UserId}">
                   <div [ngClass]="{'received_withd_msg' : curr_user==msg.reciever.UserId,'sent_msg': curr_user==msg.sender.UserId}">
                         <p>{{msg.message.MessageText}}</p>
-                    <span class="time_date">msg.message.DateOfText</span></div>
+                    <span class="time_date">{{msg.message.DateOfText}}</span></div>
                 </div>
               </div>
               
             </div>
 
-
-           
-              
             <div class="type_msg">
                 <div class="input_msg_write">
-                 
                   <input type="text" class="write_msg" [(ngModel)]="messageText" [value]="messageText" name="messageText" id="messgae_text" ngModel placeholder="Type a message" />
                   <button class="msg_send_btn" type="button" (click)="sendmessage()"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
 

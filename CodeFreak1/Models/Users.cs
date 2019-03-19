@@ -8,6 +8,7 @@ namespace CodeFreak1.Models
         public Users()
         {
             Comment = new HashSet<Comment>();
+            Connection = new HashSet<Connection>();
             Editorial = new HashSet<Editorial>();
             MessagesReciever = new HashSet<Messages>();
             MessagesSender = new HashSet<Messages>();
@@ -32,6 +33,7 @@ namespace CodeFreak1.Models
         public DateTime? DateOfBirth { get; set; }
 
         public ICollection<Comment> Comment { get; set; }
+        public ICollection<Connection> Connection { get; set; }
         public ICollection<Editorial> Editorial { get; set; }
         public ICollection<Messages> MessagesReciever { get; set; }
         public ICollection<Messages> MessagesSender { get; set; }
