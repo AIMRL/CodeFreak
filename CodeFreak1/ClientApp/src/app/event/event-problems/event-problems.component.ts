@@ -145,7 +145,7 @@ export class EventProblemsComponent implements OnInit {
   }
 
   modelClass(cl) {
-    $('.modal-backdrop').remove();
+ //   $('.modal-backdrop').remove();
     this.dialogueClass="modal-dialog "+cl+" animated";
   }
 

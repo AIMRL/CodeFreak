@@ -14,6 +14,10 @@ namespace CodeFreak1.Repositories
         {
             return db.Roles.FirstOrDefault(r => r.RoleId == id);
         }
+        public Roles getRoleByName(string name)
+        {
+            return db.Roles.FirstOrDefault(r => r.Name.ToLower()== name.ToLower());
+        }
         public List<Roles> getEventRoles()
         {
             return db.Roles.Where(r => r.Name.Contains("Event")).ToList();

@@ -52,7 +52,7 @@ export class EventService {
     httpOptions.headers.append('Accept', 'application/json');
     httpOptions.headers.append('Authorization', `bearer ${localStorage.getItem('token')}`);
 
-    let url = `${this.baseUrl}${this.handlerUrl}${this.getEventyIdUrl}?id=${id}`;
+    let url = `${this.baseUrl}${this.handlerUrl}${this.getEventyIdUrl}?eventId=${id}`;
     var res = this.http.get<EventUserViewModel>(url, httpOptions).pipe(
       tap((cre: EventUserViewModel) => this.log(`added employee w/ Success=${cre.Success}`)),
       catchError(this.handleError<EventUserViewModel>('Error in adding Event', res)));

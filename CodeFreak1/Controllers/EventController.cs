@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using CodeFreak1.Filters;
 using CodeFreak1.Models;
 using CodeFreak1.Repositories;
 using CodeFreak1.ViewModel;
@@ -42,6 +43,7 @@ namespace CodeFreak1.Controllers
                 eve.CreatedOn = DateTime.Now;
                 eve.IsActive = true;
                 eve = eveRep.AddEvent(eve);
+                addEventCreatorRole(eve.EventId, eve.CreatedBy);
                 EventViewModel addedEvent = Mapper.Map<Event, EventViewModel>(eve);
                 addedEvent.makeSuccess();
                 return Ok(addedEvent);
@@ -54,13 +56,38 @@ namespace CodeFreak1.Controllers
                 return Ok(requestStatus);
             }
         }
+        private void addEventCreatorRole(int eventId,Guid userId)
+        {
+            try
+            {
+                EventUsers eventUser = new EventUsers();
+                eventUser.EventId = eventId;
+                eventUser.UserId = userId;
+                eventUser.EventUserId = Guid.NewGuid();
+                eveRep.addEventUser(eventUser);
+
+                Roles role=roleRepository.getRoleByName("event creator");
+                EventUserRoles eventUserRoles = new EventUserRoles();
+                eventUserRoles.EventUserRoleId = Guid.NewGuid();
+                eventUserRoles.EventUserId = eventUser.EventUserId;
+                eventUserRoles.RoleId = role.RoleId;
+                eveRep.addEventUserRole(eventUserRoles);
+
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
 
         [Route("getEvent")]
         [HttpGet("getEvent")]
-        public IActionResult getEventById(int id)
+        [EventAuth]
+        public IActionResult getEventById(int eventId)
         {
             Users user = getApplicationUser();
-            EventUsers eve = eveRep.getEventById(id,user.UserId);
+            EventUsers eve = eveRep.getEventById(eventId,user.UserId);
             if (eve == null)
             {
                 RequestStatus requestStatus = new RequestStatus();
@@ -85,6 +112,7 @@ namespace CodeFreak1.Controllers
         }
         [HttpPost("addEventProblem")]
         [Route("addEventProblem")]
+        [EventProblemCDAuth]
         public IActionResult addEventProblem(EventProblemsViewModel eventProblemsViewModel)
         {
             RequestStatus requestStatus = new RequestStatus();
@@ -108,6 +136,7 @@ namespace CodeFreak1.Controllers
         }
         [HttpPost("deleteEventProblem")]
         [Route("deleteEventProblem")]
+        [EventProblemCDAuth]
         public IActionResult deleteEventProblem(EventProblemsViewModel eventProblemsViewModel)
         {
             RequestStatus requestStatus = new RequestStatus();
@@ -124,6 +153,8 @@ namespace CodeFreak1.Controllers
         }
         [HttpGet("getEventProblems")]
         [Route("getEventProblems")]
+        [EventAuth]
+        [EventProblemsAuth]
         public IActionResult getEventProblems(int eventId)
         {
             var list = eveRep.getProblemsByEventId(eventId);
@@ -140,6 +171,8 @@ namespace CodeFreak1.Controllers
         }
         [HttpGet("getEventSubmissions")]
         [Route("getEventSubmissions")]
+        [EventAuth]
+        [EventModifier]
         public IActionResult getEventSubmissions(int eventId)
         {
             List<Submission> submissions = eveRep.getEventSubmissions(eventId);
@@ -178,6 +211,7 @@ namespace CodeFreak1.Controllers
 
         [HttpPost("addEventUser")]
         [Route("addEventUser")]
+        [EventUserCDAuth]
         public IActionResult addEventUser(EventUserViewModel eventUserRoles)
         {
             RequestStatus requestStatus = new RequestStatus();
@@ -234,6 +268,8 @@ namespace CodeFreak1.Controllers
 
         [HttpPost("getEventUsers")]
         [Route("getEventUsers")]
+        [EventAuth]
+        [EventModifier]
         public IActionResult getEventUsers(int eventId)
         {
             var res = eveRep.getAllUserOfEvent(eventId);
@@ -260,14 +296,24 @@ namespace CodeFreak1.Controllers
 
         [HttpGet("removeEventUser")]
         [Route("removeEventUser")]
+        [EventAuth]
+        [EventModifier]
         public IActionResult removeEventUser(int eventId,Guid userId)
         {
+
             RequestStatus requestStatus = new RequestStatus();
             if(userId==null)
             {
                 requestStatus.makeObjectNull();
                 return Ok(requestStatus);
             }
+            var eve = eveRep.getOnlyEventById(eventId);
+            if (eve.CreatedBy == userId)
+            {
+                requestStatus.makeFailed("You can not remove creator of event");
+                return Ok(requestStatus);
+            }
+
             var res = eveRep.removeEventUser(userId, eventId);
             if (res == null)
             {
@@ -282,6 +328,11 @@ namespace CodeFreak1.Controllers
             return Ok(userInfoViewModel);
         }
 
-
+        public IActionResult UnAuth()
+        {
+            RequestStatus requestStatus = new RequestStatus();
+            requestStatus.makeUnAuthorized();
+            return Ok(requestStatus);
+        }
     }
 }

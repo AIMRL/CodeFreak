@@ -35,7 +35,6 @@ export class EventSubmissionsComponent implements OnInit {
 
   ngOnInit() {
     debugger;
-    this.eventId=1;
     this.submissionViewModelList = new Array<CompleteSubmissionViewModel>();
     this.eventService.getEventSubmissions(this.eventId).subscribe(res => {
       debugger;

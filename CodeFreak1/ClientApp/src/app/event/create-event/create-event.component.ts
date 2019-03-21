@@ -45,7 +45,7 @@ export class CreateEventComponent implements OnInit {
       }
       this.event = res;
       this.toastService.makeSuccess("Event Created", res.Name + " created Successfully");
-      this.router.navigate(['event-home', this.event.EventId]);
+      this.router.navigate(['event-m', this.event.EventId]);
       return;
     })
 

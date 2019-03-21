@@ -20,36 +20,43 @@ export class EventRouteGuard implements CanActivate {
     debugger;
     var id: number = Number.parseInt(next.paramMap.get('id'));
     var req = this.eventService.getEventById(id).toPromise();
-    req.then(res => {
-      debugger;
-      var isEventAdmin: boolean = false;
-      var isEventUser: boolean = false;
-      if (isNullOrUndefined(res) || !res.Success) {
+    if (!isNullOrUndefined(req)) {
+      req.then(res => {
+        debugger;
+        var isEventAdmin: boolean = false;
+        var isEventUser: boolean = false;
+        if (isNullOrUndefined(res) || !res.Success) {
+          this.toastService.makeError("UnAuthorized", "You are not allowed");
+          this.router.navigate(['home']);
+          return;
+        }
+        res.Roles.forEach(item => {
+          if (item.Name.toLowerCase() == "event creator" || item.Name.toLowerCase() == "event modifier" || item.Name.toLowerCase() == "event roles modifier") {
+            isEventAdmin = true;
+
+          }
+          if (item.Name.toLowerCase() == "event user") {
+            isEventUser = true;
+          }
+        });
+        if (isEventAdmin) {
+          this.router.navigate(['event-ad', id]);
+          return;
+        }
+        if (isEventUser) {
+          this.router.navigate(['event', id]);
+          return;
+        }
         this.toastService.makeError("UnAuthorized", "You are not allowed");
         this.router.navigate(['home']);
-        return;
-      }
-      res.Roles.forEach(item => {
-        if (item.Name.toLowerCase() == "event creator" || item.Name.toLowerCase() == "event modifier" || item.Name.toLowerCase() == "event roles modifier") {
-          isEventAdmin = true;
-
-        }
-        if (item.Name.toLowerCase() == "event user") {
-          isEventUser = true;
-        }
+        return true;
       });
-      if (isEventAdmin) {
-        this.router.navigate(['event-ad', id]);
-        return;
-      }
-      if (isEventUser) {
-        this.router.navigate(['event', id]);
-        return;
-      }
+
+    }
+    else {
       this.toastService.makeError("UnAuthorized", "You are not allowed");
       this.router.navigate(['home']);
       return true;
-    });
-
+    }
   }
 }

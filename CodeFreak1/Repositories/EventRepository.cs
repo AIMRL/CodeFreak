@@ -35,6 +35,7 @@ namespace CodeFreak1.Repositories
         {
             return db.EventUsers.FirstOrDefault(eu => eu.EventId == eventId && eu.UserId == userId);
         }
+        
         public EventUsers addEventUser(EventUsers eventUsers)
         {
             try
@@ -80,7 +81,7 @@ namespace CodeFreak1.Repositories
         }
         public List<Submission> getEventSubmissions(int id)
         {
-            return db.Submission.Where(s => s.EventId == id).Include(s => s.User).Include(s => s.Problem).Include(s => s.Language).ToList();
+            return db.Submission.Where(s => s.EventId!=null && s.EventId == id ).Include(s => s.User).Include(s => s.Problem).Include(s => s.Language).ToList();
         }
 
         public List<EventUsers> getAllUserOfEvent(int eventId)
