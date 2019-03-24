@@ -30,11 +30,6 @@ export class SecurityService {
   private getEventRolesUrl = `getAllRoles`;
 
 
-  private baseUrl: string = AppSettings.baseUrl;
-  private handlerUrl: string = AppSettings.authURl;
-  private getTokenUrl: string = `token/`;
-  private signupUrl: string = `signup/`;
-
   ProfileURl: string = AppSettings.ProfileURl;
   postImageURl: string = `UploadImage`;
   test: string = `Test`;
