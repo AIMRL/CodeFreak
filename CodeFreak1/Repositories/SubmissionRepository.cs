@@ -1,4 +1,5 @@
 ﻿using CodeFreak1.Models;
+using CodeFreak1.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +24,20 @@ namespace CodeFreak1.Repositories
 
             return status;
         }
+
+        public List<ProblemSubmissionViewModel> getSubmission(Guid UserId) {
+       
+
+            return db.Submission.Where(s => s.UserId == UserId).Select(o => new ProblemSubmissionViewModel { 
+              Title =o.Problem.Title,
+              Name = o.Language.Name,
+              Score = o.Score,
+              Status = o.Status
+            }).ToList();
+
+
+        }
+
         public List<Submission> getSubmissionOfProblemId(Guid pid)
         {
 

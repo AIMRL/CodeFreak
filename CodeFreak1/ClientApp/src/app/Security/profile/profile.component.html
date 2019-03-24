@@ -15,9 +15,9 @@
 
     <div class="main_header">
 
-      <p> <b> CodeFreak Rank </b>   <span ng-model="[codefreak_rank]"> 7 </span> </p>
-      <p> <b> Competition Won </b>   <span ng-model="[competition_won]"> 2 </span> </p>
-      <p> <b> Problem Solved </b>   <span ng-model="[problem_solved]"> 12 </span> </p>
+      <p> <b> CodeFreak Rank </b>   <span> {{ codefreak_rank }} </span> </p>
+      <p> <b> Competition Won </b>   <span> {{ competition_won }} </span> </p>
+      <p> <b> Problem Solved </b>   <span> {{ problem_solved }} </span> </p>
 
      
     </div>
@@ -184,8 +184,11 @@
 
 
 
-      <div *ngFor="let submission of submissionlist">
-        <a href="{{submission.link}}">{{submission.name}}</a>
+      <div *ngFor="let sub of submissionList">
+        <p>{{sub.Title}}</p>
+        <p>{{sub.Name}}</p>
+        <p>{{sub.Status}}</p>
+        <p>{{sub.Score}}</p>
       </div>
 
 

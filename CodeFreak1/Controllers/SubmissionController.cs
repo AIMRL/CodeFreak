@@ -36,6 +36,16 @@ namespace CodeFreak1.Controllers
         }
 
         [HttpGet]
+        [Route("byUser")]
+        [AllowAnonymous]
+
+        public IActionResult getUserSubmission(Guid UserId)
+        {
+            return Ok(rep.getSubmission(UserId));
+        }
+
+
+        [HttpGet]
         [Route("byProblemId")]
         [AllowAnonymous]
 
