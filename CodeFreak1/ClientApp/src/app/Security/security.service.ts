@@ -11,6 +11,7 @@ import { UsersViewModel } from './Dtos/users-view-model';
 import { FormGroup, FormControl } from '@angular/forms';
 import { ProfileEmailViewModel } from './Dtos/profile-email-view-model';
 import { ProfileViewModel } from './Dtos/profile-view-model';
+import { ProblemSubmissionViewModel } from './Dtos/problem-submission-view-model';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
 import { UserInfoViewModel } from './Dtos/user-info-view-model';
@@ -29,10 +30,25 @@ export class SecurityService {
   private getEventRolesUrl = `getAllRoles`;
 
 
+  private baseUrl: string = AppSettings.baseUrl;
+  private handlerUrl: string = AppSettings.authURl;
+  private getTokenUrl: string = `token/`;
+  private signupUrl: string = `signup/`;
+
   ProfileURl: string = AppSettings.ProfileURl;
   postImageURl: string = `UploadImage`;
   test: string = `Test`;
 
+  private profileUrl: string = `/api/profile/`;
+  private SubmissionUrl: string = `/api/Submission/`;
+  private submissionListUrl: string = `ByUser?UserId=`;
+
+  private imageProfileUrl: string = `UploadImage`;
+  private emailUrl: string = `SendEmail`;
+
+  private personalInfoUrl: string = `ChangePersonalInfo`;
+  private passwordUrl: string = `ChangePassword`;
+  private UserInfo: string = `User`;
   constructor(private http: HttpClient) { }
   loginUser(credentials: SignInViewModel): Observable<UserRolesViewModel> {
     let httpOptions = CodeFreakHeaders.GetSimpleHeader();
@@ -60,28 +76,57 @@ export class SecurityService {
       catchError(this.handleError<RequestStatus>('Error in login')));
     return res;
   }
+
+
   postImage(fileToUpload: File) {
-    let httpOptions = CodeFreakHeaders.GetSimpleHeader();
+    
+    var headers = new HttpHeaders();
+    headers.append('Accept', 'application/json');
+    headers.append('Authorization', `bearer ${localStorage.getItem('token')}`);
+    let httpOptions = {
+      headers: headers
+    };
+
 
     const formData: FormData = new FormData();
     formData.append('Image', fileToUpload, fileToUpload.name);
-      let url1 = 'https://localhost:44312/api/Profile/UploadImage';
-    this.http.post(url1,formData,httpOptions)
+
+    let url = `${this.baseUrl}${this.profileUrl}${this.imageProfileUrl}`;
+
+
+
+    this.http.post(url,formData,httpOptions)
       .subscribe(data => { console.log(data); })
+
   }
 
   sendCodeEmail(credentials: ProfileEmailViewModel): Observable<ProfileEmailViewModel> {
 
     let httpOptions = CodeFreakHeaders.GetSimpleHeader();
-    let url = 'https://localhost:44312/api/Profile/SendEmail';
-
-    
-    //var res = this.http.post<ProfileEmailViewModel>(url, JSON.stringify(credentials)).pipe(
-    //  tap((cre: ProfileEmailViewModel) => this.log(`added employee w/ Success=${cre.Success}`)),
-    //  catchError(this.handleError<ProfileEmailViewModel>('Error in login')));
-    //return res;
+    let url = `${this.baseUrl}${this.profileUrl}${this.emailUrl}`;
+   
 
     return this.http.post<ProfileEmailViewModel>(url, JSON.stringify(credentials), httpOptions);
+  }
+
+
+  gtetUserInfo(): Observable<ProfileViewModel> {
+
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Authorization': 'Bearer ' + localStorage.getItem('token'), 'Content-Type': 'application/json' })
+    };
+
+    httpOptions.headers.append('Content-Type', 'application/json');
+    httpOptions.headers.append('Accept', 'application/json');
+    httpOptions.headers.append('Authorization', `bearer ${localStorage.getItem('token')}`);
+
+    let url = `${this.baseUrl}${this.profileUrl}${this.UserInfo}`;
+
+
+    var res = this.http.get<ProfileViewModel>(url, httpOptions);
+
+    return res;
+
 
   }
 
@@ -97,13 +142,14 @@ export class SecurityService {
     httpOptions.headers.append('Accept', 'application/json');
     httpOptions.headers.append('Authorization', `bearer ${localStorage.getItem('token')}`);
 
-
-    let url = 'https://localhost:44312/api/Profile/ChangePassword';
+    let url = `${this.baseUrl}${this.profileUrl}${this.passwordUrl}`;
 
     this.http.post(url, JSON.stringify(Password), httpOptions).subscribe(data => { console.log(data); });
   }
 
   changePersonalInfo(cred: ProfileViewModel) {
+
+
 
     let httpOptions = {
       headers: new HttpHeaders({ 'Authorization': 'Bearer ' + localStorage.getItem('token'), 'Content-Type': 'application/json' })
@@ -113,7 +159,7 @@ export class SecurityService {
     httpOptions.headers.append('Accept', 'application/json');
     httpOptions.headers.append('Authorization', `bearer ${localStorage.getItem('token')}`);
 
-    let url = 'https://localhost:44312/api/Profile/ChangePersonalInfo';
+    let url = `${this.baseUrl}${this.profileUrl}${this.personalInfoUrl}`;
 
    
     return this.http.post(url, JSON.stringify(cred), httpOptions).subscribe(data => { console.log(data); });
@@ -148,6 +194,17 @@ export class SecurityService {
     var res = this.http.get<Array<RolesViewModel>>(url, httpOptions).pipe(
       tap((cre: Array<RolesViewModel>) => this.log(`added employee w/ Success`)),
       catchError(this.handleError<Array<RolesViewModel>>('Error in login')));
+    return res;
+}
+  getSubmission(cre: String): Observable<Array<ProblemSubmissionViewModel>> {
+
+ 
+
+    let httpOptions = CodeFreakHeaders.GetSimpleHeader();
+
+    let url = `${this.baseUrl}${this.SubmissionUrl}${this.submissionListUrl}${cre}`;
+
+    var res = this.http.get<Array<ProblemSubmissionViewModel>>(url, httpOptions);
     return res;
 
   }
