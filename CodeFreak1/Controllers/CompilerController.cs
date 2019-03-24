@@ -125,7 +125,7 @@ namespace CodeFreak1.Controllers
 
                 }
                 Problem prob = probReops.getProblemById(Guid.Parse(code.problemId));
-                int maxScore = prob.MaxScore;
+                int maxScore = (int)prob.MaxScore;
                 if (flag == false)
                 {
                     submission.Status = "passed";

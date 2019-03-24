@@ -54,14 +54,15 @@ namespace CodeFreak1.Hubs
             message.RecieverId = new Guid(msg.RecieverId);
             message.SenderId = new Guid(msg.SenderId);
             message.DateOfText = System.DateTime.Now;
-     
+            msg.DateOfText = (DateTime)message.DateOfText;
 
-            //sends message to user 
+            //sends message to user
              message_repository.addMessage(message);
 
 
             List<Connection> connection_list=connection_repository.getConnectionOfUserId(new Guid(msg.RecieverId));
 
+            
             if (connection_list.Count != 0)
             {
                 foreach( Connection conn in connection_list)

@@ -16,6 +16,7 @@ namespace CodeFreak1.Models
         }
 
         public virtual DbSet<Comment> Comment { get; set; }
+        public virtual DbSet<Connection> Connection { get; set; }
         public virtual DbSet<Difficulty> Difficulty { get; set; }
         public virtual DbSet<Editorial> Editorial { get; set; }
         public virtual DbSet<LoginHistory> LoginHistory { get; set; }
@@ -37,8 +38,8 @@ namespace CodeFreak1.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.                
-              optionsBuilder.UseSqlServer(@"Data Source=DESKTOP-3MBCQS0\SQLEXPRESS;Initial Catalog=DBCodeFreak;Integrated Security=True");
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+                optionsBuilder.UseSqlServer("Server=.\\SQLExpress;Database=DBCodeFreak;Trusted_Connection=True;");
 
             }
         }
@@ -61,6 +62,20 @@ namespace CodeFreak1.Models
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Comment_Users");
+            });
+
+            modelBuilder.Entity<Connection>(entity =>
+            {
+                entity.Property(e => e.ConnectionId)
+                    .HasColumnName("ConnectionID")
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .ValueGeneratedNever();
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.Connection)
+                    .HasForeignKey(d => d.UserId)
+                    .HasConstraintName("FK__Connectio__UserI__05D8E0BE");
             });
 
             modelBuilder.Entity<Difficulty>(entity =>

@@ -33,7 +33,6 @@ namespace CodeFreak1.Repositories
 
             return user;
         }
-
         public void UpdateUserPassword(Users user)
         {
 

@@ -32,6 +32,7 @@ import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
 import { ToastrModule } from 'ngx-toastr';
 import { ToastModule } from './toast/toast.module';
 import { TeamComponent } from './team/team.component';
+import { ChatComponent } from './chat/chat.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,6 @@ import { TeamComponent } from './team/team.component';
     AdminHomeComponent,
     AdminLayoutComponent,
     SiteLayoutComponent,
-    ChatComponent
     SiteLayoutComponent,
     ChatComponent,
     TeamComponent  ],
@@ -74,12 +74,12 @@ import { TeamComponent } from './team/team.component';
 
       {
         path: '', component: AdminLayoutComponent, canActivate: [AdminRoleGuard],
-        
         children: [
           { path: 'counter', component: CounterComponent, canActivate: [AdminRoleGuard] },
         ]
       },
       { path: 'login', component: LoginComponent },
+      { path: 'chat', component: ChatComponent },
       {path: 'team', component: TeamComponent},
       {
         path: '', component: SiteLayoutComponent,

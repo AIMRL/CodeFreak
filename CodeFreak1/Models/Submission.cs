@@ -19,7 +19,6 @@ namespace CodeFreak1.Models
         public string Code { get; set; }
         public int LanguageId { get; set; }
 
-
         public ProgrammingLanguage Language { get; set; }
         public Problem Problem { get; set; }
         public Users User { get; set; }

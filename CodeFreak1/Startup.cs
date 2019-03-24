@@ -16,6 +16,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Serialization;
 using System.Text;
+using CodeFreak1.Hubs;
 
 namespace CodeFreak1
 {
@@ -135,6 +136,10 @@ namespace CodeFreak1
                 routes.MapRoute(
                     name: "default",
                     template: "{controller}/{action=Index}/{id?}");
+            });
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<MesaageHub>("/chatHub");
             });
 
             app.UseSpa(spa =>

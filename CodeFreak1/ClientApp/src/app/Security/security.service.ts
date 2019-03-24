@@ -14,10 +14,21 @@ import { ProfileViewModel } from './Dtos/profile-view-model';
 import { ProblemSubmissionViewModel } from './Dtos/problem-submission-view-model';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
+import { UserInfoViewModel } from './Dtos/user-info-view-model';
+import { RolesViewModel } from './Dtos/roles-view-model';
 
 
 @Injectable()
 export class SecurityService {
+  private baseUrl: string = AppSettings.baseUrl;
+  private handlerUrl: string = AppSettings.authURl;
+  private roleUrl: string= AppSettings.roleURl;
+
+  private getTokenUrl: string = `token/`;
+  private signupUrl: string = `signup/`;
+  private getAllUserInfoUrl= `getAllUserInfo`;
+  private getEventRolesUrl = `getAllRoles`;
+
 
   private baseUrl: string = AppSettings.baseUrl;
   private handlerUrl: string = AppSettings.authURl;
@@ -38,9 +49,6 @@ export class SecurityService {
   private personalInfoUrl: string = `ChangePersonalInfo`;
   private passwordUrl: string = `ChangePassword`;
   private UserInfo: string = `User`;
-
-
-
   constructor(private http: HttpClient) { }
   loginUser(credentials: SignInViewModel): Observable<UserRolesViewModel> {
     let httpOptions = CodeFreakHeaders.GetSimpleHeader();
@@ -68,6 +76,7 @@ export class SecurityService {
       catchError(this.handleError<RequestStatus>('Error in login')));
     return res;
   }
+
 
   postImage(fileToUpload: File) {
     
@@ -98,7 +107,6 @@ export class SecurityService {
    
 
     return this.http.post<ProfileEmailViewModel>(url, JSON.stringify(credentials), httpOptions);
-
   }
 
 
@@ -158,7 +166,36 @@ export class SecurityService {
 
   }
 
+  getUsersInfo(id):Observable<Array<UserInfoViewModel>>{    
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Authorization': 'Bearer ' + localStorage.getItem('token'), 'Content-Type': 'application/json' })
+    };
+    httpOptions.headers.append('Content-Type', 'application/json');
+    httpOptions.headers.append('Accept', 'application/json');
+    httpOptions.headers.append('Authorization', `bearer ${localStorage.getItem('token')}`);
 
+    let url = `${this.baseUrl}${this.handlerUrl}${this.getAllUserInfoUrl}?eventId=${id}`;
+    var res = this.http.get<Array<UserInfoViewModel>>(url, httpOptions).pipe(
+      tap((cre: Array<UserInfoViewModel>) => this.log(`added employee w/ Success`)),
+      catchError(this.handleError<Array<UserInfoViewModel>>('Error in login')));
+    return res;
+
+  }
+
+  getEventRoles(): Observable<Array<RolesViewModel>> {
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Authorization': 'Bearer ' + localStorage.getItem('token'), 'Content-Type': 'application/json' })
+    };
+    httpOptions.headers.append('Content-Type', 'application/json');
+    httpOptions.headers.append('Accept', 'application/json');
+    httpOptions.headers.append('Authorization', `bearer ${localStorage.getItem('token')}`);
+
+    let url = `${this.baseUrl}${this.roleUrl}${this.getEventRolesUrl}`;
+    var res = this.http.get<Array<RolesViewModel>>(url, httpOptions).pipe(
+      tap((cre: Array<RolesViewModel>) => this.log(`added employee w/ Success`)),
+      catchError(this.handleError<Array<RolesViewModel>>('Error in login')));
+    return res;
+}
   getSubmission(cre: String): Observable<Array<ProblemSubmissionViewModel>> {
 
  
@@ -168,8 +205,6 @@ export class SecurityService {
     let url = `${this.baseUrl}${this.SubmissionUrl}${this.submissionListUrl}${cre}`;
 
     var res = this.http.get<Array<ProblemSubmissionViewModel>>(url, httpOptions);
-
-
     return res;
 
   }
