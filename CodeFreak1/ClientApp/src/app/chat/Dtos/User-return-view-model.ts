@@ -1,15 +1,8 @@
-import { RequestStatus } from "./request-status";
+import { RequestStatus } from "../../Security/Dtos/request-status";
 
-export class UsersViewModel extends RequestStatus {
+export class UsersReturnViewModel extends RequestStatus {
   public UserId: string;
-  public Login: string;
-  public Password: string;
   public Name: string;
   public Email: string;
-  public CreatedOn: Date;
-  public ModifiedOn: Date;
   public IsActive: boolean;
-  public CreatedBy: string;
-  public ModifieBy: string;
-  public DateOfBirth: Date;
 }

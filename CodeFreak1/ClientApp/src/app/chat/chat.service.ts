@@ -10,6 +10,7 @@ import { HubConnection , HubConnectionBuilder, LogLevel, HttpTransportType} from
 import { Hub } from './Dtos/HubModule';
 import { MessageReturnViewModel } from './Dtos/Message-return-model';
 import { UsersViewModel } from '../Security/Dtos/users-view-model';
+import { UsersReturnViewModel } from './Dtos/User-return-view-model';
 
 @Injectable({
   providedIn: 'root'
@@ -78,7 +79,7 @@ export class ChatService {
       return res;
     }
 
-    getAllUsers(): Observable<Array<UsersViewModel>> {
+    getAllUsers(): Observable<Array<UsersReturnViewModel>> {
       //    let httpOptions = CodeFreakHeaders.GetSimpleHeader();
           const httpOptions = {
             headers: new HttpHeaders({ 'Authorization': 'Bearer ' + localStorage.getItem('token'), 'Content-Type': 'application/json' })
@@ -87,9 +88,9 @@ export class ChatService {
           httpOptions.headers.append('Accept', 'application/json');
           httpOptions.headers.append('Authorization', `bearer ${localStorage.getItem('token')}`);
            const url = `${this.baseUrl}${this.authURL}${this.allUsersURL}`;
-           const res = this.http.get<Array<UsersViewModel>>(url, httpOptions).pipe(
-            tap((cre: Array<UsersViewModel>) => this.log(`added employee w/ Success=${cre.length}`)),
-            catchError(this.handleError<Array<UsersViewModel>>('Error in login')));
+           const res = this.http.get<Array<UsersReturnViewModel>>(url, httpOptions).pipe(
+            tap((cre: Array<UsersReturnViewModel>) => this.log(`added employee w/ Success=${cre.length}`)),
+            catchError(this.handleError<Array<UsersReturnViewModel>>('Error in login')));
           return res;
         }
   private log(message: string) {

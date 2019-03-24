@@ -1,5 +1,5 @@
-import { MessageCompleteViewModel } from "src/app/Security/profile/Dtos/Message-complete-view-model";
-import { RequestStatus } from "src/app/request-status";
+import { RequestStatus } from "../../Security/Dtos/request-status";
+import { MessageCompleteViewModel } from "./Message-complete-view-model";
 
 export class MessageReturnViewModel extends RequestStatus
 {
@@ -9,5 +9,4 @@ export class MessageReturnViewModel extends RequestStatus
     {
         this.Message_list = new Array<MessageCompleteViewModel>();
     }
-
 }

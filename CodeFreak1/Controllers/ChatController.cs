@@ -16,8 +16,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace CodeFreak1.Controllers
 {
-
-    [AllowAnonymous]
+    
     [Route("api/[controller]")]
     [ApiController]
     

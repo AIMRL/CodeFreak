@@ -8,7 +8,7 @@ import { SignInViewModel } from '../Dtos/sign-in-view-model';
 import { UserRolesViewModel } from '../Dtos/user-roles-view-model';
 import { AppSettings } from '../../AppSetting';
 import { ToastService } from '../../toast/toast.service';
-import { Hub } from 'src/app/chat/Dtos/HubModule';
+import { Hub } from '../../chat/Dtos/HubModule';
 
 @Component({
   selector: 'app-login',
@@ -52,8 +52,8 @@ export class LoginComponent implements OnInit {
         localStorage.setItem("token", this.userRoles.Token);
         this.toaster.makeSuccess('Login Successfully', 'Welcome ' + this.userRoles.User.Name);
 
-        this.hub = new Hub();
-       this.hub.buildConnection();
+        //this.hub = new Hub();
+       //this.hub.buildConnection();
        //  this.router.navigate(['chat']);
         this.router.navigate(['home']);
         return;

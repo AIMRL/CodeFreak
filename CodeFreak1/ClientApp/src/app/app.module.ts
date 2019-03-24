@@ -74,12 +74,12 @@ import { ChatComponent } from './chat/chat.component';
 
       {
         path: '', component: AdminLayoutComponent, canActivate: [AdminRoleGuard],
-        
         children: [
           { path: 'counter', component: CounterComponent, canActivate: [AdminRoleGuard] },
         ]
       },
       { path: 'login', component: LoginComponent },
+      { path: 'chat', component: ChatComponent },
       {path: 'team', component: TeamComponent},
       {
         path: '', component: SiteLayoutComponent,

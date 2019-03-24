@@ -20,7 +20,7 @@ namespace CodeFreak1.Hubs
     public class MesaageHub:Hub<ITypedHub>
     {
         UserRepository userRepository = new UserRepository();
-       // ConnectionRepository connection_repository = new ConnectionRepository();
+        ConnectionRepository connection_repository = new ConnectionRepository();
 
         MessageRepository message_repository = new MessageRepository();
 
@@ -54,15 +54,15 @@ namespace CodeFreak1.Hubs
             message.RecieverId = new Guid(msg.RecieverId);
             message.SenderId = new Guid(msg.SenderId);
             message.DateOfText = System.DateTime.Now;
-     
+            msg.DateOfText = (DateTime)message.DateOfText;
 
-            //sends message to user 
+            //sends message to user
              message_repository.addMessage(message);
 
 
-          //  List<Connection> connection_list=connection_repository.getConnectionOfUserId(new Guid(msg.RecieverId));
+            List<Connection> connection_list=connection_repository.getConnectionOfUserId(new Guid(msg.RecieverId));
 
-            /*
+            
             if (connection_list.Count != 0)
             {
                 foreach( Connection conn in connection_list)
@@ -73,7 +73,7 @@ namespace CodeFreak1.Hubs
             else
             {
 
-            }*/
+            }
 
         }
         public override Task OnConnectedAsync()
@@ -107,12 +107,12 @@ namespace CodeFreak1.Hubs
                 user = userRepository.getUserById(new Guid(id));
                 string connectionId = Context.ConnectionId;
                 var currUserName = Context.User.Identity.Name;
-                //Connection connection = new Connection();
+                Connection connection = new Connection();
                 
-                //connection.ConnectionId = connectionId;
-                //connection.UserId = user.UserId;
-                //connection.Connected = true;
-                //connection_repository.addConnection(connection);
+                connection.ConnectionId = connectionId;
+                connection.UserId = user.UserId;
+                connection.Connected = true;
+                connection_repository.addConnection(connection);
                 
             }
 

@@ -7,15 +7,19 @@
           <div class="inbox_people">
             <div class="headind_srch">
               <div class="recent_heading">
-                <h4>Recent</h4>
+                <h4>All Users</h4>
               </div>
-              <div class="srch_bar">
+              <!--
+                <div class="srch_bar">
                 <div class="stylish-input-group">
                   <input type="text" class="search-bar"  placeholder="Search" >
                   <span class="input-group-addon">
                   <button type="button"> <i class="fa fa-search" aria-hidden="true"></i> </button>
                   </span> </div>
               </div>
+
+              -->
+              
             </div>
 
 
@@ -24,7 +28,7 @@
                 <div class="chat_people">
                   <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
                   <div class="chat_ib">
-                    <h5>{{user.Name}} <span class="chat_date">Dec 25</span></h5>
+                    <h5>{{user.Name}} <span class="chat_date"></span></h5>
                   </div>
                 </div>
               </div>
@@ -46,7 +50,7 @@
                 <div  [ngClass]="{'received_msg' : curr_user==msg.reciever.UserId,'outgoing_msg': curr_user==msg.sender.UserId}">
                   <div [ngClass]="{'received_withd_msg' : curr_user==msg.reciever.UserId,'sent_msg': curr_user==msg.sender.UserId}">
                         <p>{{msg.message.MessageText}}</p>
-                    <span class="time_date">{{msg.message.DateOfText}}</span></div>
+                    <span class="time_date">{{msg.message.DateOfText | date: 'dd/MM/yyyy'}}</span></div>
                 </div>
               </div>
               
@@ -65,6 +69,6 @@
         </div>
         
         
-        <p class="text-center top_spac"> Design by <a target="_blank" href="#">Sunil Rajput</a></p>
+        <p class="text-center top_spac"> CodeFreak <a target="_blank" href="#"></a></p>
         
       </div></div>
