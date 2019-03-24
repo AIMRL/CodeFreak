@@ -1,4 +1,5 @@
 using AutoMapper;
+using CodeFreak1.Hubs;
 using CodeFreak1.Models;
 using CodeFreak1.ViewModel;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -30,7 +31,7 @@ namespace CodeFreak1
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc(o=>
+            services.AddMvc(o =>
             {
                 var policy = new AuthorizationPolicyBuilder()
                     .RequireAuthenticatedUser()
@@ -43,7 +44,7 @@ namespace CodeFreak1
             {
                 configuration.RootPath = "ClientApp/dist";
             });
-
+            services.AddSignalR();
             #region token authentication
             services.AddAuthentication(option =>
             {
@@ -71,13 +72,13 @@ namespace CodeFreak1
             Mapper.Initialize(m =>
             {
                 m.CreateMap<Users, UsersViewModel>();
-                m.CreateMap<UsersViewModel,Users>();
+                m.CreateMap<UsersViewModel, Users>();
 
                 m.CreateMap<Problem, ProblemViewModel>();
                 m.CreateMap<ProblemViewModel, Problem>();
 
                 m.CreateMap<Roles, RolesViewModel>();
-                m.CreateMap<RolesViewModel,Roles>();
+                m.CreateMap<RolesViewModel, Roles>();
 
                 m.CreateMap<Permissions, PermissionsViewModel>();
                 m.CreateMap<PermissionsViewModel, Permissions>();
@@ -95,22 +96,17 @@ namespace CodeFreak1
                 m.CreateMap<RolesPermissionsViewModel, PermissionsMapping>();
 
                 m.CreateMap<Difficulty, DifficultyViewModel>();
-                m.CreateMap<DifficultyViewModel,Difficulty>();
+                m.CreateMap<DifficultyViewModel, Difficulty>();
 
                 m.CreateMap<ProblemType, ProblemTypeViewModel>();
-                m.CreateMap<ProblemTypeViewModel,ProblemType>();
+                m.CreateMap<ProblemTypeViewModel, ProblemType>();
 
-                m.CreateMap<ProgrammingLanguageViewModel,ProgrammingLanguage>();
+                m.CreateMap<ProgrammingLanguageViewModel, ProgrammingLanguage>();
                 m.CreateMap<ProgrammingLanguage, ProgrammingLanguageViewModel>();
 
                 m.CreateMap<Submission, SubmissionViewModel>();
                 m.CreateMap<SubmissionViewModel, Submission>();
 
-                m.CreateMap<ProblemTestCase, ProblemTestCaseViewModel>();
-                m.CreateMap<ProblemTestCaseViewModel, ProblemTestCase>();
-
-                m.CreateMap<SubmissionProblemTestCaseViewModel, SubmissionProblemTestCase>();
-                m.CreateMap<SubmissionProblemTestCase, SubmissionProblemTestCaseViewModel>();
             });
             #endregion
         }

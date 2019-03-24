@@ -1,0 +1,5 @@
+cd C:\Users\msalm\Documents\GitHub\CodeFreak\CompilerNetwork\User\0e984725-c51c-4bf4-9960-e1c80e27aba0
+g++ Code.cpp -o Code.exe 2> ERROR_0e984725-c51c-4bf4-9960-e1c80e27aba0_0e984725-c51c-4bf4-9960-e1c80e27aba1_baf10e70-e6b5-4cb8-8cdd-e0e7d919c94b.txt
+IF EXIST Code.exe (
+Code.exe
+)

@@ -31,6 +31,7 @@ import { ProgrammingLanguageModule } from './programming-language/programming-la
 import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
 import { ToastrModule } from 'ngx-toastr';
 import { ToastModule } from './toast/toast.module';
+import { TeamComponent } from './team/team.component';
 
 @NgModule({
   declarations: [
@@ -46,8 +47,11 @@ import { ToastModule } from './toast/toast.module';
     LoginComponent,
     AdminHomeComponent,
     AdminLayoutComponent,
-    SiteLayoutComponent
-  ],
+    SiteLayoutComponent,
+    ChatComponent
+    SiteLayoutComponent,
+    ChatComponent,
+    TeamComponent  ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
@@ -76,6 +80,7 @@ import { ToastModule } from './toast/toast.module';
         ]
       },
       { path: 'login', component: LoginComponent },
+      {path: 'team', component: TeamComponent},
       {
         path: '', component: SiteLayoutComponent,
         children: [

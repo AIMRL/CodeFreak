@@ -70,7 +70,15 @@ namespace CodeFreak1.Repositories
 
 
 
+        public Submission getSubmissionDetail(Guid sid)
+        {
+            Submission Sub = new Submission();
 
+            Sub = db.Submission.FirstOrDefault(s=> s.SubmissionId == sid);
+        
+            return Sub;
+
+        }
 
 
 

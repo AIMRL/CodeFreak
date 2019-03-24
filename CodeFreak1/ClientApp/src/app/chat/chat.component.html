@@ -1,0 +1,74 @@
+
+
+<div class="container">
+  <h3 class=" text-center">Messaging</h3>
+  <div class="messaging">
+        <div class="inbox_msg">
+          <div class="inbox_people">
+            <div class="headind_srch">
+              <div class="recent_heading">
+                <h4>Recent</h4>
+              </div>
+              <div class="srch_bar">
+                <div class="stylish-input-group">
+                  <input type="text" class="search-bar"  placeholder="Search" >
+                  <span class="input-group-addon">
+                  <button type="button"> <i class="fa fa-search" aria-hidden="true"></i> </button>
+                  </span> </div>
+              </div>
+            </div>
+
+
+            <div class="inbox_chat">
+              <div *ngFor="let user of users ;first as isFirst; index as i"  [ngClass]="{'chat_list active_chat' : index==i ,'chat_list':1}" (click)="getChat(user,i)">
+                <div class="chat_people">
+                  <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
+                  <div class="chat_ib">
+                    <h5>{{user.Name}} <span class="chat_date">Dec 25</span></h5>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+
+
+
+
+
+
+
+          </div>
+          <div class="mesgs">
+            <div class="msg_history" style="overflow: scroll; height: xyz;" #scrollMe [scrollTop]="scrollMe.scrollHeight">
+              <div *ngFor="let msg of messages " [ngClass]="{'incoming_msg' : curr_user==msg.reciever.UserId}">
+                <div  *ngIf="curr_user==msg.reciever.UserId" class="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
+                <div  [ngClass]="{'received_msg' : curr_user==msg.reciever.UserId,'outgoing_msg': curr_user==msg.sender.UserId}">
+                  <div [ngClass]="{'received_withd_msg' : curr_user==msg.reciever.UserId,'sent_msg': curr_user==msg.sender.UserId}">
+                        <p>{{msg.message.MessageText}}</p>
+                    <span class="time_date">msg.message.DateOfText</span></div>
+                </div>
+              </div>
+              
+            </div>
+
+
+           
+              
+            <div class="type_msg">
+                <div class="input_msg_write">
+                 
+                  <input type="text" class="write_msg" [(ngModel)]="messageText" [value]="messageText" name="messageText" id="messgae_text" ngModel placeholder="Type a message" />
+                  <button class="msg_send_btn" type="button" (click)="sendmessage()"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
+
+                </div>
+              </div>
+          
+            
+          </div>
+        </div>
+        
+        
+        <p class="text-center top_spac"> Design by <a target="_blank" href="#">Sunil Rajput</a></p>
+        
+      </div></div>
