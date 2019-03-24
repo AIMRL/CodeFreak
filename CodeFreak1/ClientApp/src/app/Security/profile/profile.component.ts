@@ -5,7 +5,7 @@ import { AppSettings } from '../../AppSetting';
 import { SecurityService } from '../security.service';
 import { ProfileEmailViewModel } from '../Dtos/profile-email-view-model';
 import { ProfileViewModel } from '../Dtos/profile-view-model';
-
+import { ProblemSubmissionViewModel } from '../Dtos/problem-submission-view-model';
 
 @Component({
   selector: 'app-profile',
@@ -24,6 +24,7 @@ export class ProfileComponent implements OnInit {
 
   profileViewModel: ProfileViewModel;
   profileEmailViewModel: ProfileEmailViewModel;
+  submissionList: Array<ProblemSubmissionViewModel>;
 
   send_code_email ="";
   send_user_code = "";
@@ -50,6 +51,7 @@ export class ProfileComponent implements OnInit {
     this.ChangePassword = false;
 
   }
+
   sendEmail() {
 
     this.codeUser = true;
@@ -73,7 +75,7 @@ export class ProfileComponent implements OnInit {
     this.verifyUser = false;
     this.user_code_mismatch = false;
     this.ChangePassword = false;
-
+ 
 
     if (this.send_user_code == this.profileEmailViewModel.Code) {
       this.ChangePassword = true;
@@ -161,15 +163,37 @@ export class ProfileComponent implements OnInit {
 
   constructor(private service: SecurityService ) {
 
-    this.personal_name = "great Khali";
-    this.personal_email = "abc@yahoo.com";
+
+
+    this.submissionList = new Array<ProblemSubmissionViewModel>();
+
+    this.service.gtetUserInfo().subscribe(res => {
+
+
+      this.profileViewModel = res;
+
+      this.personal_name = this.profileViewModel.Name;
+      this.personal_email = this.profileViewModel.Email;
+      this.imageURL = this.profileViewModel.imageURL;
+
+      this.service.getSubmission(this.profileViewModel.UserId).subscribe(
+
+        or => {
+          this.submissionList = or;
+          this.problem_solved = or.length;
+        })
+
+  
+
+    })
+
 
     this.personal_name_readonly = true;
     this.personal_email_readonly = true;
 
     this.codefreak_rank = 7;
     this.competition_won = 2;
-    this.problem_solved = 12;
+ 
   }
 
   ngOnInit() {
@@ -195,11 +219,11 @@ export class ProfileComponent implements OnInit {
 
   onUpload() {
 
+
+
    this.service.postImage(this.fileToUpload);
 
   }
 
-
-
-
 }
+

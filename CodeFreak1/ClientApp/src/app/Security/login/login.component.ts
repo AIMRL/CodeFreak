@@ -16,7 +16,7 @@ import { ToastService } from '../../toast/toast.service';
 })
 export class LoginComponent implements OnInit {
   imagePath = AppSettings.SignInPath;
-  logoPath = AppSettings.logoPath;
+  //logoPath = AppSettings.logoPath;
   emailFormControl = new FormControl('', [
     Validators.required,
     Validators.email,

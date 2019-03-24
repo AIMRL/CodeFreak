@@ -26,29 +26,17 @@
         </div>
       </div>
       <div class="row">
-<<<<<<< HEAD
-          <mat-form-field class="cf-input">
-            <input matInput [matDatepicker]="picker" [(ngModel)]="user.DateOfBirth" name="DateOfBirth" placeholder="Choose your date of birth">
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-          </mat-form-field>
-        </div>
-      <div class="row">
-        <mat-form-field class="cf-input">
-          <input matInput [formControl]="emailFormControl" [(ngModel)]="user.Email" [errorStateMatcher]="matcher" placeholder="Enter Your Email">
-          <mat-icon class="cf-iconCursor" matSuffix >email</mat-icon>
-=======
         <mat-form-field class="cf-input">
           <input matInput [matDatepicker]="picker" [(ngModel)]="user.DateOfBirth" name="DateOfBirth" placeholder="Choose a date">
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
       </div>
+
       <div class="row">
         <mat-form-field class="cf-input">
           <input matInput [formControl]="emailFormControl" [(ngModel)]="user.Email" [errorStateMatcher]="matcher" placeholder="Enter Email">
           <mat-icon class="cf-iconCursor" matSuffix>email</mat-icon>
->>>>>>> develop
           <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
             Please enter a valid email address
           </mat-error>
