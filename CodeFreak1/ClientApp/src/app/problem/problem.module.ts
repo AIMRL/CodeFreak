@@ -63,8 +63,8 @@ import { UrlDetailComponent } from './url-detail/url-detail.component';
 
           { path: 'test', component: TestComponent },
 
-          { path: 'allProblems', component: ProblemsListComponent, canActivate: [AdminRoleGuard] },
-          { path: 'allProblems/:which/:name', component: ProblemsListComponent, canActivate: [AdminRoleGuard] },
+          { path: 'allProblems', component: ProblemsListComponent },
+          { path: 'allProblems/:which/:name', component: ProblemsListComponent },
           { path: 'result', component: ResultComponent },
           { path: 'submissionDetail/:id', component: SubmissionDetailComponent },
           { path: 'urlDetail/:url', component: UrlDetailComponent }

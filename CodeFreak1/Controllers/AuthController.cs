@@ -184,6 +184,33 @@ namespace CodeFreak1.Controllers
             }
             
         }
+        
+
+        [Route("allUsers")]
+        [HttpGet("allUsers")]
+        public IActionResult getAllUsers()
+        {
+            List<UsersViewModel> users = new List<UsersViewModel>();
+            var list = userRepository.getAllUsers();
+            Users user = getApplicationUser();
+            List<UserReturnViewModel> retList = new List<UserReturnViewModel>();
+
+            foreach(var item in list)
+            {
+                UsersViewModel md = new UsersViewModel();
+                UserReturnViewModel retMd = new UserReturnViewModel();
+                md = Mapper.Map<Users, UsersViewModel>(item);
+                if (md.UserId != user.UserId)
+                {
+                    retMd.UserId = md.UserId;
+                    retMd.Email = md.Email;
+                    retMd.Name = md.Name;
+                    retMd.IsActive = md.IsActive;
+                    retList.Add(retMd);
+                }
+            }
+            return Ok(retList);
+        }
 
         [HttpGet("getAllUserInfo")]
         [Route("getAllUserInfo")]

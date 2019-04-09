@@ -13,13 +13,12 @@ export class AppSettings {
   public static submissionURl: string = `/api/Submission/`; 
   public static roleURl: string = `/api/Role/`; 
   public static ProfileURl: string = `/api/Profile/`;
-
+   public static chatURL: string = `/api/Chat/`; 
+  
   //Images path
   public static SignInPath = '../../assets/images/loginback.jpg';
   public static logoPath = '../../assets/images/cflogo.png';
   public static Profile_DefaultUser = '../../assets/images/default-user.png';
   public static UserImagesBaseUrl = '../../assets/User/';
-
   
-
 }

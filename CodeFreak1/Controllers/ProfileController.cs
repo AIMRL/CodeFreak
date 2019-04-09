@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Mail;
 
@@ -19,19 +21,33 @@ namespace CodeFreak1.Controllers
     {
 
         UserRepository userRepository = new UserRepository();
+        SubmissionRepository submissionRepo = new SubmissionRepository();
 
         [HttpPost]
         [Route("UploadImage")]
-        [AllowAnonymous]
 
-        public IActionResult UploadImage(IFormFile Image )
+        public IActionResult UploadImage(IFormFile Image)
         {
 
+            String ext = System.IO.Path.GetExtension(Image.FileName);
 
-           // var httpRequest = System.Web.HttpContext.Current.Request;
-           // var postedFile = httpRequest.Files[file];
-           // var filePath = HttpContext.Current.Server.MapPath("~/" + postedFile.FileName);
-           // postedFile.SaveAs(filePath);
+            String folderName = Path.Combine(@"CodeFreak1/ClientApp/src/assets/profile");
+            String path = Directory.GetCurrentDirectory();
+
+
+            String path1 = new String(path.Reverse().ToArray());
+            path1 = path1.Substring(path1.IndexOf('\\') + 1, path1.Length - (path1.IndexOf('\\') + 1));
+            path1 = new String(path1.Reverse().ToArray());
+            string newPath = Path.Combine(path1, folderName);
+
+            string inputFileName = Guid.NewGuid().ToString() + ext;
+
+
+            string inputFilePath = Path.Combine(newPath, inputFileName);
+            using (var stream = new FileStream(inputFilePath, FileMode.Create))
+            {
+                Image.CopyTo(stream);
+            }
 
 
             return Ok();
@@ -40,7 +56,6 @@ namespace CodeFreak1.Controllers
 
         [HttpPost]
         [Route("SendEmail")]
-        [AllowAnonymous]
 
         public IActionResult sendEmail([FromBody] ProfileEmailViewModel profileEmailViewModel)
         {
@@ -87,7 +102,6 @@ namespace CodeFreak1.Controllers
         }
         [HttpPost]
         [Route("ChangePassword")]
-        [AllowAnonymous]
 
         public IActionResult ChangePassword([FromBody] String Password)
         {
@@ -107,7 +121,6 @@ namespace CodeFreak1.Controllers
 
         [HttpPost]
         [Route("ChangePersonalInfo")]
-        [AllowAnonymous]
 
         public IActionResult ChangePersonalInfo([FromBody] ProfileViewModel profile)
         {
@@ -125,6 +138,29 @@ namespace CodeFreak1.Controllers
             return Ok();
 
         }
+
+
+        [HttpGet]
+        [Route("User")]
+
+        public IActionResult getUserInfo()
+        {
+            Users user = getApplicationUser();
+
+            ProfileViewModel profileViewModel = new ProfileViewModel();
+
+            profileViewModel.Email = user.Email;
+            profileViewModel.Name = user.Name;
+            profileViewModel.UserId = user.UserId;
+            profileViewModel.imageURL = "";
+            profileViewModel.Password = user.Password;
+
+            return Ok(profileViewModel);
+        }
+
+
+
+
 
         [HttpPost]
         [Route("Test")]

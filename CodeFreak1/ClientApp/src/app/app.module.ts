@@ -35,6 +35,9 @@ import { EventModule } from './event/event.module';
 import { RequestStatus } from './request-status';
 import { NoConflictStyleCompatibilityMode, Md2Module } from 'md2';
 //import {} from '@angular/material';
+import { TeamComponent } from './team/team.component';
+import { ChatComponent } from './chat/chat.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -49,8 +52,10 @@ import { NoConflictStyleCompatibilityMode, Md2Module } from 'md2';
     LoginComponent,
     AdminHomeComponent,
     AdminLayoutComponent,
-    SiteLayoutComponent
-  ],
+    SiteLayoutComponent,
+    SiteLayoutComponent,
+    ChatComponent,
+    TeamComponent  ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
@@ -76,13 +81,14 @@ import { NoConflictStyleCompatibilityMode, Md2Module } from 'md2';
 
       {
         path: '', component: AdminLayoutComponent, canActivate: [AdminRoleGuard],
-        
         children: [
           { path: 'counter', component: CounterComponent, canActivate: [AdminRoleGuard] },
         ]
       },
 
       { path: 'login', component: LoginComponent },
+      { path: 'chat', component: ChatComponent },
+      {path: 'team', component: TeamComponent},
       {
         path: '', component: SiteLayoutComponent,
         children: [

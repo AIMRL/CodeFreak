@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AppSettings } from '../AppSetting';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { CodeFreakHeaders } from '../Interceptors/CodeFreakHeaders';
@@ -10,6 +10,8 @@ import { EventProblemsViewModel } from './dtos/event-problems-view-model';
 import { ProblemCompleteViewModel } from '../problem/dtos/problem-complete-view-model';
 import { CompleteSubmissionViewModel } from '../problem/dtos/complete-submission-view-model';
 import { UserInfoViewModel } from '../Security/Dtos/user-info-view-model';
+import { ToastService } from '../toast/toast.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -29,7 +31,7 @@ export class EventService {
   private removeEventUserUrl = `removeEventUser`;
 
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private route: Router, private toast: ToastService) { }
   addEvent(eve): Observable<EventViewModel> {
     let httpOptions = {
       headers: new HttpHeaders({ 'Authorization': 'Bearer ' + localStorage.getItem('token'), 'Content-Type': 'application/json' })
@@ -41,7 +43,7 @@ export class EventService {
     let url = `${this.baseUrl}${this.handlerUrl}${this.addEventUrl}`;
     var res = this.http.post<EventViewModel>(url, JSON.stringify(eve), httpOptions).pipe(
       tap((cre: EventViewModel) => this.log(`added employee w/ Success=${cre.Success}`)),
-      catchError(this.handleError<EventViewModel>('Error in adding Event', res)));
+      catchError((error: HttpErrorResponse)=>this.handleError<EventViewModel>(error)));
     return res;
   }
   getEventById(id): Observable<EventUserViewModel> {
@@ -55,7 +57,7 @@ export class EventService {
     let url = `${this.baseUrl}${this.handlerUrl}${this.getEventyIdUrl}?eventId=${id}`;
     var res = this.http.get<EventUserViewModel>(url, httpOptions).pipe(
       tap((cre: EventUserViewModel) => this.log(`added employee w/ Success=${cre.Success}`)),
-      catchError(this.handleError<EventUserViewModel>('Error in adding Event', res)));
+      catchError((error: HttpErrorResponse) =>this.handleError<EventUserViewModel>(error)));
     return res;
   }
 
@@ -71,7 +73,7 @@ export class EventService {
     let url = `${this.baseUrl}${this.handlerUrl}${this.addEventProblemUrl}`;
     var res = this.http.post<EventProblemsViewModel>(url, JSON.stringify(eveProb), httpOptions).pipe(
       tap((cre: EventProblemsViewModel) => this.log(`added employee w/ Success=${cre.Success}`)),
-      catchError(this.handleError<EventProblemsViewModel>('Error in adding Event', res)));
+      catchError((error: HttpErrorResponse) =>this.handleError<EventProblemsViewModel>(error)));
     return res;
   }
   removeEventProblem(eveProb): Observable<EventProblemsViewModel> {
@@ -85,7 +87,7 @@ export class EventService {
     let url = `${this.baseUrl}${this.handlerUrl}${this.removeEventProblemsUrl}`;
     var res = this.http.post<EventProblemsViewModel>(url, JSON.stringify(eveProb), httpOptions).pipe(
       tap((cre: EventProblemsViewModel) => this.log(`added employee w/ Success=${cre.Success}`)),
-      catchError(this.handleError<EventProblemsViewModel>('Error in adding Event', res)));
+      catchError((error: HttpErrorResponse) =>this.handleError<EventProblemsViewModel>(error)));
     return res;
   }
 
@@ -101,7 +103,7 @@ export class EventService {
     let url = `${this.baseUrl}${this.handlerUrl}${this.getEventProblemsUrl}?eventId=${id}`;
     var res = this.http.get<Array<ProblemCompleteViewModel>>(url, httpOptions).pipe(
       tap((cre: Array<ProblemCompleteViewModel>) => this.log(`added employee w/ Success=${cre.length}`)),
-      catchError(this.handleError<Array<ProblemCompleteViewModel>>('Error in login')));
+      catchError((error: HttpErrorResponse) =>this.handleError<Array<ProblemCompleteViewModel>>(error)));
     return res;
   }
   getEventSubmissions(id): Observable<Array<CompleteSubmissionViewModel>> {
@@ -116,7 +118,7 @@ export class EventService {
     let url = `${this.baseUrl}${this.handlerUrl}${this.getEventSubmissionsUrl}?eventId=${id}`;
     var res = this.http.get<Array<CompleteSubmissionViewModel>>(url, httpOptions).pipe(
       tap((cre: Array<CompleteSubmissionViewModel>) => this.log(`added employee w/ Success=${cre.length}`)),
-      catchError(this.handleError<Array<CompleteSubmissionViewModel>>('Error in login')));
+      catchError((error: HttpErrorResponse) =>this.handleError<Array<CompleteSubmissionViewModel>>(error)));
     return res;
   }
 
@@ -131,7 +133,7 @@ export class EventService {
     let url = `${this.baseUrl}${this.handlerUrl}${this.addEventUserUrl}`;
     var res = this.http.post<EventUserViewModel>(url, JSON.stringify(val), httpOptions).pipe(
       tap((cre: EventUserViewModel) => this.log(`added employee w/ Success=${cre.Success}`)),
-      catchError(this.handleError<EventUserViewModel>('Error in adding Event', res)));
+      catchError((error: HttpErrorResponse) =>this.handleError<EventUserViewModel>(error)));
     return res;
   }
 
@@ -147,7 +149,7 @@ export class EventService {
     let url = `${this.baseUrl}${this.handlerUrl}${this.getEventUsersUrl}?eventId=${id}`;
     var res = this.http.get<Array<EventUserViewModel>>(url, httpOptions).pipe(
       tap((cre: Array<EventUserViewModel>) => this.log(`added employee w/ Success=${cre.length}`)),
-      catchError(this.handleError<Array<EventUserViewModel>>('Error in login')));
+      catchError((error: HttpErrorResponse) =>this.handleError<Array<EventUserViewModel>>(error)));
     return res;
   }
 
@@ -163,25 +165,25 @@ export class EventService {
     let url = `${this.baseUrl}${this.handlerUrl}${this.removeEventUserUrl}?eventId=${eventId}&userId=${userId}`;
     var res = this.http.get<UserInfoViewModel>(url, httpOptions).pipe(
       tap((cre: UserInfoViewModel) => this.log(`added employee w/ Success=`)),
-      catchError(this.handleError<UserInfoViewModel>('Error in login')));
+      catchError((error: HttpErrorResponse) =>this.handleError<UserInfoViewModel>(error)));
     return res;
   }
 
 
 
 
-  private handleError<T>(operation = 'operation', result?: T) {
+  private handleError<T>(error: HttpErrorResponse, result?: T) {
+    debugger;
+    if (error.status == 401) {
+      this.toast.makeError("Please login", "");
+      this.route.navigate(['login']);
+      return;
+    }
+    return Observable.throw(error);
 
-    return (error: any): Observable<T> => {
-      // TODO: send the error to remote logging infrastructure
-      console.error(error); // log to console instead
-      // TODO: better job of transforming error for user consumption
-      this.log(`${operation} failed: ${error.message}`);
-      // Let the app keep running by returning an empty result.
-      return of(result as T);
-    };
   }
   private log(message: string) {
-    //
+    console.log(message);
   }
+
 }

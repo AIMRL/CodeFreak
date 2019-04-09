@@ -8,6 +8,7 @@ import { SignInViewModel } from '../Dtos/sign-in-view-model';
 import { UserRolesViewModel } from '../Dtos/user-roles-view-model';
 import { AppSettings } from '../../AppSetting';
 import { ToastService } from '../../toast/toast.service';
+import { Hub } from '../../chat/Dtos/HubModule';
 
 @Component({
   selector: 'app-login',
@@ -17,6 +18,7 @@ import { ToastService } from '../../toast/toast.service';
 export class LoginComponent implements OnInit {
   imagePath = AppSettings.SignInPath;
   logoPath = AppSettings.logoPath;
+  hub: Hub;
   emailFormControl = new FormControl('', [
     Validators.required,
     Validators.email,
@@ -49,6 +51,10 @@ export class LoginComponent implements OnInit {
         this.userRoles = res;
         localStorage.setItem("token", this.userRoles.Token);
         this.toaster.makeSuccess('Login Successfully', 'Welcome ' + this.userRoles.User.Name);
+
+        //this.hub = new Hub();
+       //this.hub.buildConnection();
+       //  this.router.navigate(['chat']);
         this.router.navigate(['home']);
         return;
       }

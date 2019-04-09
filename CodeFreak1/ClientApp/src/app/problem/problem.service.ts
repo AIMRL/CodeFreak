@@ -16,6 +16,8 @@ import { forEach } from '@angular/router/src/utils/collection';
 import { AddProblemViewModel } from './dtos/add-problem-view-model';
 import { ProblemViewModel } from './dtos/problem-view-model';
 import { debug } from 'util';
+import { Router } from '@angular/router';
+import { ToastService } from '../toast/toast.service';
 
 
 @Injectable()
@@ -36,7 +38,7 @@ export class ProblemService {
   UserFileCodeUrl: string = `byUrlFile?urlFile=`;
 
   private addProblemUrl: string = `addProblem`;
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private route: Router, private toast: ToastService) { }
 
 
   addProblem(problemData: AddProblemViewModel): Observable<ProblemViewModel> {
@@ -56,7 +58,7 @@ export class ProblemService {
     let url = `${this.baseUrl}${this.problemHandlerUrl}${this.addProblemUrl}`;
     var res = this.http.post<ProblemViewModel>(url, formData, httpOptions).pipe(
       tap((cre: ProblemViewModel) => this.log(`added employee w/ Success=${cre.Success}`)),
-      catchError(this.handleError<ProblemViewModel>('Error in login')));
+      catchError((error: HttpErrorResponse) =>this.handleError<ProblemViewModel>(error)));
     return res;
   }
   handleError1(errorResponse: HttpErrorResponse) {
@@ -87,27 +89,40 @@ export class ProblemService {
     let url = `${this.baseUrl}${this.handlerUrl}${this.compileUrl}`;
     var res = this.http.post<CompilerOutputViewModel>(url, JSON.stringify(credentials), httpOptions).pipe(
       tap((cre: CompilerOutputViewModel) => this.log(`added employee w/ Success=${cre.Success}`)),
-      catchError(this.handleError<CompilerOutputViewModel>('Error in login')));
+      catchError((error: HttpErrorResponse) =>this.handleError<CompilerOutputViewModel>(error)));
     return res;
   }
 
   
   getAllProblems(): Observable<Array<ProblemCompleteViewModel>> {
-    let httpOptions = CodeFreakHeaders.GetSimpleHeader();
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Authorization': 'Bearer ' + localStorage.getItem('token'), 'Content-Type': 'application/json' })
+    };
+    httpOptions.headers.append('Content-Type', 'application/json');
+    httpOptions.headers.append('Accept', 'application/json');
+    httpOptions.headers.append('Authorization', `bearer ${localStorage.getItem('token')}`);
+
     let url = `${this.baseUrl}${this.problemHandlerUrl}${this.allProblemsUrl}`;
     var res = this.http.get<Array<ProblemCompleteViewModel>>(url, httpOptions).pipe(
       tap((cre: Array<ProblemCompleteViewModel>) => this.log(`added employee w/ Success=${cre.length}`)),
-      catchError(this.handleError<Array<ProblemCompleteViewModel>>('Error in login')));
+      catchError((error: HttpErrorResponse) => this.handleError<Array<ProblemCompleteViewModel>>(error))
+    );
     return res;
   }
 
 
   getProblembyId(id): Observable<ProblemCompleteViewModel> {
-    let httpOptions = CodeFreakHeaders.GetSimpleHeader();
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Authorization': 'Bearer ' + localStorage.getItem('token'), 'Content-Type': 'application/json' })
+    };
+    httpOptions.headers.append('Content-Type', 'application/json');
+    httpOptions.headers.append('Accept', 'application/json');
+    httpOptions.headers.append('Authorization', `bearer ${localStorage.getItem('token')}`);
+
     let url = `${this.baseUrl}${this.problemHandlerUrl}${this.problemByIdUrl}${id}`;
     var res = this.http.get<ProblemCompleteViewModel>(url, httpOptions).pipe(
       tap((cre: ProblemCompleteViewModel) => this.log(`added employee w/ Success=${cre.Success}`)),
-      catchError(this.handleError<ProblemCompleteViewModel>('Error in login')));
+      catchError((error: HttpErrorResponse) =>this.handleError<ProblemCompleteViewModel>(error)));
     return res;
   }
 
@@ -119,7 +134,7 @@ export class ProblemService {
 
     var res = this.http.get<Array<SubmissionViewModel>>(url, httpOptions).pipe(
       tap((cre: Array<SubmissionViewModel>) => this.log(`added employee w / Success=${cre.length}`)),
-      catchError(this.handleError<Array<SubmissionViewModel>>('Error in get Submission'))
+      catchError((error: HttpErrorResponse) =>this.handleError<Array<SubmissionViewModel>>(error))
     );
 
     return res;
@@ -153,18 +168,17 @@ export class ProblemService {
     return res;
   }
 
-  private handleError<T>(operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-      // TODO: send the error to remote logging infrastructure
-      console.error(error); // log to console instead
-      // TODO: better job of transforming error for user consumption
-      this.log(`${operation} failed: ${error.message}`);
-      // Let the app keep running by returning an empty result.
-      return of(result as T);
-    };
+  private handleError<T>(error: HttpErrorResponse, result?: T) {
+    debugger;
+    if (error.status == 401) {
+      this.toast.makeError("Please login", "");
+      this.route.navigate(['login']);
+      return;
+    }
+    return Observable.throw(error);
+
   }
   private log(message: string) {
-    debugger;
-    //
+    console.log(message);
   }
 }

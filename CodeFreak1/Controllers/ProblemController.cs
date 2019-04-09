@@ -32,7 +32,6 @@ namespace CodeFreak1.Controllers
 
         [Route("addProblem")]
         [HttpPost("addProblem")]
-        [AllowAnonymous]
         public IActionResult addProblem()
         {
             try
@@ -147,7 +146,6 @@ namespace CodeFreak1.Controllers
 
         [Route("allProblem")]
         [HttpGet("allProblem")]
-        [AllowAnonymous]
         public IActionResult GetAllProblems()
         {
             var list = rep.getAllProblems();
@@ -166,7 +164,6 @@ namespace CodeFreak1.Controllers
         }
         [Route("problemById")]
         [HttpGet("problemById")]
-        [AllowAnonymous]
         public IActionResult GetProblemBId(Guid id)
         {
             Problem problem = rep.getProblemById(id);

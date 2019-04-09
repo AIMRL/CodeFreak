@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { SecurityService } from '../../Security/security.service';
+import { debug } from 'util';
+import { AppSettings } from '../../AppSetting';
+
 
 @Component({
   selector: 'app-appheader',
@@ -8,14 +13,33 @@ import { Router } from '@angular/router';
 })
 export class AppheaderComponent implements OnInit {
 
-  constructor(private router: Router) { }
+  name = "Arslan Aslam";
+  email = "arslanaslam@gmail.com";
+
+  imagePath = AppSettings.logoPath;
+
+  constructor(private securityService: SecurityService, private router: Router, private http: HttpClient) { }
 
   ngOnInit() {
-  }
-  logout() {
 
+
+
+   var s= this.securityService.gtetUserInfo().subscribe( res =>
+   {
+     debugger;
+      this.name = res.Name;
+      this.email = res.Email;
+      this.imagePath = res.imageURL;
+      });
+  }
+
+  logout() {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     this.router.navigate(['login']);
+  }
+
+  profile() {
+    this.router.navigate(['profile']);
   }
 }

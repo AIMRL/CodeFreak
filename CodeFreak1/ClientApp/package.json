@@ -25,6 +25,7 @@
     "@angular/platform-browser-dynamic": "^7.1.4",
     "@angular/platform-server": "^7.1.4",
     "@angular/router": "^7.1.4",
+    "@aspnet/signalr": "^1.1.2",
     "@nguniversal/module-map-ngfactory-loader": "^5.0.0-beta.5",
     "@ngx-loading-bar/http-client": "^3.0.0",
     "angular-froala-wysiwyg": "^2.9.1",
