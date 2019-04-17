@@ -78,23 +78,12 @@ import { ChatComponent } from './chat/chat.component';
     NoConflictStyleCompatibilityMode,
     Md2Module,
     RouterModule.forRoot([
-
-      {
-        path: '', component: AdminLayoutComponent, canActivate: [AdminRoleGuard],
-        children: [
-          { path: 'counter', component: CounterComponent, canActivate: [AdminRoleGuard] },
-        ]
-      },
-
-      { path: 'login', component: LoginComponent },
-      { path: 'chat', component: ChatComponent },
-      {path: 'team', component: TeamComponent},
       {
         path: '', component: SiteLayoutComponent,
         children: [
-          { path: 'fetch-data', component: FetchDataComponent },
+          { path: 'chat', component: ChatComponent, canActivate: [AdminRoleGuard]},
+          { path: 'team', component: TeamComponent },
           { path: 'home', component: HomeComponent }
-
         ]
       },
     ])

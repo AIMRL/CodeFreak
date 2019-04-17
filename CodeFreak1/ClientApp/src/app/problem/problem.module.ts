@@ -56,18 +56,18 @@ import { UrlDetailComponent } from './url-detail/url-detail.component';
     RouterModule.forRoot([
       {
         path: '', component: SiteLayoutComponent, children: [
-          { path: 'problem/:id', component: ProblemComponent },
-          { path: 'create-problem', component: CreateProbemComponent },
+          { path: 'problem/:id', component: ProblemComponent, canActivate: [AdminRoleGuard] },
+          { path: 'create-problem', component: CreateProbemComponent, canActivate: [AdminRoleGuard] },
 
-          { path: 'submission', component: SubmissionComponent },
+          { path: 'submission', component: SubmissionComponent, canActivate: [AdminRoleGuard]},
 
-          { path: 'test', component: TestComponent },
+          { path: 'test', component: TestComponent, canActivate: [AdminRoleGuard]},
 
-          { path: 'allProblems', component: ProblemsListComponent },
-          { path: 'allProblems/:which/:name', component: ProblemsListComponent },
-          { path: 'result', component: ResultComponent },
-          { path: 'submissionDetail/:id', component: SubmissionDetailComponent },
-          { path: 'urlDetail/:url', component: UrlDetailComponent }
+          { path: 'allProblems', component: ProblemsListComponent, canActivate: [AdminRoleGuard]},
+          { path: 'allProblems/:which/:name', component: ProblemsListComponent, canActivate: [AdminRoleGuard]},
+          { path: 'result', component: ResultComponent, canActivate: [AdminRoleGuard]},
+          { path: 'submissionDetail/:id', component: SubmissionDetailComponent, canActivate: [AdminRoleGuard]},
+          { path: 'urlDetail/:url', component: UrlDetailComponent, canActivate: [AdminRoleGuard]}
 
 
         ]

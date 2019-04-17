@@ -59,7 +59,8 @@
       <div class="col-md-3 event-creater-box" *ngIf="isEventFound">
         <div class="row" style="margin-bottom:20px;">
           <div style="text-align: center;margin-top:5px;margin-bottom:0;padding-bottom:0">
-            <img [src]="logoPath" width="80px" height="80px" />
+            <img *ngIf="eventUser.UserImage==null || eventUser.UserImage.FilePath==null" [src]="logoPath" width="80px" height="80px" />
+            <img *ngIf="eventUser.UserImage!=null && eventUser.UserImage.FilePath!=null" style="border-radius:100%" [src]="profilesUrl+eventUser.UserImage.FilePath" width="80px" height="80px" />
             <div><b>{{eventUser.User.Name}}</b></div>
           </div>
         </div>
@@ -73,11 +74,11 @@
         </div>
         <div class="row">
           <label class="creater-label">Event Start Time</label>
-          <label style="float:right">{{eventUser.Event.StartDateTime | date:'hh:mm a z'}}</label>
+          <label style="float:right">{{eventUser.Event.StartDateTime | date:'hh:mm a'}}</label>
         </div>
         <div class="row">
           <label class="creater-label">Event End Time</label>
-          <label style="float:right">{{eventUser.Event.EndDateTime | date:'hh:mm a z'}}</label>
+          <label style="float:right">{{eventUser.Event.EndDateTime | date:'hh:mm a'}}</label>
         </div>
       </div>
     </div>

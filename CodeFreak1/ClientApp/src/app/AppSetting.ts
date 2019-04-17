@@ -19,6 +19,5 @@ export class AppSettings {
   public static SignInPath = '../../assets/images/loginback.jpg';
   public static logoPath = '../../assets/images/cflogo.png';
   public static Profile_DefaultUser = '../../assets/images/default-user.png';
-  public static UserImagesBaseUrl = '../../assets/User/';
-  
+  public static UserImagesBaseUrl = '../../assets/profile/';
 }

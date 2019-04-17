@@ -104,6 +104,12 @@ namespace CodeFreak1.Controllers
             {
                 eventUserViewModel.Roles.Add(Mapper.Map<Roles, RolesViewModel>(item.Role));
             }
+
+            Files image=userRepository.getUserImage(user.UserId);
+            if(image!=null)
+            {
+                eventUserViewModel.UserImage = Mapper.Map<Files, FileViewModel>(image);
+            }
             eventUserViewModel.User.makeSuccess();
             eventUserViewModel.Event.makeSuccess();
             eventUserViewModel.makeSuccess();

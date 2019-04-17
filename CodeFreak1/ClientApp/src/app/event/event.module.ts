@@ -26,6 +26,7 @@ import { AdminEventHomeComponent } from './admin-event-home/admin-event-home.com
 import { EventManegeComponent } from './event-manege/event-manege.component';
 import { EventManager } from '@angular/platform-browser';
 import { EventRouteGuard } from '../Gaurds/event-route.guard';
+import { AdminRoleGuard } from '../Gaurds/admin-role.guard';
 
 
 @NgModule({
@@ -44,18 +45,18 @@ import { EventRouteGuard } from '../Gaurds/event-route.guard';
     RouterModule.forRoot([
       {
         path: '', component: SiteLayoutComponent, children: [
-          { path: 'create-event', component: CreateEventComponent },
+          { path: 'create-event', component: CreateEventComponent, canActivate: [AdminRoleGuard]},
           { path: 'create-event', component: EventHomeComponent },
-          { path: 'event-home/:eventId', component: EventHomeComponent },
-          { path: 'event/:id', component: UserEventHomeComponent },
-          { path: 'event-ad/:id', component: AdminEventHomeComponent },
-          { path: 'event-m/:id', component: EventManager, canActivate:[ EventRouteGuard ]}
+          { path: 'event-home/:eventId', component: EventHomeComponent, canActivate: [AdminRoleGuard]},
+          { path: 'event/:id', component: UserEventHomeComponent, canActivate: [AdminRoleGuard]},
+          { path: 'event-ad/:id', component: AdminEventHomeComponent, canActivate: [AdminRoleGuard] },
+          { path: 'event-m/:id', component: EventManager, canActivate: [AdminRoleGuard, EventRouteGuard] }
         ]
-      },
-      { path: 'event-problem', component: EventProblemsComponent },
-      { path: 'event-sub', component: EventSubmissionsComponent },
-      { path: 'event-user', component: EventUsersComponent },
-      { path: 'user-event-prob', component: UserEventProblemsComponent }
+      }
+      //{ path: 'event-problem', component: EventProblemsComponent },
+      //{ path: 'event-sub', component: EventSubmissionsComponent },
+      //{ path: 'event-user', component: EventUsersComponent },
+      //{ path: 'user-event-prob', component: UserEventProblemsComponent }
 
     ])
 

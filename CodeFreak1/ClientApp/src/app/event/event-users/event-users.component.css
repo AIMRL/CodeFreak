@@ -34,3 +34,10 @@
 .example-full-width {
   width: 100%;
 }
+.us-image {
+  width: 75px;
+  height: 75px;
+  margin-top: 10px;
+  margin-right: 5px;
+  border-radius: 100%;
+}

@@ -34,7 +34,7 @@ export class SecurityService {
   ProfileURl: string = AppSettings.ProfileURl;
   postImageURl: string = `UploadImage`;
   test: string = `Test`;
-  private profileUrl: string = `/api/profile/`;
+  private profileUrl: string = `/api/Profile/`;
   private SubmissionUrl: string = `/api/Submission/`;
   private submissionListUrl: string = `ByUser?UserId=`;
   private imageProfileUrl: string = `UploadImage`;
@@ -71,14 +71,13 @@ export class SecurityService {
   }
 
   postImage(fileToUpload: File) {
-    
+    debugger;
     var headers = new HttpHeaders();
-    headers.append('Accept', 'application/json');
-    headers.append('Authorization', `bearer ${localStorage.getItem('token')}`);
     let httpOptions = {
-      headers: headers
+      headers: new HttpHeaders({ 'Authorization': 'Bearer ' + localStorage.getItem('token') })
     };
-
+    httpOptions.headers.append('Accept', 'application/json');
+    httpOptions.headers.append('Authorization', `bearer ${localStorage.getItem('token')}`);
 
     const formData: FormData = new FormData();
     formData.append('Image', fileToUpload, fileToUpload.name);
@@ -114,7 +113,7 @@ export class SecurityService {
 
 
     var res = this.http.get<ProfileViewModel>(url, httpOptions).pipe(
-      tap((cre: ProfileViewModel) => this.log(`added employee w/ Success`)),
+      tap((cre: ProfileViewModel) => this.log(``)),
       catchError((err: HttpErrorResponse)=>this.catchEE<ProfileViewModel>(err))
     );
 

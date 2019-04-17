@@ -60,8 +60,8 @@
 
       <div class="col-md-8">
         <div style="display:flex">
-          <img *ngIf="us.UserImage!=null" class="example-option-img" aria-hidden [src]="item.FilePath" height="100">
-          <img *ngIf="!us.UserImage" class="example-option-img" aria-hidden [src]="logoUrl" height="100">
+          <img *ngIf="us.UserImage!=null" class="example-option-img us-image"  aria-hidden [src]="userImageBaseUrl+us.UserImage.FilePath" height="100">
+          <img *ngIf="us.UserImage==null" class="example-option-img" aria-hidden [src]="logoUrl" height="100">
           <div>
             <h2>{{us.User.Name}}</h2>
             <h5 class="cf-prob-row-desc">{{us.User.Email}}</h5>

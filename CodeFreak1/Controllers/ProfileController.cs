@@ -17,7 +17,8 @@ namespace CodeFreak1.Controllers
 {
 
     [Route("api/[controller]")]
-    public class ProfileController : Controller
+    [ApiController]
+    public class ProfileController : ControllerBase
     {
 
         UserRepository userRepository = new UserRepository();
@@ -25,7 +26,7 @@ namespace CodeFreak1.Controllers
 
         [HttpPost]
         [Route("UploadImage")]
-
+        [AllowAnonymous]
         public IActionResult UploadImage(IFormFile Image)
         {
 
@@ -49,6 +50,15 @@ namespace CodeFreak1.Controllers
                 Image.CopyTo(stream);
             }
 
+            Users user = getApplicationUser();
+            userRepository.removeUserImages(user.UserId);
+
+            Files file = new Files();
+            file.FilePath = inputFileName;
+            file.FileId = Guid.NewGuid();
+            file.Extention = ext;
+            file.UserId = user.UserId;
+            userRepository.addUserImage(file);
 
             return Ok();
 
@@ -56,7 +66,6 @@ namespace CodeFreak1.Controllers
 
         [HttpPost]
         [Route("SendEmail")]
-
         public IActionResult sendEmail([FromBody] ProfileEmailViewModel profileEmailViewModel)
         {
             
@@ -102,7 +111,6 @@ namespace CodeFreak1.Controllers
         }
         [HttpPost]
         [Route("ChangePassword")]
-
         public IActionResult ChangePassword([FromBody] String Password)
         {
 
@@ -121,7 +129,6 @@ namespace CodeFreak1.Controllers
 
         [HttpPost]
         [Route("ChangePersonalInfo")]
-
         public IActionResult ChangePersonalInfo([FromBody] ProfileViewModel profile)
         {
 
@@ -142,17 +149,20 @@ namespace CodeFreak1.Controllers
 
         [HttpGet]
         [Route("User")]
-
         public IActionResult getUserInfo()
         {
             Users user = getApplicationUser();
 
             ProfileViewModel profileViewModel = new ProfileViewModel();
-
+            Files file = userRepository.getUserImage(user.UserId);
             profileViewModel.Email = user.Email;
             profileViewModel.Name = user.Name;
             profileViewModel.UserId = user.UserId;
             profileViewModel.imageURL = "";
+            if(file!=null && !String.IsNullOrEmpty(file.FilePath))
+            {
+                profileViewModel.imageURL = file.FilePath;
+            }
             profileViewModel.Password = user.Password;
 
             return Ok(profileViewModel);
@@ -165,7 +175,6 @@ namespace CodeFreak1.Controllers
         [HttpPost]
         [Route("Test")]
         [AllowAnonymous]
-
         public IActionResult Test()
         {
 

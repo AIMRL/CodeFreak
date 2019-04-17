@@ -41,6 +41,13 @@ export class AdminEventHomeComponent implements OnInit {
     }
     this.eventService.getEventById(this.eventId).toPromise().then(res => {
       debugger;
+      var st = new Date(res.Event.StartDateTime);
+      st.setMinutes(st.getMinutes() - st.getTimezoneOffset());
+      res.Event.StartDateTime =new Date(st);
+
+      var en = new Date(res.Event.EndDateTime);
+      en.setMinutes(en.getMinutes() - en.getTimezoneOffset());
+      res.Event.EndDateTime = new Date(en);
       if (res == null || !res.Success) {
         this.msg = "Event Not Found";
         return;

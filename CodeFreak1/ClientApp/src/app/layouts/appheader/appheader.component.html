@@ -15,16 +15,16 @@
     <!-- Navbar Right Menu -->
     <div class="navbar-custom-menu">
       <ul class="nav navbar-nav">
-        <li><a>Create Event</a></li>
+        <li><a routerLink="/create-event">Create Event</a></li>
         <li><a>My Events</a></li>
-        <li><a>Problems</a></li>
-        <li><a>Create Problem</a></li>
-        <li><a>Message</a></li>
-        <li><a>About Us</a></li>
+        <li><a routerLink="/allProblems">Problems</a></li>
+        <li><a routerLink="/create-problem">Create Problem</a></li>
+        <li><a routerLink="/chat">Message</a></li>
+        <li><a routerLink="/team">About Us</a></li>
         <!-- User Account: style can be found in dropdown.less -->
-        <li class="dropdown user user-menu">
+        <li class="dropdown user user-menu" *ngIf="isAuth">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-            <img [src]="imagePath" class="user-image" alt="User Image">
+            <img [src]="imagePath" class="user-image" style="width:35px;height:35px" alt="User Image">
             <span class="hidden-xs">{{name}}</span>
           </a>
           <ul class="dropdown-menu">
@@ -49,6 +49,12 @@
               </div>
             </li>
           </ul>
+        </li>
+        <li *ngIf="!isAuth">
+          <a routerLink="/signup">Register</a>
+        </li>
+        <li *ngIf="!isAuth">
+          <a routerLink="/login">Login</a>
         </li>
         <!-- Control Sidebar Toggle Button -->
         <!--<li>

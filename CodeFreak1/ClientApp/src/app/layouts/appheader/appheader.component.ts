@@ -12,9 +12,10 @@ import { AppSettings } from '../../AppSetting';
   styleUrls: ['./appheader.component.css']
 })
 export class AppheaderComponent implements OnInit {
-
-  name = "Arslan Aslam";
-  email = "arslanaslam@gmail.com";
+  isAuth = false;
+  userImagesBaseUrl = AppSettings.UserImagesBaseUrl;
+  name = "CodeFreak";
+  email = "CodeFreak";
 
   imagePath = AppSettings.logoPath;
 
@@ -27,9 +28,16 @@ export class AppheaderComponent implements OnInit {
    var s= this.securityService.gtetUserInfo().subscribe( res =>
    {
      debugger;
+     if (res == null) {
+       return;
+     }
+     this.isAuth = true;
       this.name = res.Name;
-      this.email = res.Email;
-      this.imagePath = res.imageURL;
+     this.email = res.Email;
+     if (res.imageURL != null && res.imageURL != "") {
+       this.imagePath = AppSettings.UserImagesBaseUrl + res.imageURL;
+     }
+
       });
   }
 

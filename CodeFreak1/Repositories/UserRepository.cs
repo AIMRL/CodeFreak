@@ -38,9 +38,9 @@ namespace CodeFreak1.Repositories
 
             Users userTo = db.Users.FirstOrDefault(u => u.Login.ToLower() == user.Login.ToLower());
 
-       
 
-            if(userTo.Login.Equals(user.Login))
+
+            if (userTo.Login.Equals(user.Login))
             {
                 userTo.Password = user.Password;
 
@@ -65,8 +65,22 @@ namespace CodeFreak1.Repositories
                 db.SaveChanges();
             }
         }
+        public Files addUserImage(Files file)
+        {
+            db.Files.Add(file);
+            db.SaveChanges();
+            return file;
+        }
 
-
+        public void removeUserImages(Guid userId)
+        {
+            var list = db.Files.Where(f => f.UserId == userId).ToList();
+            db.Files.RemoveRange(list);
+        }
+        public Files getUserImage(Guid userId)
+        {
+            return db.Files.FirstOrDefault(f => f.UserId == userId);
+        }
         public Users getByEmail(string email)
         {
             return db.Users.FirstOrDefault(u => u.Email.ToLower() == email.ToLower());

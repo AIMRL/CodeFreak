@@ -10,5 +10,7 @@ namespace CodeFreak1.ViewModel
         public string Code { get; set; }
         public string userId { get; set; }
         public string problemId { get; set; }
+        public bool isEvent { get; set; }
+        public int eventId { get; set; }
     }
 }

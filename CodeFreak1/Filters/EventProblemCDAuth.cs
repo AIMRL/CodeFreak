@@ -48,6 +48,12 @@ namespace CodeFreak1.Filters
                 context.Result = new UnauthorizedResult();
                 return;
             }
+            Event eve = eventRepository.getOnlyEventById(eventId);
+            if (DateTime.UtcNow > eve.EndDateTime)
+            {
+                context.Result = new UnauthorizedResult();
+                return;
+            }
             var userRoles = eventRepository.getEventUserRoleByEventUserId(eventUsers.EventUserId);
             bool isMofidier = false;
             foreach (var item in userRoles)

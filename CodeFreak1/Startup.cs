@@ -124,6 +124,9 @@ namespace CodeFreak1
                 m.CreateMap<EventUsers, EventUserViewModel>();
                 m.CreateMap<EventUserViewModel, EventUsers>();
 
+                m.CreateMap<ProblemTestCaseViewModel, ProblemTestCase>();
+                m.CreateMap<ProblemTestCase, ProblemTestCaseViewModel>();
+
             });
             #endregion
         }
