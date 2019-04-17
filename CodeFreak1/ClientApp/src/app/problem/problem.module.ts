@@ -21,6 +21,7 @@ import { ProblemsListComponent } from './problems-list/problems-list.component';
 import { ProblemCompleteViewModel } from './dtos/problem-complete-view-model';
 import { SubmissionComponent } from './submission/submission.component';
 import { TestComponent } from './test/test.component';
+import { NgxPaginationModule } from 'ngx-pagination'; 
 
 import { MatButtonModule, MatToolbarModule, MatSidenavModule, MatIconModule,MatListModule, MatTableModule, MatPaginatorModule, MatSortModule } from '@angular/material';
 import { SubmissionViewModel } from './dtos/submission-view-model';
@@ -52,6 +53,8 @@ import { UrlDetailComponent } from './url-detail/url-detail.component';
     CodeFreakMaterialModuleModule,
     AceEditorModule,
     CodeFreakMaterialModuleModule,
+    NgxPaginationModule,
+
     FroalaEditorModule.forRoot(), FroalaViewModule.forRoot(),
     RouterModule.forRoot([
       {

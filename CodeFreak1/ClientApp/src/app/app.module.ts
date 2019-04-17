@@ -37,6 +37,8 @@ import { NoConflictStyleCompatibilityMode, Md2Module } from 'md2';
 //import {} from '@angular/material';
 import { TeamComponent } from './team/team.component';
 import { ChatComponent } from './chat/chat.component';
+import { NgxPaginationModule } from 'ngx-pagination'; 
+
 
 @NgModule({
   declarations: [
@@ -77,6 +79,7 @@ import { ChatComponent } from './chat/chat.component';
     EventModule,
     NoConflictStyleCompatibilityMode,
     Md2Module,
+    NgxPaginationModule,
     RouterModule.forRoot([
       {
         path: '', component: SiteLayoutComponent,

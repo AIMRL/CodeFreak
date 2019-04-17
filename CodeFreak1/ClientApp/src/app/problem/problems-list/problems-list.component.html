@@ -3,7 +3,7 @@
     <div class="cf-all-prob-main">
       <h1><b>Problem Solving</b></h1>
       <div class="col-md-9">
-        <div class="row cf-prob-row" *ngFor="let prob of problems">
+        <div class="row cf-prob-row" *ngFor="let prob of problems| paginate: { itemsPerPage: 5, currentPage: p }">
           <div class="col-md-8">
             <h2>{{prob.Problem.Title}}</h2>
             <h5 class="cf-prob-row-desc">{{prob.Difficulty.Name}},Problem Type:{{prob.ProblemType.Name}},Max Score:{{prob.Problem.MaxScore}}</h5>
@@ -12,6 +12,7 @@
             <button mat-stroked-button color="primary" [routerLink]="['/problem',prob.Problem.ProblemId]"><b>Solve Challange</b></button>
           </div>
         </div>
+        <pagination-controls style="text-align:center;font-size:25px;margin:10px" (pageChange)="p = $event"></pagination-controls>
       </div>
     </div>
   </div>

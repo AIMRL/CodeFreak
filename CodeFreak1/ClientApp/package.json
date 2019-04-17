@@ -36,6 +36,7 @@
     "material-design-icons": "^3.0.1",
     "md2": "0.0.32",
     "ng2-ace-editor": "^0.3.8",
+    "ngx-pagination": "^3.2.1",
     "ngx-toastr": "^9.1.1",
     "rxjs": "^6.3.3",
     "rxjs-compat": "^6.4.0",

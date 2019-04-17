@@ -27,6 +27,7 @@ import { EventManegeComponent } from './event-manege/event-manege.component';
 import { EventManager } from '@angular/platform-browser';
 import { EventRouteGuard } from '../Gaurds/event-route.guard';
 import { AdminRoleGuard } from '../Gaurds/admin-role.guard';
+import { NgxPaginationModule } from 'ngx-pagination'; 
 
 
 @NgModule({
@@ -41,6 +42,7 @@ import { AdminRoleGuard } from '../Gaurds/admin-role.guard';
     Md2TabsModule,
     ProblemModule,
     AceEditorModule,
+    NgxPaginationModule,
     FroalaEditorModule.forRoot(), FroalaViewModule.forRoot(),
     RouterModule.forRoot([
       {
