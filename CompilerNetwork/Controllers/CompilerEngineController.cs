@@ -166,7 +166,7 @@ namespace CompileNetwork.Controllers
                             StreamReader UserOutSR = new StreamReader(tempPath);
                             for (int i = 0; i < 6; i++)
                             {
-                                UserOutSR.ReadLine();
+                                var a=UserOutSR.ReadLine();
                             }
                             userOut = UserOutSR.ReadLine();
                             if (string.Equals(userOut, trueOut))

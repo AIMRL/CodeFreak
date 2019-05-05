@@ -15,7 +15,7 @@ import { ToastService } from '../../toast/toast.service';
 export class SignupComponent implements OnInit {
   //Signup page requirements
   imagePath = AppSettings.SignInPath;
- // logoPath = AppSettings.logoPath;
+  logoPath = AppSettings.logoPath;
 
   emailFormControl = new FormControl('', [
     Validators.required,

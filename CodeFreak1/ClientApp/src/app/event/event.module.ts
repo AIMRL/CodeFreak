@@ -27,7 +27,12 @@ import { EventManegeComponent } from './event-manege/event-manege.component';
 import { EventManager } from '@angular/platform-browser';
 import { EventRouteGuard } from '../Gaurds/event-route.guard';
 import { AdminRoleGuard } from '../Gaurds/admin-role.guard';
-import { NgxPaginationModule } from 'ngx-pagination'; 
+import { NgxPaginationModule } from 'ngx-pagination';
+import { MyEventsComponent } from './my-events/my-events.component';
+import { EventDetailComponent } from './event-detail/event-detail.component'; 
+import { EventDetailGuard } from '../Gaurds/event-detail.guard';
+import { EventAdminGuard } from '../Gaurds/event-admin.guard';
+import { EventCandidateGuard } from '../Gaurds/event-candidate.guard';
 
 
 @NgModule({
@@ -49,10 +54,13 @@ import { NgxPaginationModule } from 'ngx-pagination';
         path: '', component: SiteLayoutComponent, children: [
           { path: 'create-event', component: CreateEventComponent, canActivate: [AdminRoleGuard]},
           { path: 'create-event', component: EventHomeComponent },
-          { path: 'event-home/:eventId', component: EventHomeComponent, canActivate: [AdminRoleGuard]},
-          { path: 'event/:id', component: UserEventHomeComponent, canActivate: [AdminRoleGuard]},
+          { path: 'event-home/:eventId', component: EventHomeComponent, canActivate: [AdminRoleGuard] },
+          { path: 'event/:id', component: UserEventHomeComponent, canActivate: [AdminRoleGuard] },
           { path: 'event-ad/:id', component: AdminEventHomeComponent, canActivate: [AdminRoleGuard] },
-          { path: 'event-m/:id', component: EventManager, canActivate: [AdminRoleGuard, EventRouteGuard] }
+          { path: 'event-m/:id', component: EventManager, canActivate: [AdminRoleGuard, EventRouteGuard] },
+          { path: 'event-d/:id', component: EventDetailComponent, canActivate: [AdminRoleGuard] },
+          { path: 'my-events', component: MyEventsComponent, canActivate: [AdminRoleGuard] },
+
         ]
       }
       //{ path: 'event-problem', component: EventProblemsComponent },
@@ -63,6 +71,6 @@ import { NgxPaginationModule } from 'ngx-pagination';
     ])
 
   ],
-  declarations: [CreateEventComponent, EventHomeComponent, EventProblemsComponent, EventUsersComponent, EventSubmissionsComponent, EventBoardComponent, UserEventHomeComponent, UserEventProblemsComponent, EventProblemEditorComponent, AdminEventHomeComponent, EventManegeComponent]
+  declarations: [CreateEventComponent, EventHomeComponent, EventProblemsComponent, EventUsersComponent, EventSubmissionsComponent, EventBoardComponent, UserEventHomeComponent, UserEventProblemsComponent, EventProblemEditorComponent, AdminEventHomeComponent, EventManegeComponent, MyEventsComponent, EventDetailComponent]
 })
 export class EventModule { }

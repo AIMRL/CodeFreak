@@ -47,6 +47,13 @@ export class EventRouteGuard implements CanActivate {
           this.router.navigate(['event', id]);
           return;
         }
+        var st = new Date(res.Event.StartDateTime);
+        st.setMinutes(st.getMinutes() - st.getTimezoneOffset());
+        res.Event.StartDateTime = new Date(st);
+        if (res.Event.ApplyingLastDate > (new Date(Date.now()))) {
+          this.router.navigate(['/event-d']);
+          return;
+        }
         this.toastService.makeError("UnAuthorized", "You are not allowed");
         this.router.navigate(['home']);
         return true;

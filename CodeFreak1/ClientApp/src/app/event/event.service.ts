@@ -12,6 +12,9 @@ import { CompleteSubmissionViewModel } from '../problem/dtos/complete-submission
 import { UserInfoViewModel } from '../Security/Dtos/user-info-view-model';
 import { ToastService } from '../toast/toast.service';
 import { Router } from '@angular/router';
+import { RequestStatus } from '../Security/Dtos/request-status';
+import { EventPerformanceViewModel } from './dtos/event-performance-view-model';
+import { EventBoardComponent } from './event-board/event-board.component';
 
 @Injectable({
   providedIn: 'root'
@@ -29,6 +32,12 @@ export class EventService {
   private addEventUserUrl:string=`addEventUser`;
   private getEventUsersUrl = `getEventUsers`;
   private removeEventUserUrl = `removeEventUser`;
+  private getMyEventsUrl = `getMyEvents`;
+  private getPendingEvenstUrl = `getPendingEvents`;
+  private getEventWithCreatorUrl = `getEventCreator`;
+  private applyForEventUrl = `applyForEvent`;
+  private eventBoardResultUrl = `getBoardResult`;
+
 
 
   constructor(private http: HttpClient, private route: Router, private toast: ToastService) { }
@@ -58,6 +67,64 @@ export class EventService {
     var res = this.http.get<EventUserViewModel>(url, httpOptions).pipe(
       tap((cre: EventUserViewModel) => this.log(`added employee w/ Success=${cre.Success}`)),
       catchError((error: HttpErrorResponse) =>this.handleError<EventUserViewModel>(error)));
+    return res;
+  }
+  getEventCreatorById(id): Observable<EventUserViewModel> {
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Authorization': 'Bearer ' + localStorage.getItem('token'), 'Content-Type': 'application/json' })
+    };
+    httpOptions.headers.append('Content-Type', 'application/json');
+    httpOptions.headers.append('Accept', 'application/json');
+    httpOptions.headers.append('Authorization', `bearer ${localStorage.getItem('token')}`);
+
+    let url = `${this.baseUrl}${this.handlerUrl}${this.getEventWithCreatorUrl}?id=${id}`;
+    var res = this.http.get<EventUserViewModel>(url, httpOptions).pipe(
+      tap((cre: EventUserViewModel) => this.log(``)),
+      catchError((error: HttpErrorResponse) => this.handleError<EventUserViewModel>(error)));
+    return res;
+  }
+
+  getEventBoardResult(id): Observable<Array<EventPerformanceViewModel>> {
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Authorization': 'Bearer ' + localStorage.getItem('token'), 'Content-Type': 'application/json' })
+    };
+    httpOptions.headers.append('Content-Type', 'application/json');
+    httpOptions.headers.append('Accept', 'application/json');
+    httpOptions.headers.append('Authorization', `bearer ${localStorage.getItem('token')}`);
+
+    let url = `${this.baseUrl}${this.handlerUrl}${this.eventBoardResultUrl}?id=${id}`;
+    var res = this.http.get<Array<EventPerformanceViewModel>>(url, httpOptions).pipe(
+      tap((cre: Array<EventPerformanceViewModel>) => this.log(``)),
+      catchError((error: HttpErrorResponse) => this.handleError<EventUserViewModel>(error)));
+    return res;
+  }
+
+  getMyEvents(): Observable<Array<EventViewModel>> {
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Authorization': 'Bearer ' + localStorage.getItem('token'), 'Content-Type': 'application/json' })
+    };
+    httpOptions.headers.append('Content-Type', 'application/json');
+    httpOptions.headers.append('Accept', 'application/json');
+    httpOptions.headers.append('Authorization', `bearer ${localStorage.getItem('token')}`);
+
+    let url = `${this.baseUrl}${this.handlerUrl}${this.getMyEventsUrl}`;
+    var res = this.http.get<Array<EventViewModel>>(url, httpOptions).pipe(
+      tap((cre: Array<EventViewModel>) => this.log(``)),
+      catchError((error: HttpErrorResponse) => this.handleError<EventUserViewModel>(error)));
+    return res;
+  }
+  getPendingEvents(): Observable<Array<EventViewModel>> {
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Authorization': 'Bearer ' + localStorage.getItem('token'), 'Content-Type': 'application/json' })
+    };
+    httpOptions.headers.append('Content-Type', 'application/json');
+    httpOptions.headers.append('Accept', 'application/json');
+    httpOptions.headers.append('Authorization', `bearer ${localStorage.getItem('token')}`);
+
+    let url = `${this.baseUrl}${this.handlerUrl}${this.getPendingEvenstUrl}`;
+    var res = this.http.get<Array<EventViewModel>>(url, httpOptions).pipe(
+      tap((cre: Array<EventViewModel>) => this.log(``)),
+      catchError((error: HttpErrorResponse) => this.handleError<EventUserViewModel>(error)));
     return res;
   }
 
@@ -137,6 +204,21 @@ export class EventService {
     return res;
   }
 
+  applyForEvent(val): Observable<RequestStatus> {
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Authorization': 'Bearer ' + localStorage.getItem('token'), 'Content-Type': 'application/json' })
+    };
+    httpOptions.headers.append('Content-Type', 'application/json');
+    httpOptions.headers.append('Accept', 'application/json');
+    httpOptions.headers.append('Authorization', `bearer ${localStorage.getItem('token')}`);
+
+    let url = `${this.baseUrl}${this.handlerUrl}${this.applyForEventUrl}`;
+    var res = this.http.post<RequestStatus>(url, JSON.stringify(val), httpOptions).pipe(
+      tap((cre: RequestStatus) => this.log(``)),
+      catchError((error: HttpErrorResponse) => this.handleError<EventUserViewModel>(error)));
+    return res;
+  }
+
   getEventUser(id): Observable<Array<EventUserViewModel>> {
     //    let httpOptions = CodeFreakHeaders.GetSimpleHeader();
     let httpOptions = {
@@ -153,7 +235,7 @@ export class EventService {
     return res;
   }
 
-  removeEventUser(userId, eventId): Observable<UserInfoViewModel> {
+  removeEventUser(eveUser: EventUserViewModel): Observable<UserInfoViewModel> {
     //    let httpOptions = CodeFreakHeaders.GetSimpleHeader();
     let httpOptions = {
       headers: new HttpHeaders({ 'Authorization': 'Bearer ' + localStorage.getItem('token'), 'Content-Type': 'application/json' })
@@ -162,8 +244,8 @@ export class EventService {
     httpOptions.headers.append('Accept', 'application/json');
     httpOptions.headers.append('Authorization', `bearer ${localStorage.getItem('token')}`);
 
-    let url = `${this.baseUrl}${this.handlerUrl}${this.removeEventUserUrl}?eventId=${eventId}&userId=${userId}`;
-    var res = this.http.get<UserInfoViewModel>(url, httpOptions).pipe(
+    let url = `${this.baseUrl}${this.handlerUrl}${this.removeEventUserUrl}`;
+    var res = this.http.post<UserInfoViewModel>(url, JSON.stringify(eveUser), httpOptions).pipe(
       tap((cre: UserInfoViewModel) => this.log(`added employee w/ Success=`)),
       catchError((error: HttpErrorResponse) =>this.handleError<UserInfoViewModel>(error)));
     return res;
@@ -176,14 +258,23 @@ export class EventService {
     debugger;
     if (error.status == 401) {
       this.toast.makeError("Please login", "");
-      this.route.navigate(['login']);
+      this.route.navigate(['/home']);
+      return;
+    }
+    if (error.status == 408) {
+      this.toast.makeError("Time out", "You can not perform this action now");
+      return;
+    }
+    if (error.status == 404) {
+      this.toast.makeError("Not Found", "");
+      this.route.navigate(['/home']);
       return;
     }
     return Observable.throw(error);
 
   }
   private log(message: string) {
-    console.log(message);
+    //console.log(message);
   }
 
 }

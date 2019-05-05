@@ -1,17 +1,11 @@
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
+
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource, PageEvent, Sort } from '@angular/material';
-
-import { DataSource } from '@angular/cdk/collections';
-
-import { merge } from 'rxjs/observable/merge';
-import { map } from 'rxjs/operators';
-
-import { Observable } from 'rxjs';
-import { of as observableOf } from 'rxjs/observable/of';
-
-import { SubmissionViewModel } from '../dtos/submission-view-model';
+import { CompleteSubmissionViewModel } from '../../problem/dtos/complete-submission-view-model';
+import { AppSettings } from '../../AppSetting';
+import { Observable, Subscription, interval } from 'rxjs';
 import { ProblemService } from '../problem.service';
-
+import { SubmissionViewModel } from '../dtos/submission-view-model';
 
 @Component({
   selector: 'app-submission',
@@ -19,6 +13,11 @@ import { ProblemService } from '../problem.service';
   styleUrls: ['./submission.component.css']
 })
 export class SubmissionComponent implements OnInit {
+
+  logoPath = AppSettings.logoPath;
+  profilesUrl = AppSettings.UserImagesBaseUrl;
+
+
 
   @Input()
   problemId: string;
@@ -29,12 +28,8 @@ export class SubmissionComponent implements OnInit {
   }
 //  @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-
-  ProblemId = "0E984725-C51C-4BF4-9960-E1C80E27ABA1";
-
   submissionViewModelList: Array<SubmissionViewModel>;
-  displayedColumns = ['Status', 'Score', 'SubmissionId', 'SubmissionDateTime'];
-
+  displayedColumns = ['Status', 'Score', 'SubmissionDateTime'];
   dataSource: MatTableDataSource<SubmissionViewModel>;
   pageEvent: PageEvent;
   pageSize = 4;
@@ -49,7 +44,11 @@ export class SubmissionComponent implements OnInit {
   ngOnInit() {
     debugger;
     this.submissionViewModelList = new Array<SubmissionViewModel>();
-    this.problemService.getSubmissionOfUser(this.problemId).subscribe(res => {
+    this.getSubmissions(this.problemId);
+
+  }
+  getSubmissions(problemId: string) {
+    this.problemService.getSubmissionOfUser(problemId).subscribe(res => {
       debugger;
       if (res != null) {
         this.submissionViewModelList = res;
@@ -58,10 +57,8 @@ export class SubmissionComponent implements OnInit {
         this.dataSource.sort = this.sort;
         this.isData = true;
       }
-    })
+    });
   }
-
-
 
   sortData(sort: Sort) {
     debugger;
@@ -84,6 +81,7 @@ export class SubmissionComponent implements OnInit {
   }
 }
 function compare(a: number | string, b: number | string, isAsc: boolean) {
-    return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
-  }
+  return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+}
+
 

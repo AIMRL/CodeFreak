@@ -19,7 +19,6 @@ import { AppheaderComponent } from '../layouts/appheader/appheader.component';
 import { SiteLayoutComponent } from '../layouts/site-layout/site-layout.component';
 import { ProblemsListComponent } from './problems-list/problems-list.component';
 import { ProblemCompleteViewModel } from './dtos/problem-complete-view-model';
-import { SubmissionComponent } from './submission/submission.component';
 import { TestComponent } from './test/test.component';
 import { NgxPaginationModule } from 'ngx-pagination'; 
 
@@ -30,6 +29,7 @@ import { ResultComponent } from './result/result.component';
 import { AdminRoleGuard } from '../Gaurds/admin-role.guard';
 import { SubmissionDetailComponent } from './submission-detail/submission-detail.component';
 import { UrlDetailComponent } from './url-detail/url-detail.component';
+import { SubmissionComponent } from './submission/submission.component';
 
 
 
@@ -61,8 +61,7 @@ import { UrlDetailComponent } from './url-detail/url-detail.component';
         path: '', component: SiteLayoutComponent, children: [
           { path: 'problem/:id', component: ProblemComponent, canActivate: [AdminRoleGuard] },
           { path: 'create-problem', component: CreateProbemComponent, canActivate: [AdminRoleGuard] },
-
-          { path: 'submission', component: SubmissionComponent, canActivate: [AdminRoleGuard]},
+          
 
           { path: 'test', component: TestComponent, canActivate: [AdminRoleGuard]},
 
@@ -78,7 +77,7 @@ import { UrlDetailComponent } from './url-detail/url-detail.component';
     ])
   ],
   providers: [ProblemService, CompilerResultViewModel, CodeViewModel, ProblemViewModel, ProblemCompleteViewModel, SubmissionViewModel],
-  exports: [CreateProbemComponent, ProblemComponent],
-  declarations: [ProblemComponent, CreateProbemComponent, ProblemsListComponent, SubmissionComponent, TestComponent, ResultComponent, SubmissionDetailComponent, UrlDetailComponent]
+  exports: [CreateProbemComponent, ProblemComponent, SubmissionComponent],
+  declarations: [ProblemComponent, CreateProbemComponent, ProblemsListComponent, TestComponent, ResultComponent, SubmissionDetailComponent, UrlDetailComponent, SubmissionComponent]
 })
 export class ProblemModule { }

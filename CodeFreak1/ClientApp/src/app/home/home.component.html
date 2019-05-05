@@ -1,8 +1,30 @@
 <body>
   <div class="container">
 
-    <h1 style="text-align:center;color:blue">Become a Freak Programmer</h1>
-    
+    <h1 style="margin-top:20px;text-align:center;color:blue">Become a Freak Programmer</h1>
+
+    <div style="text-align:center;font-size:25px"><b>UpComing Events</b></div>
+    <div style="text-align:center;font-size:20px" *ngIf="events.length==0">There is no upcoming events yet</div>
+    <div class="row">
+      <div class="col-md-6" style="margin-top:10px;" *ngFor="let e of events | paginate: { itemsPerPage: 10, currentPage: p }">
+        <div style="padding:10px;background:white;border-radius:8px;">
+          <div class="row">
+            <div class="col-md-9" style="font-size:20px;">
+              {{e.Name}}
+            </div>
+            <div class="col-md-3">
+
+              <button class="btn btn-primary" routerLink="/event-m/{{e.EventId}}">Detail</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <pagination-controls *ngIf="events.length>10" style="text-align:center;font-size:25px;margin:10px" (pageChange)="p = $event"></pagination-controls>
+
+
+    <div style="margin-top:10px;text-align:center;font-size:25px"><b>Problem Types</b></div>
     <div class="row" style="margin-bottom:40px;">
 
       <div class="col-md-1"></div>

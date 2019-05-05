@@ -142,7 +142,12 @@ export class EventUsersComponent implements OnInit {
       this.toastService.makeWarning("User is not selected", "User should be selected");
       return;
     }
-    this.eventService.removeEventUser(this.userToBeRomoved.UserId, this.eventId).subscribe(res => {
+    let eveuser: EventUserViewModel = new EventUserViewModel();
+    eveuser.Event = new EventViewModel();
+    eveuser.Event.EventId = this.eventId;
+    eveuser.User = new UsersViewModel();
+    eveuser.User.UserId = this.userToBeRomoved.UserId;
+    this.eventService.removeEventUser(eveuser).subscribe(res => {
       if (isNullOrUndefined(res)) { this.toastService.makeError("User is not romoved", ""); return; }
       if (!res.Success) { this.toastService.makeError(res.Message, ""); return; }
       var index = this.eventUsers.findIndex(e => e.User.UserId == res.User.UserId);

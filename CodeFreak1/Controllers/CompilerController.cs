@@ -89,7 +89,7 @@ namespace CodeFreak1.Controllers
             submission.SubmissionDateTime = DateTime.Now;
             submission.Code = code.Code;
             submission.LanguageId = 1;
-
+            submission.EventId = code.eventId;
 
 
             List<ProblemTestCaseViewModel> myTests = new List<ProblemTestCaseViewModel>();

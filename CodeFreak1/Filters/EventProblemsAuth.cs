@@ -38,9 +38,9 @@ namespace CodeFreak1.Filters
             if (!isMofidier)
             {
                 var eve = eventRepository.getEventById(eventId, userId);
-                if (eve.Event.StartDateTime < DateTime.UtcNow)
+                if (eve.Event.EndDateTime < DateTime.UtcNow)
                 {
-                    context.Result = new UnauthorizedResult();
+                    context.Result = new StatusCodeResult(408);
                 }
             }
 

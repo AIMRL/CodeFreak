@@ -4,6 +4,7 @@ using CodeFreak1.ViewModel;
 using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Routing;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -39,7 +40,7 @@ namespace CodeFreak1.Filters
             req.Body.Position = 0;
             if (eventId == -1)
             {
-                context.Result = new UnauthorizedResult();
+                context.Result = new StatusCodeResult(404);
                 return;
             }
             EventUsers eventUsers = eventRepository.getEventUserByIds(userId, eventId);
@@ -51,7 +52,13 @@ namespace CodeFreak1.Filters
             Event eve = eventRepository.getOnlyEventById(eventId);
             if (DateTime.UtcNow > eve.EndDateTime)
             {
-                context.Result = new UnauthorizedResult();
+                //context.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "Event", action = "UnAuth", area = "" }));
+                //context.HttpContext.Response= new RedirectToActionResult("UnAuth", "Event", null);
+                //context.Result = new RedirectToActionResult("UnAuth", "Event", null);
+                //context.Result = new NotFoundResult();
+                context.Result = new StatusCodeResult(408);
+                //context.Result.ExecuteResultAsync(context);
+                //context.Result = new UnauthorizedResult();
                 return;
             }
             var userRoles = eventRepository.getEventUserRoleByEventUserId(eventUsers.EventUserId);

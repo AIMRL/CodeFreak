@@ -81,7 +81,7 @@ namespace CodeFreak1.Repositories
         }
         public List<Submission> getEventSubmissions(int id)
         {
-            return db.Submission.Where(s => s.EventId!=null && s.EventId == id ).Include(s => s.User).Include(s => s.Problem).Include(s => s.Language).ToList();
+            return db.Submission.Where(s => s.EventId!=null && s.EventId == id ).Include(s => s.User).ThenInclude(s=>s.Files).Include(s => s.Problem).Include(s => s.Language).ToList();
         }
 
         public List<EventUsers> getAllUserOfEvent(int eventId)
@@ -132,6 +132,24 @@ namespace CodeFreak1.Repositories
             db.EventUsers.Remove(eventUser);
             db.SaveChanges();
             return eventUser;
+        }
+
+        public List<Event> getPendingEvents()
+        {
+            return db.Event.Where(e => e.StartDateTime > DateTime.UtcNow).ToList();
+        }
+        public List<Event> getMyEvents(Guid id)
+        {
+           return db.EventUsers.Where(eu => eu.UserId == id).Include(eu => eu.Event).Select(eu=>eu.Event).ToList();
+        }
+        public Event getEventCreator(int id)
+        {
+            return db.Event.Include(e=>e.CreatedByNavigation).ThenInclude(u=>u.Files).FirstOrDefault(e => e.EventId == id);
+        }
+        public List<Submission> getEventBoard(int id)
+        {
+            var a = db.Submission.Where(s => s.EventId == id && s.Score > 0).Include(s => s.User).ThenInclude(s => s.Files).ToList();
+            return a;
         }
 
     }

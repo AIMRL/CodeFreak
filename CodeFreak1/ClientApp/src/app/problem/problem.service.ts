@@ -128,12 +128,17 @@ export class ProblemService {
 
   getSubmissionOfUser(ProblemId : string): Observable<Array<SubmissionViewModel>> {
 
-    let httpOptions = CodeFreakHeaders.GetSimpleHeader();
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Authorization': 'Bearer ' + localStorage.getItem('token'), 'Content-Type': 'application/json' })
+    };
+    httpOptions.headers.append('Content-Type', 'application/json');
+    httpOptions.headers.append('Accept', 'application/json');
+    httpOptions.headers.append('Authorization', `bearer ${localStorage.getItem('token')}`);
 
     let url = `${this.baseUrl}${this.submissionUrl}${this.UserSubmissionUrl}${ProblemId}`;
 
     var res = this.http.get<Array<SubmissionViewModel>>(url, httpOptions).pipe(
-      tap((cre: Array<SubmissionViewModel>) => this.log(`added employee w / Success=${cre.length}`)),
+      tap((cre: Array<SubmissionViewModel>) => this.log(``)),
       catchError((error: HttpErrorResponse) =>this.handleError<Array<SubmissionViewModel>>(error))
     );
 

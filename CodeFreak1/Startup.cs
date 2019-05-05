@@ -127,6 +127,11 @@ namespace CodeFreak1
                 m.CreateMap<ProblemTestCaseViewModel, ProblemTestCase>();
                 m.CreateMap<ProblemTestCase, ProblemTestCaseViewModel>();
 
+                m.CreateMap<SubmissionProblemTestCase, SubmissionProblemTestCaseViewModel>();
+                m.CreateMap<SubmissionProblemTestCaseViewModel, SubmissionProblemTestCase>();
+
+
+
             });
             #endregion
         }

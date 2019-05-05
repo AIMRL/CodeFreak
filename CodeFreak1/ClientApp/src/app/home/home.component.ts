@@ -5,6 +5,8 @@ import { DifficultyService } from '../difficulty/difficulty.service';
 import { ProblemTypeService } from '../problem-type/problem-type.service';
 import { ProgrammingLanguageViewModel } from '../programming-language/dtos/programming-language-view-model';
 import { ProgrammingLanguageService } from '../programming-language/programming-language.service';
+import { EventViewModel } from '../event/dtos/event-view-model';
+import { EventService } from '../event/event.service';
 
 @Component({
   selector: 'app-home',
@@ -20,7 +22,9 @@ export class HomeComponent implements OnInit {
   difficulties: Array<DifficultyViewModel>;
   problemTypes: Array<ProblemTypeViewModel>;
   languages: Array<ProgrammingLanguageViewModel>;
-  constructor(private diffService: DifficultyService, private probTypeService: ProblemTypeService, private languageService: ProgrammingLanguageService) {
+  events: Array<EventViewModel>;
+
+  constructor(private diffService: DifficultyService, private probTypeService: ProblemTypeService, private languageService: ProgrammingLanguageService, private eventService: EventService) {
 
   }
   ngOnInit(): void {
@@ -28,6 +32,13 @@ export class HomeComponent implements OnInit {
 
     this.difficulties = new Array<DifficultyViewModel>();
     this.problemTypes = new Array<ProblemTypeViewModel>();
+    this.events = new Array<EventViewModel>();
+    
+    this.eventService.getPendingEvents().subscribe(res => {
+      if (res != null) {
+        this.events = res;
+      }
+    });
 
     this.diffService.getAllDifficulties().subscribe(data => {
       if (data != null) {
@@ -45,6 +56,7 @@ export class HomeComponent implements OnInit {
         this.languages = data;
       }
     });
+
 
   }
   checkLogin() {

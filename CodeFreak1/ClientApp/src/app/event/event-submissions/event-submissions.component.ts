@@ -1,14 +1,26 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Component,OnDestroy, OnInit, Input, ViewChild } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource, PageEvent, Sort } from '@angular/material';
 import { EventService } from '../event.service';
 import { CompleteSubmissionViewModel } from '../../problem/dtos/complete-submission-view-model';
+import { AppSettings } from '../../AppSetting';
+import { EventUserViewModel } from '../dtos/event-user-view-model';
+import { Observable, Subscription, interval } from 'rxjs';
 
 @Component({
   selector: 'event-submissions',
   templateUrl: './event-submissions.component.html',
   styleUrls: ['./event-submissions.component.css']
 })
-export class EventSubmissionsComponent implements OnInit {
+export class EventSubmissionsComponent implements OnInit, OnDestroy {
+
+  logoPath = AppSettings.logoPath;
+  profilesUrl = AppSettings.UserImagesBaseUrl;
+  eventUser: EventUserViewModel;
+  isSCD = true;
+  isESD = false;
+  interval: Observable<number>;
+  subcription: Subscription;
+
 
   @Input()
   eventId: number;
@@ -21,7 +33,7 @@ export class EventSubmissionsComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   submissionViewModelList: Array<CompleteSubmissionViewModel>;
 
-  displayedColumns = ['UserName', 'ProblemName', 'Status', 'Score','DateTime'];
+  displayedColumns = ['Image','UserName', 'ProblemName', 'Status', 'Score','DateTime'];
   dataSource: MatTableDataSource<CompleteSubmissionViewModel>;
   pageEvent: PageEvent;
   pageSize = 4;
@@ -32,11 +44,46 @@ export class EventSubmissionsComponent implements OnInit {
   dataToShow = "true";
   constructor(private eventService: EventService) { }
 
-
+  ngOnDestroy(){
+    this.unsubscribeInterval(this.subcription);
+  }
   ngOnInit() {
     debugger;
     this.submissionViewModelList = new Array<CompleteSubmissionViewModel>();
-    this.eventService.getEventSubmissions(this.eventId).subscribe(res => {
+    this.getEventSubmissions(this.eventId);
+
+    //getting event
+    this.eventService.getEventById(this.eventId).subscribe(res => {
+      if (res != null) {
+        var st = new Date(res.Event.StartDateTime);
+        st.setMinutes(st.getMinutes() - st.getTimezoneOffset());
+        res.Event.StartDateTime = new Date(st);
+
+        var en = new Date(res.Event.EndDateTime);
+        en.setMinutes(en.getMinutes() - en.getTimezoneOffset());
+        res.Event.EndDateTime = new Date(en);
+
+        this.eventUser = res;
+
+        this.interval = interval(5000);
+        this.subcription = this.interval.subscribe((x) => {
+          if ((new Date(Date.now())) > this.eventUser.Event.StartDateTime && (new Date(Date.now())) < this.eventUser.Event.EndDateTime) {
+            this.getEventSubmissions(this.eventId);
+          } else {
+            this.unsubscribeInterval(this.subcription);
+          }
+        })
+
+      }
+    });
+    //ending event getting
+
+  }
+  unsubscribeInterval(interval: Subscription) {
+    interval.unsubscribe();
+  }
+  getEventSubmissions(eventId: number) {
+    this.eventService.getEventSubmissions(eventId).subscribe(res => {
       debugger;
       if (res != null) {
         this.submissionViewModelList = res;
@@ -45,10 +92,8 @@ export class EventSubmissionsComponent implements OnInit {
         this.dataSource.sort = this.sort;
         this.isData = true;
       }
-    })
+    });
   }
-
-
 
   sortData(sort: Sort) {
     debugger;

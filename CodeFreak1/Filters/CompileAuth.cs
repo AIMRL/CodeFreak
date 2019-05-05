@@ -52,7 +52,7 @@ namespace CodeFreak1.Filters
             Event eve = eventRepository.getOnlyEventById(data.eventId);
             if (DateTime.UtcNow > eve.EndDateTime || DateTime.UtcNow < eve.StartDateTime)
             {
-                context.Result = new UnauthorizedResult();
+                context.Result = new StatusCodeResult(408);
                 return;
             }
             //var userRoles = eventRepository.getEventUserRoleByEventUserId(eventUsers.EventUserId);

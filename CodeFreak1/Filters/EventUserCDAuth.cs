@@ -40,7 +40,7 @@ namespace CodeFreak1.Filters
             req.Body.Position = 0;
             if (eventId == -1)
             {
-                context.Result = new UnauthorizedResult();
+                context.Result = new StatusCodeResult(404);
                 return;
             }
             EventUsers eventUsers = eventRepository.getEventUserByIds(userId, eventId);
@@ -52,7 +52,8 @@ namespace CodeFreak1.Filters
             Event eve = eventRepository.getOnlyEventById(eventId);
             if (DateTime.UtcNow > eve.EndDateTime)
             {
-                context.Result = new UnauthorizedResult();
+                context.Result = new StatusCodeResult(408);
+                //context.Result = new UnauthorizedResult();
                 return;
             }
             var userRoles = eventRepository.getEventUserRoleByEventUserId(eventUsers.EventUserId);

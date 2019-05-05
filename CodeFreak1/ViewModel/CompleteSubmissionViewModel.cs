@@ -11,5 +11,6 @@ namespace CodeFreak1.ViewModel
         public UsersViewModel User { get; set; }
         public ProblemViewModel Problem { get; set; }
         public ProgrammingLanguageViewModel Language { get; set; }
+        public FileViewModel UserImage { get; set; }
     }
 }

@@ -189,6 +189,7 @@ namespace CodeFreak1.Controllers
                 submission.Submission = Mapper.Map<Submission, SubmissionViewModel>(item);
                 submission.Problem = Mapper.Map<Problem, ProblemViewModel>(item.Problem);
                 submission.User = Mapper.Map<Users, UsersViewModel>(item.User);
+                submission.UserImage = Mapper.Map<Files, FileViewModel>(item.User.Files.FirstOrDefault());
                 submission.Language = Mapper.Map<ProgrammingLanguage, ProgrammingLanguageViewModel>(item.Language);
                 submissionsViewModel.Add(submission);
             }
@@ -272,6 +273,48 @@ namespace CodeFreak1.Controllers
             return Ok(finalResult);
         }
 
+        [HttpPost("applyForEvent")]
+        [Route("applyForEvent")]
+        [EventApplyingAuth]
+        public IActionResult ApplyingUserEvent(EventUserViewModel eventUserRoles)
+        {
+            RequestStatus requestStatus = new RequestStatus();
+            if (eventUserRoles == null || eventUserRoles.Event == null)
+            {
+                requestStatus.makeObjectNull();
+                return Ok(requestStatus);
+            }
+            var user = getApplicationUser();
+            EventUsers isExist = eveRep.getEventUserByIds(user.UserId, eventUserRoles.Event.EventId);
+            if (isExist != null)
+            {
+                requestStatus.makeSuccess();
+                return Ok(requestStatus);
+            }
+            EventUsers eventUsers = new EventUsers();
+            eventUsers.EventId = eventUserRoles.Event.EventId;
+            eventUsers.UserId = user.UserId;
+            eventUsers.EventUserId = Guid.NewGuid();
+
+            EventUsers res = eveRep.addEventUser(eventUsers);
+            if (res == null)
+            {
+                requestStatus.makeFailed("Server error");
+                return Ok(requestStatus);
+            }
+            Roles role = roleRepository.getRoleByName("Event User");
+            if (role != null)
+            {
+                EventUserRoles eRole = new EventUserRoles();
+                eRole.EventUserId = eventUsers.EventUserId;
+                eRole.EventUserRoleId = Guid.NewGuid();
+                eRole.RoleId = role.RoleId;
+                eveRep.addEventUserRole(eRole);
+            }
+            requestStatus.makeSuccess();
+            return Ok(requestStatus);
+        }
+
         [HttpPost("getEventUsers")]
         [Route("getEventUsers")]
         [EventAuth]
@@ -300,14 +343,14 @@ namespace CodeFreak1.Controllers
             return Ok(list);
         }
 
-        [HttpGet("removeEventUser")]
+        [HttpPost("removeEventUser")]
         [Route("removeEventUser")]
-        [EventAuth]
-        [EventModifier]
-        public IActionResult removeEventUser(int eventId,Guid userId)
+        [EventUserCDAuth]
+        public IActionResult removeEventUser(EventUserViewModel eventUser)
         {
-
-            RequestStatus requestStatus = new RequestStatus();
+            int eventId=eventUser.Event.EventId;
+            Guid userId=eventUser.User.UserId;
+             RequestStatus requestStatus = new RequestStatus();
             if(userId==null)
             {
                 requestStatus.makeObjectNull();
@@ -333,7 +376,69 @@ namespace CodeFreak1.Controllers
             userInfoViewModel.makeSuccess();
             return Ok(userInfoViewModel);
         }
+        [HttpPost("getPendingEvents")]
+        [Route("getPendingEvents")]
+        public IActionResult getPendingEvents()
+        {
+            var events = eveRep.getPendingEvents();
+            var list = Mapper.Map<List<Event>, List<EventViewModel>>(events);
+            return Ok(list);
+        }
 
+        [HttpPost("getMyEvents")]
+        [Route("getMyEvents")]
+        public IActionResult getMyEvents()
+        {
+            var user = getApplicationUser();
+
+            var events = eveRep.getMyEvents(user.UserId);
+            var list = Mapper.Map<List<Event>, List<EventViewModel>>(events);
+            return Ok(list);
+        }
+        [HttpGet("getEventCreator")]
+        [Route("getEventCreator")]
+        public IActionResult getEventWithCreator(int id)
+        {
+
+            var eve = eveRep.getEventCreator(id);
+            if (eve == null)
+            {
+                RequestStatus requestStatus = new RequestStatus();
+                requestStatus.ItemNotFound();
+                return Ok(requestStatus);
+            }
+            EventUserViewModel e = new EventUserViewModel();
+            e.Event=Mapper.Map<Event,EventViewModel>(eve);
+            e.User = new UsersViewModel();
+            e.User.Name = eve.CreatedByNavigation.Name;
+            e.UserImage =Mapper.Map<Files,FileViewModel>(eve.CreatedByNavigation.Files.FirstOrDefault());
+            e.makeSuccess();
+            return Ok(e);
+        }
+        [HttpGet("getBoardResult")]
+        [Route("getBoardResult")]
+        public IActionResult getEventBoard(int id)
+        {
+
+            var a = eveRep.getEventBoard(id);
+            List<EventPerformanceViewModel> result = new List<EventPerformanceViewModel>();
+            var users = eveRep.getAllUserOfEvent(id);
+            foreach (var item in users)
+            {
+                var filtered = a.Where(s => s.UserId == item.UserId).ToList();
+                EventPerformanceViewModel eventPerformance = new EventPerformanceViewModel();
+                eventPerformance.Submissions = Mapper.Map<List<Submission>, List<SubmissionViewModel>>(filtered);
+                eventPerformance.NoOfSubmissions = filtered.Count;
+                eventPerformance.User = Mapper.Map<Users, UsersViewModel>(item.User);
+                eventPerformance.UserImage = Mapper.Map<Files, FileViewModel>(item.User.Files.FirstOrDefault());
+                eventPerformance.TotalScore = filtered.Sum(r => r.Score);
+                eventPerformance.makeSuccess();
+                result.Add(eventPerformance);
+            }
+;
+            result.OrderBy(r => r.Submissions.Count);
+            return Ok(result);
+        }
         public IActionResult UnAuth()
         {
             RequestStatus requestStatus = new RequestStatus();
