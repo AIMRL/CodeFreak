@@ -32,7 +32,6 @@ export class EventDetailComponent implements OnInit {
   constructor(private eventService: EventService, private route: ActivatedRoute, private router: Router, private toastService: ToastService) { }
 
   ngOnInit() {
-    debugger;
     this.eventUser = new EventUserViewModel();
     this.eventId = Number.parseInt(this.route.snapshot.paramMap.get('id'));
     if (this.eventId == null) {
@@ -40,7 +39,6 @@ export class EventDetailComponent implements OnInit {
       return;
     }
     this.eventService.getEventCreatorById(this.eventId).toPromise().then(res => {
-      debugger;
 
       if (res == null || !res.Success) {
         this.msg = "Event Not Found";
@@ -98,7 +96,6 @@ export class EventDetailComponent implements OnInit {
     eventUser.Event.EventId = this.eventId;
 
     this.eventService.applyForEvent(eventUser).subscribe(res => {
-      debugger;
       if (res == null) {
         this.toastService.makeError("Server error", "Server Error");
         return;

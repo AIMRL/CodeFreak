@@ -35,7 +35,6 @@ export class EventProblemsComponent implements OnInit {
   constructor(private eventService: EventService, private route: ActivatedRoute,private problemService:ProblemService,private toastService: ToastService) { }
 
   ngOnInit() {
-    debugger;
     this.filteredOptions = this.myControl.valueChanges
     .pipe(
       startWith(''),
@@ -49,6 +48,13 @@ export class EventProblemsComponent implements OnInit {
     req.then(res => {
       if (!isNullOrUndefined(res)) {
         this.event = res;
+        var st = new Date(res.Event.StartDateTime);
+        st.setMinutes(st.getMinutes() - st.getTimezoneOffset());
+        res.Event.StartDateTime = new Date(st);
+
+        var en = new Date(res.Event.EndDateTime);
+        en.setMinutes(en.getMinutes() - en.getTimezoneOffset());
+        res.Event.EndDateTime = new Date(en);
         if ((new Date(res.Event.EndDateTime.valueOf()).valueOf()) > Date.now()) { this.isEventClosed = false; }
       }
     });
@@ -60,7 +66,6 @@ export class EventProblemsComponent implements OnInit {
     });
 
     this.eventService.getEventProblems(this.eventId).subscribe(res => {
-      debugger;
       this.problems = res;
     });
   }
@@ -76,7 +81,6 @@ export class EventProblemsComponent implements OnInit {
     this.isNew=true;  
   }
   addExistingProlem(){
-    debugger;
     if(this.problemIdToAdd==null ||  this.problemIdToAdd==""){
       this.toastService.makeWarning("Problem Name is required","");
       return;
@@ -86,7 +90,7 @@ export class EventProblemsComponent implements OnInit {
     eventProblem.EventId = this.eventId;
     eventProblem.ProblemId = prob.Problem.ProblemId;
     this.eventService.addEventProblem(eventProblem).subscribe(eveProbResult => {
-      debugger;
+
       if (eveProbResult == null ) {
         this.showAlertMessage("Try Again", "Add Problem from existing Problem");
         return;
@@ -102,7 +106,7 @@ export class EventProblemsComponent implements OnInit {
   }
   addedProblem(prob:ProblemViewModel){
     this.problemService.getProblembyId(prob.ProblemId).toPromise().then(res=>{
-      debugger;
+
       if(res!=null){
         this.allProblems.push(res);
         this.problems.push(res);
@@ -120,7 +124,6 @@ export class EventProblemsComponent implements OnInit {
     eventProblem.EventId=this.eventId;
     eventProblem.ProblemId=this.problemToBeRemoved.ProblemId;
     this.eventService.removeEventProblem(eventProblem).toPromise().then(res=>{
-      debugger;
       if(res==null){
         this.toastService.makeError("Action Failed","Problem not removed");
         return;

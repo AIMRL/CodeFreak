@@ -45,7 +45,6 @@ export class CreateProbemComponent implements OnInit {
     private languageService: ProgrammingLanguageService, private eventService: EventService) { }
 
   ngOnInit() {
-    debugger;
     if (this.eventId != null && this.eventId != undefined) {
       this.isEventProblem = true;
     }
@@ -68,7 +67,6 @@ export class CreateProbemComponent implements OnInit {
       }
     });
     this.languageService.getAllLanguages().subscribe(data => {
-      debugger;
       if (data != null) {
         this.languages = data;
       }
@@ -83,7 +81,6 @@ export class CreateProbemComponent implements OnInit {
     this.toastService.makeWarning(caption, message);
   }
   add() {
-    debugger;
     if (!this.validateForm()) { return; }
     if (this.isEventProblem) {
       this.problem.IsPublic = false;
@@ -94,7 +91,6 @@ export class CreateProbemComponent implements OnInit {
     this.createProblem.Problem = this.problem;
     this.createProblem.TestFiles = this.files;
     this.problemService.addProblem(this.createProblem).subscribe(res => {
-      debugger;
       if (res == null || res == undefined) {
         this.toastService.makeError("UnAuthorize", "Server is not accessible");
         return;
@@ -172,17 +168,14 @@ export class CreateProbemComponent implements OnInit {
     this.selected = n;
   }
   addFile() {
-    debugger;
     var testCase: ProblemTestCaseViewModel;
     testCase = new ProblemTestCaseViewModel();
     this.files.push(testCase);
   }
   deleteRow(index) {
-    debugger;
     this.files.splice(index, 1);
   }
   readUrl(event, index,status) {
-    debugger;
     if (event.target.files && event.target.files[0]) {
       if (status==0) {
         this.files[index].InputFile = event.target.files[0];

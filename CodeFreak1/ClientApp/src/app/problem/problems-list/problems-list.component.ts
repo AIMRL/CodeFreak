@@ -16,7 +16,6 @@ export class ProblemsListComponent implements OnInit {
   constructor(private problemService: ProblemService, private route: ActivatedRoute) { }
 
   ngOnInit() {
-    debugger;
     this.problems = new Array<ProblemCompleteViewModel>();
     this.which = this.route.snapshot.paramMap.get('which');
     if(this.which != null) {
@@ -31,7 +30,6 @@ export class ProblemsListComponent implements OnInit {
 
 
     this.problemService.getAllProblems().subscribe(res => {
-      debugger;
       this.problems = res;
       if (this.diffType != null) {
         this.problems = this.problems.filter(p => p.Difficulty.Name.includes(this.diffType));

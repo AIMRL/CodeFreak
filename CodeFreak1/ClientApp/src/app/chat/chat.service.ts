@@ -37,7 +37,6 @@ export class ChatService {
     return body || { };
   }
   private handleError<T>(error: HttpErrorResponse, result?: T) {
-    debugger;
     if (error.status == 401) {
       this.toast.makeError("Please login", "");
       this.route.navigate(['login']);

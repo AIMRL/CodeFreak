@@ -52,7 +52,6 @@ export class CreateEventComponent implements OnInit {
 
   }
   validateDates(eve: EventViewModel): boolean {
-    debugger;
     if (eve.ApplyingLastDate.valueOf() > eve.StartDateTime.valueOf()) {
       this.toastService.makeError("Dates Problem", "Applying last date should be less than Event Start Date Time");
       return false;

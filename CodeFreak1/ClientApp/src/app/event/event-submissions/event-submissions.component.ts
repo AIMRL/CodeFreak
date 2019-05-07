@@ -48,7 +48,7 @@ export class EventSubmissionsComponent implements OnInit, OnDestroy {
     this.unsubscribeInterval(this.subcription);
   }
   ngOnInit() {
-    debugger;
+
     this.submissionViewModelList = new Array<CompleteSubmissionViewModel>();
     this.getEventSubmissions(this.eventId);
 
@@ -84,7 +84,6 @@ export class EventSubmissionsComponent implements OnInit, OnDestroy {
   }
   getEventSubmissions(eventId: number) {
     this.eventService.getEventSubmissions(eventId).subscribe(res => {
-      debugger;
       if (res != null) {
         this.submissionViewModelList = res;
         this.dataSource = new MatTableDataSource(this.submissionViewModelList);
@@ -96,7 +95,6 @@ export class EventSubmissionsComponent implements OnInit, OnDestroy {
   }
 
   sortData(sort: Sort) {
-    debugger;
     const data = this.submissionViewModelList.slice();
     if (!sort.active || sort.direction === '') {
       this.dataSource = new MatTableDataSource<CompleteSubmissionViewModel>(data);

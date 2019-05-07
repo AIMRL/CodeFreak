@@ -30,7 +30,6 @@ export class EventHomeComponent implements OnInit {
   constructor(private eventService: EventService, private route: ActivatedRoute) { }
 
   ngOnInit() {
-    debugger;
     this.eventUser = new EventUserViewModel();
     //this.eventId = Number.parseInt(this.route.snapshot.paramMap.get('eventId'));
     if (this.eventId == null) {
@@ -38,7 +37,6 @@ export class EventHomeComponent implements OnInit {
       return;
     }
     this.eventService.getEventById(this.eventId).toPromise().then(res => {
-      debugger;
       var st = new Date(res.Event.StartDateTime);
       st.setMinutes(st.getMinutes() - st.getTimezoneOffset());
       res.Event.StartDateTime = new Date(st);

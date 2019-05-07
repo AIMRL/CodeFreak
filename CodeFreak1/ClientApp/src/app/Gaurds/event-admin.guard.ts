@@ -17,12 +17,10 @@ export class EventAdminGuard implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    debugger;
     var id: number = Number.parseInt(next.paramMap.get('id'));
     var req = this.eventService.getEventById(id).toPromise();
     if (!isNullOrUndefined(req)) {
       req.then(res => {
-        debugger;
         var isEventAdmin: boolean = false;
         var isEventUser: boolean = false;
         if (isNullOrUndefined(res) || !res.Success) {

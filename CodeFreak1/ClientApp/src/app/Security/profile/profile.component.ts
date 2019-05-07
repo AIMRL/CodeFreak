@@ -12,16 +12,7 @@ import { ProblemSubmissionViewModel } from '../Dtos/problem-submission-view-mode
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
 })
-
-
-
-
-
 export class ProfileComponent implements OnInit {
-
-
-  // Edit Security Information
-
   profileViewModel: ProfileViewModel;
   profileEmailViewModel: ProfileEmailViewModel;
   submissionList: Array<ProblemSubmissionViewModel>;

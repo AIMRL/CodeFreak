@@ -42,7 +42,6 @@ export class ProblemService {
 
 
   addProblem(problemData: AddProblemViewModel): Observable<ProblemViewModel> {
-    debugger;
     var formData= new FormData();
     for (var i = 0; i < problemData.TestFiles.length; i = i + 1) {
       formData.append(problemData.TestFiles[i].InputFilePath, problemData.TestFiles[i].InputFile, problemData.TestFiles[i].InputFilePath);
@@ -62,7 +61,6 @@ export class ProblemService {
     return res;
   }
   handleError1(errorResponse: HttpErrorResponse) {
-    debugger;
     if (errorResponse.error instanceof ErrorEvent) {
       console.error('Client Side Error :', errorResponse.error.message);
     } else {
@@ -174,7 +172,6 @@ export class ProblemService {
   }
 
   private handleError<T>(error: HttpErrorResponse, result?: T) {
-    debugger;
     if (error.status == 401) {
       this.toast.makeError("Please login", "");
       this.route.navigate(['login']);
@@ -184,6 +181,6 @@ export class ProblemService {
 
   }
   private log(message: string) {
-    console.log(message);
+    //console.log(message);
   }
 }

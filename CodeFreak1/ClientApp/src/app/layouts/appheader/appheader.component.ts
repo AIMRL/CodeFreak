@@ -27,7 +27,6 @@ export class AppheaderComponent implements OnInit {
 
    var s= this.securityService.gtetUserInfo().subscribe( res =>
    {
-     debugger;
      if (res == null) {
        return;
      }

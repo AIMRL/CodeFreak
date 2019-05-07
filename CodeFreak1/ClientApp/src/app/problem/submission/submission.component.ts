@@ -42,14 +42,12 @@ export class SubmissionComponent implements OnInit {
 
 
   ngOnInit() {
-    debugger;
     this.submissionViewModelList = new Array<SubmissionViewModel>();
     this.getSubmissions(this.problemId);
 
   }
   getSubmissions(problemId: string) {
     this.problemService.getSubmissionOfUser(problemId).subscribe(res => {
-      debugger;
       if (res != null) {
         this.submissionViewModelList = res;
         this.dataSource = new MatTableDataSource(this.submissionViewModelList);
@@ -61,7 +59,6 @@ export class SubmissionComponent implements OnInit {
   }
 
   sortData(sort: Sort) {
-    debugger;
     const data = this.submissionViewModelList.slice();
     if (!sort.active || sort.direction === '') {
       this.dataSource = new MatTableDataSource<SubmissionViewModel>(data);

@@ -27,7 +27,6 @@ export class AdminEventHomeComponent implements OnInit {
   constructor(private eventService: EventService, private route: ActivatedRoute) { }
 
   ngOnInit() {
-    debugger;
     this.eventId = Number.parseInt(this.route.snapshot.paramMap.get('id'));
     if (isNullOrUndefined(this.eventId)) {
       return;
@@ -40,7 +39,6 @@ export class AdminEventHomeComponent implements OnInit {
       return;
     }
     this.eventService.getEventById(this.eventId).toPromise().then(res => {
-      debugger;
       var st = new Date(res.Event.StartDateTime);
       st.setMinutes(st.getMinutes() - st.getTimezoneOffset());
       res.Event.StartDateTime =new Date(st);

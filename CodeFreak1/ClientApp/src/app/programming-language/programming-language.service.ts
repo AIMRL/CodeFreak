@@ -30,7 +30,6 @@ export class ProgrammingLanguageService {
 
 
   private handleError<T>(error: HttpErrorResponse, result?: T) {
-    debugger;
     if (error.status == 401) {
       this.toast.makeError("Please login", "");
       this.route.navigate(['login']);
@@ -40,6 +39,6 @@ export class ProgrammingLanguageService {
 
   }
   private log(message: string) {
-    console.log(message);
+//    console.log(message);
   }
 }

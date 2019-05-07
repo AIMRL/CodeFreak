@@ -40,7 +40,6 @@ export class UserEventHomeComponent implements OnInit {
       return;
     }
     this.eventService.getEventById(this.eventId).toPromise().then(res => {
-      debugger;
       var st = new Date(res.Event.StartDateTime);
       st.setMinutes(st.getMinutes() - st.getTimezoneOffset());
       res.Event.StartDateTime = new Date(st);
@@ -59,7 +58,6 @@ export class UserEventHomeComponent implements OnInit {
       this.endCountDown = new Date(this.eventUser.Event.EndDateTime.valueOf()).valueOf() - Date.now();
       this.interval = interval(1000);
       this.subcription = this.interval.subscribe((x) => {
-        debugger;
         if (this.startCountDown > 0) {
           this.isSCD = true;
           this.isESD = false;
@@ -85,7 +83,6 @@ export class UserEventHomeComponent implements OnInit {
     interval.unsubscribe();
   }
   setCountDown(date) {
-    debugger;
     var temp = date;
     this.days = Math.floor(temp / (1000 * 60 * 60 * 24));
     temp = temp - this.days * (1000 * 60 * 60 * 24);

@@ -16,9 +16,7 @@ export class UserEventProblemsComponent implements OnInit {
   constructor(private eventService: EventService, private toastService: ToastService) { }
 
   ngOnInit() {
-    debugger;
     this.eventService.getEventProblems(this.eventId).subscribe(res => {
-      debugger;
       this.problems = res;
     });
 

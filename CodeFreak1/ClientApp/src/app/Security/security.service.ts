@@ -71,7 +71,6 @@ export class SecurityService {
   }
 
   postImage(fileToUpload: File) {
-    debugger;
     var headers = new HttpHeaders();
     let httpOptions = {
       headers: new HttpHeaders({ 'Authorization': 'Bearer ' + localStorage.getItem('token') })
@@ -100,7 +99,6 @@ export class SecurityService {
 
 
   gtetUserInfo(): Observable<ProfileViewModel> {
-    debugger;
     let httpOptions = {
       headers: new HttpHeaders({ 'Authorization': 'Bearer ' + localStorage.getItem('token'), 'Content-Type': 'application/json' })
     };
@@ -122,7 +120,6 @@ export class SecurityService {
 
   }
   private catchEE<T>(error) {
-    debugger;
     console.log(error);
     return Observable.throw(error);
     //this.route.navigate(['login']);
@@ -217,7 +214,6 @@ export class SecurityService {
 
 
   private handleError<T>(error: HttpErrorResponse, result?: T) {
-    debugger;
     if (error.status == 401) {
       this.toast.makeError("Please login", "");
       this.route.navigate(['login']);
@@ -227,7 +223,7 @@ export class SecurityService {
 
   }
   private log(message: string) {
-    console.log(message);
+//    console.log(message);
   }
 
 }

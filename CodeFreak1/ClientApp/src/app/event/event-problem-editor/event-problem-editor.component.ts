@@ -69,12 +69,10 @@ export class EventProblemEditorComponent implements OnInit {
 
 
   compile() {
-
-    debugger;
+    
     this.btnCompile = true;
     this.showResult = false;
     this.problemService.compileCode(this.problemUserCodeModel).subscribe(res => {
-      debugger;
       if (res.Success) {
         this.compilerResult = res;
 

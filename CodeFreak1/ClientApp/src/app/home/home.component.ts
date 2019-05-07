@@ -51,7 +51,6 @@ export class HomeComponent implements OnInit {
       }
     });
     this.languageService.getAllLanguages().subscribe(data => {
-      debugger;
       if (data != null) {
         this.languages = data;
       }

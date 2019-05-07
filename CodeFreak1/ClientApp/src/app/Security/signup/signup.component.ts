@@ -42,12 +42,10 @@ export class SignupComponent implements OnInit {
   }
 
   signup() {
-    debugger;
     if (!this.validate()) {
       return;
     }
     this.service.signupUser(this.user).subscribe(res => {
-      debugger;
       if (res == null) {
         this.toastService.makeError('Error', 'app does not hit api ');
         return;

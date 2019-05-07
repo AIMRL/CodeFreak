@@ -39,6 +39,7 @@ export class EventUsersComponent implements OnInit {
   constructor(private securityService: SecurityService, private eventService: EventService, private toastService: ToastService) { }
 
   ngOnInit() {
+    debugger;
     this.myControl = new FormControl();
     this.roleFromControl = new FormControl();
     this.selectedRoles = new Array<number>();
@@ -47,13 +48,20 @@ export class EventUsersComponent implements OnInit {
     this.users = new Array<UserInfoViewModel>();
     var req = this.eventService.getEventById(this.eventId).toPromise();
     req.then(res => {
+      debugger;
       if (!isNullOrUndefined(res)) {
         this.event = res;
+        var st = new Date(res.Event.StartDateTime);
+        st.setMinutes(st.getMinutes() - st.getTimezoneOffset());
+        res.Event.StartDateTime = new Date(st);
+
+        var en = new Date(res.Event.EndDateTime);
+        en.setMinutes(en.getMinutes() - en.getTimezoneOffset());
+        res.Event.EndDateTime = new Date(en);
         if ((new Date(res.Event.EndDateTime.valueOf()).valueOf()) > Date.now()) { this.isEventClosed = false; }
       }
     });
     this.securityService.getUsersInfo(this.eventId).toPromise().then(res => {
-      debugger;
       if(res==null || res==undefined)
       {
         return;
@@ -61,14 +69,12 @@ export class EventUsersComponent implements OnInit {
       this.users=res;
     });
     this.securityService.getEventRoles().toPromise().then(res => {
-      debugger;
       if (res == null || res == undefined) {
         return;
       }
       this.eventRoles = res;
     });
     this.eventService.getEventUser(this.eventId).toPromise().then(res => {
-      debugger;
       if (res == null) {
         return;
       }
@@ -81,7 +87,6 @@ export class EventUsersComponent implements OnInit {
     this.dialogueClass = "modal-dialog " + cl + " animated";
   }
   addUser() {
-    debugger;
     if (this.selectedRoles.length < 1) {
       this.toastService.makeWarning("Roles are not selected", "Please select a role");
       return;
@@ -105,7 +110,6 @@ export class EventUsersComponent implements OnInit {
       eventUser.Roles.push(item);
     });
     this.eventService.addEventUser(eventUser).subscribe(res => {
-      debugger;
       if (res == null) {
         this.toastService.makeError("Server error", "Server Error");
         return;
@@ -128,7 +132,6 @@ export class EventUsersComponent implements OnInit {
     });
   }
   selectState(val: UserInfoViewModel) {
-    debugger;
     if (val) {
       this.userIdToAdd = val.User.UserId;
       this.selectedUser = val.User.Name;

@@ -46,7 +46,6 @@ export class EventBoardComponent implements OnInit, OnDestroy {
 
 
   ngOnInit() {
-    debugger;
     this.data = new Array<EventPerformanceViewModel>();
     this.getEventBoardResult(this.eventId);
 
@@ -84,9 +83,7 @@ export class EventBoardComponent implements OnInit, OnDestroy {
     interval.unsubscribe();
   }
   getEventBoardResult(eventId: number) {
-    debugger;
     this.eventService.getEventBoardResult(eventId).subscribe(res => {
-      debugger;
       if (res != null) {
         this.data = res;
         this.dataSource = new MatTableDataSource(this.data);
@@ -98,7 +95,6 @@ export class EventBoardComponent implements OnInit, OnDestroy {
   }
 
   sortData(sort: Sort) {
-    debugger;
     const data = this.data.slice();
     if (!sort.active || sort.direction === '') {
       this.dataSource = new MatTableDataSource<EventPerformanceViewModel>(data);
