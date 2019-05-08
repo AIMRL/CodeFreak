@@ -1,11 +1,15 @@
 # CodeFreak
 
 Before Configure the project:
-1- Verify Node is Install
-2- open cmd and run following command:
+1-Download Visual Studio Community 2017 or later version from micosoft official website. https://visualstudio.microsoft.com/thank-you-downloading-visual-studio/?sku=community&ch=pre&rel=16
+2-Install Visual studio and make sure that its working properly
+3-Download and install Microsoft SQL Server Express Edition from the microsoft website https://visualstudio.microsoft.com/thank-you-downloading-visual-studio/?sku=community&ch=pre&rel=16
+4-Download TDM GCC compiler and verify its installation by running g++ --version command on command line.
+5- Verify Node is Installed
+6- open cmd and run following command:
 	npm install -g @angular/cli
 
-Please follow the steps
+Please follow the steps for Cloning the project 
 1- Pull the project
 2- Goto database folder. There is script file of CodeFreak database. Execute that script in sql server.
 3- Open the project in visual studio.
