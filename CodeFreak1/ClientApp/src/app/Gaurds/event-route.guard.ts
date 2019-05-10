@@ -20,7 +20,9 @@ export class EventRouteGuard implements CanActivate {
     var id: number = Number.parseInt(next.paramMap.get('id'));
     var req = this.eventService.getEventById(id).toPromise();
     if (!isNullOrUndefined(req)) {
+      debugger;
       req.then(res => {
+        debugger;
         var isEventAdmin: boolean = false;
         var isEventUser: boolean = false;
         if (isNullOrUndefined(res) || !res.Success) {
@@ -52,15 +54,16 @@ export class EventRouteGuard implements CanActivate {
           this.router.navigate(['/event-d']);
           return;
         }
-        this.toastService.makeError("UnAuthorized", "You are not allowed");
-        this.router.navigate(['home']);
+        this.toastService.makeWarning("UnAuthorized", "You are not part of this event");
+        this.router.navigate(['/event-d']);
         return true;
       });
 
     }
     else {
-      this.toastService.makeError("UnAuthorized", "You are not allowed");
-      this.router.navigate(['home']);
+      debugger;
+      this.toastService.makeWarning("UnAuthorized", "You are not part of this event");
+      this.router.navigate(['/event-d']);
       return true;
     }
   }
