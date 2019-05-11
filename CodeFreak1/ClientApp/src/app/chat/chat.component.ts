@@ -24,7 +24,7 @@ export class ChatComponent implements OnInit {
   private msg: MessageViewModel;
   private curr_user: string;
   private index: any;
-  private messageText: string;
+  messageText: string;
   private reciever_id: string ;
   constructor(private chatService: ChatService) {
   }

@@ -23,7 +23,7 @@ export class HomeComponent implements OnInit {
   problemTypes: Array<ProblemTypeViewModel>;
   languages: Array<ProgrammingLanguageViewModel>;
   events: Array<EventViewModel>;
-
+  p: number = 1;
   constructor(private diffService: DifficultyService, private probTypeService: ProblemTypeService, private languageService: ProgrammingLanguageService, private eventService: EventService) {
 
   }

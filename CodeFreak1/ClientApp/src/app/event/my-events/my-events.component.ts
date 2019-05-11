@@ -9,6 +9,8 @@ import { EventService } from '../event.service';
 })
 export class MyEventsComponent implements OnInit {
 
+  p: number = 1;
+  pp: number = 1;
   pendingEvents: Array<EventViewModel>;
   myEvents: Array<EventViewModel>;
 

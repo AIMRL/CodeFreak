@@ -25,7 +25,8 @@ export class EventProblemsComponent implements OnInit {
   myControl = new FormControl();
   options: string[] = ['One', 'Two', 'Three'];
   filteredOptions: Observable<string[]>;
-  
+
+  p: number = 1;
   problems: Array<ProblemCompleteViewModel>;
   allProblems: Array<ProblemCompleteViewModel>;
   problemIdToAdd:string;

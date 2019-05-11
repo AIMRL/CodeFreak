@@ -9,6 +9,7 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./problems-list.component.css']
 })
 export class ProblemsListComponent implements OnInit {
+  p: number = 1;
   problems: Array<ProblemCompleteViewModel>;
   diffType: string;
   probType: string;
