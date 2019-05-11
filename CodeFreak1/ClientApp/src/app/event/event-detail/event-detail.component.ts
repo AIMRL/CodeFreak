@@ -32,6 +32,7 @@ export class EventDetailComponent implements OnInit {
   constructor(private eventService: EventService, private route: ActivatedRoute, private router: Router, private toastService: ToastService) { }
 
   ngOnInit() {
+    debugger;
     this.eventUser = new EventUserViewModel();
     this.eventId = Number.parseInt(this.route.snapshot.paramMap.get('id'));
     if (this.eventId == null) {
@@ -39,7 +40,7 @@ export class EventDetailComponent implements OnInit {
       return;
     }
     this.eventService.getEventCreatorById(this.eventId).toPromise().then(res => {
-
+      debugger;
       if (res == null || !res.Success) {
         this.msg = "Event Not Found";
         this.toastService.makeError("No Event found", "");
@@ -71,6 +72,7 @@ export class EventDetailComponent implements OnInit {
           this.isSCD = false;
           this.isESD = false;
           this.unsubscribeInterval(this.subcription);
+          this.toastService.makeWarning("Applying Date is over", "Ask creator to add you in Event");
           this.router.navigate(['/home']);
         }
       });

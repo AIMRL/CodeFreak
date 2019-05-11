@@ -32,7 +32,7 @@ namespace CodeFreak1.Filters
             EventUsers eventUsers = eventRepository.getEventUserByIds(userId, eventId);
             if (eventUsers == null)
             {
-                context.Result = new UnauthorizedResult();
+                context.Result = new StatusCodeResult(412);
             }
 
 

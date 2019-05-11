@@ -66,7 +66,7 @@ export class EventService {
     let url = `${this.baseUrl}${this.handlerUrl}${this.getEventyIdUrl}?eventId=${id}`;
     var res = this.http.get<EventUserViewModel>(url, httpOptions).pipe(
       tap((cre: EventUserViewModel) => this.log(`added employee w/ Success=${cre.Success}`)),
-      catchError((error: HttpErrorResponse) =>this.handleError<EventUserViewModel>(error)));
+      catchError((error: HttpErrorResponse) => this.handleError<EventUserViewModel>(error, id)));
     return res;
   }
   getEventCreatorById(id): Observable<EventUserViewModel> {
@@ -254,7 +254,8 @@ export class EventService {
 
 
 
-  private handleError<T>(error: HttpErrorResponse, result?: T) {
+  private handleError<T>(error: HttpErrorResponse, id?: number, result?: T) {
+    debugger;
     if (error.status == 401) {
       this.toast.makeError("Please login", "");
       this.route.navigate(['/home']);
@@ -267,6 +268,10 @@ export class EventService {
     if (error.status == 404) {
       this.toast.makeError("Not Found", "");
       this.route.navigate(['/home']);
+      return;
+    }
+    if (error.status == 412) {
+      this.route.navigate(['/event-d',id]);
       return;
     }
     return Observable.throw(error);
