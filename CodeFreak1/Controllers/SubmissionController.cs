@@ -24,8 +24,6 @@ namespace CodeFreak1.Controllers
 
         [HttpGet]
         [Route("byUserId")]
-        [AllowAnonymous]
-
         public IActionResult getSubmissionByUserId(Guid UserId)
         {
             Guid uu = new Guid("0E984725-C51C-4BF4-9960-E1C80E27ABA0");
@@ -37,8 +35,6 @@ namespace CodeFreak1.Controllers
 
         [HttpGet]
         [Route("byUser")]
-        [AllowAnonymous]
-
         public IActionResult getUserSubmission(Guid UserId)
         {
             return Ok(rep.getSubmission(UserId));
@@ -47,8 +43,6 @@ namespace CodeFreak1.Controllers
 
         [HttpGet]
         [Route("byProblemId")]
-        [AllowAnonymous]
-
         public IActionResult getSubmissionByProblemId(Guid ProblemId)
         {
            
@@ -82,8 +76,6 @@ namespace CodeFreak1.Controllers
 
         [HttpGet]
         [Route("bySubId")]
-        [AllowAnonymous]
-
         public IActionResult getSubmissionDetail(Guid sId)
         {
 

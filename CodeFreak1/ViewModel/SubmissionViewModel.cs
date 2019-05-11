@@ -15,7 +15,7 @@ namespace CodeFreak1.ViewModel
         public DateTime SubmissionDateTime { get; set; }
         public string Code { get; set; }
         public int LanguageId { get; set; }
-
+        public int? EventId { get; set; }
         public List<SubmissionProblemTestCaseViewModel> submissionProblemTestCase { get; set; }
     }
 }

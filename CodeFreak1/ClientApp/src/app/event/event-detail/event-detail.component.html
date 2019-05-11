@@ -1,0 +1,90 @@
+<div class="col-md-12" style="margin-top:40px;">
+  <div class="col-md-8 col-md-offset-2" *ngIf="!isEventFound"><h3 style="text-align:center">No Event Found</h3></div>
+
+  <div class="row">
+    <div class="col-md-offset-2 col-md-8">
+      <button (click)="applyNow()" class="btn btn-primary">Join Now</button>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-8  event-box" *ngIf="isEventFound">
+      <div class="row">
+        <div class="col-md-8 col-md-offset-2 event-sub-box">
+          <div class="h-eve-name">{{eventUser.Event.Name}}</div>
+          <div class="eve-d" *ngIf="isSCD" style="color:black;margin-bottom:0"><b>Applying Date will be over in:</b></div>
+          <div class="eve-d" *ngIf="!isSCD && !isECD" style="color:black;margin-bottom:0"><b>Applying Date is over</b></div>
+        </div>
+      </div>
+      <div class="timer-box col-md-8 col-md-offset-2">
+        <div class="eve-name"><b>{{eventUser.Event.Name}}</b></div>
+        <div class="row" style="margin:7px 0 0 0;padding:0;">
+
+          <div class="col-md-3 counter-item-box" style="  border-right: solid 1px white;">
+            <div class="couter-item">
+              <b>{{days}}</b>
+              <div class="item-label">DAYS</div>
+            </div>
+          </div>
+
+          <div class="col-md-3 counter-item-box" style="  border-right: solid 1px white;">
+            <div class="couter-item">
+              <b>{{hours}}</b>
+              <div class="item-label">HOURS</div>
+            </div>
+          </div>
+
+          <div class="col-md-3 counter-item-box">
+            <div class="couter-item" style="  border-right: solid 1px white;">
+              <b>{{minutes}}</b>
+              <div class="item-label">MINUTES</div>
+            </div>
+          </div>
+
+          <div class="col-md-3 counter-item-box">
+            <div class="couter-item">
+              <b>{{seconds}}</b>
+              <div class="item-label">SECONDS</div>
+            </div>
+          </div>
+
+        </div>
+        <hr style="border-top:solid 1px black;margin:20px 0 0 0; " />
+        <div class="eve-d" *ngIf="isECD"><b>{{eventUser.Event.EndDateTime | date}}</b></div>
+        <div class="eve-d" *ngIf="!isSCD && !isECD"><b>Event Applying date is over</b></div>
+      </div>
+
+      <div class="col-md-8 col-md-offset-2 event-sub-box">
+        <label>Description</label>
+        <div class="event-desc" [innerHtml]="eventUser.Event.Description"></div>
+      </div>
+
+    </div>
+
+    <div class="col-md-3 event-creater-box" *ngIf="isEventFound">
+      <div class="row" style="margin-bottom:20px;">
+        <div style="text-align: center;margin-top:5px;margin-bottom:0;padding-bottom:0">
+          <img *ngIf="eventUser.UserImage==null || eventUser.UserImage.FilePath==null" [src]="logoPath" width="80px" height="80px" />
+          <img *ngIf="eventUser.UserImage!=null && eventUser.UserImage.FilePath!=null" style="border-radius:100%" [src]="profilesUrl+eventUser.UserImage.FilePath" width="80px" height="80px" />
+          <div><b>{{eventUser.User.Name}}</b></div>
+        </div>
+      </div>
+      <div class="row">
+        <label class="creater-label">Applying Deadline</label>
+        <label style="float:right">{{eventUser.Event.ApplyingLastDate | date}}</label>
+      </div>
+      <div class="row">
+        <label class="creater-label">Event Date</label>
+        <label style="float:right">{{eventUser.Event.StartDateTime | date}}</label>
+      </div>
+      <div class="row">
+        <label class="creater-label">Event Start Time</label>
+        <label style="float:right">{{eventUser.Event.StartDateTime | date:'hh:mm a'}}</label>
+      </div>
+      <div class="row">
+        <label class="creater-label">Event End Time</label>
+        <label style="float:right">{{eventUser.Event.EndDateTime | date:'hh:mm a'}}</label>
+      </div>
+    </div>
+  </div>
+</div>

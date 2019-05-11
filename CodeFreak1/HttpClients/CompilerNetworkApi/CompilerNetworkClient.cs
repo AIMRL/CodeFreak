@@ -12,6 +12,6 @@ namespace CodeFreak1.HttpClients.CompilerNetworkApi
         {
                 
         }
-        public static RestClient Instance { get; } = new RestClient("https://localhost:44372/api/CompilerEngine");
+        public static RestClient Instance { get; } = new RestClient("http://localhost:8081/api/CompilerEngine");
     }
 }

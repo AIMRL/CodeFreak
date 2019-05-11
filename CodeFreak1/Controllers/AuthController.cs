@@ -122,11 +122,7 @@ namespace CodeFreak1.Controllers
             return user;
         }
 
-
-
-
-
-
+        
         [HttpPost]
         [Route("signup")]
         [AllowAnonymous]
@@ -216,17 +212,42 @@ namespace CodeFreak1.Controllers
             return Ok(retList);
         }
 
+        [HttpGet("getAllUserInfo")]
+        [Route("getAllUserInfo")]
+        public IActionResult getUsersInfo(int eventId)
+        {
+            List<UserInfoViewModel> list = new List<UserInfoViewModel>();
+
+            var users = userRepository.getAllPublicUserInfo(eventId);
+            foreach (var item in users)
+            {
+                UserInfoViewModel i = new UserInfoViewModel();
+                i.User = Mapper.Map<Users, UsersViewModel>(item);
+                i.File = Mapper.Map<Files, FileViewModel>(item.Files.FirstOrDefault());
+                list.Add(i);
+            }
+                
+
+             return Ok(list);
+        }
 
 
-
-
-
-
-
-
-
-
-
-
+        [HttpGet("myInfo")]
+        [Route("myInfo")]
+        public IActionResult myInfo()
+        {
+            RequestStatus request = new RequestStatus();
+            Users user = getApplicationUser();
+            if (user == null)
+            {
+                request.makeUnAuthorized();
+                return Ok(request);
+            }
+            Users user1 = userRepository.getUserById(user.UserId);
+            UserRolesViewModel userRoles= CodeFreakMapper.UsersToUserRolesViewModel(user1);
+            userRoles.makeSuccess();
+            return Ok(userRoles);
+        }
+        
     }
 }

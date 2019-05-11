@@ -1,0 +1,33 @@
+<body>
+
+  <div class="row" style="padding:5px 5%">
+    <div style="background-color:blueviolet;color:white;float:right ;border-radius:5px"><div style="color:white;font-size:30px;padding:5px 10px">{{days}} : {{hours}} : {{minutes}} : {{seconds}}</div></div>
+  </div>
+  <div class="container" style="margin-bottom:100px;margin-top:20px;">
+    <h1 style="text-align:center;margin-bottom:10px;">{{eventUser?.Event?.Name}}</h1>
+    <md2-tabs style="border-top:1px solid;border-bottom:0;padding:5px 10px;">
+      <md2-tab label="Home">
+        <app-event-home [eventId]="eventId"></app-event-home>
+      </md2-tab>
+
+      <md2-tab label="Users">
+        <event-users [eventId]="eventId" style="position:relative"></event-users>
+      </md2-tab>
+
+      <md2-tab label="Problems">
+        <event-problems [eventId]="eventId" style="position:relative"></event-problems>
+      </md2-tab>
+
+
+
+      <md2-tab label="Submissions">
+        <event-submissions [eventId]="eventId"></event-submissions>
+      </md2-tab>
+
+      <md2-tab label="Board">
+        <event-board [eventId]="eventId"></event-board>
+      </md2-tab>
+    </md2-tabs>
+
+  </div>
+</body>

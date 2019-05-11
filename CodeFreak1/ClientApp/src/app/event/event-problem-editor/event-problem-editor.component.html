@@ -1,0 +1,72 @@
+<div class="container">
+  <mat-tab-group dynamicHeight style="border-top:1px solid">
+    <mat-tab label="Problem">
+      <div class="row col-md-12" *ngIf="isData">
+        <div class="cf-prob-box">
+          <div [innerHtml]="problemComplete.Problem.Description">
+
+          </div>
+        </div>
+        <div class="row cf-editor">
+          <div ace-editor
+               [(text)]="problemUserCodeModel.Code"
+               [mode]="'c_cpp'"
+               [options]="{maxLines: 'Infinity',
+                    autoScrollEditorIntoView:false,
+                    fontSize: 14,
+                    showGutter:true,
+                    showLineNumbers:true,
+                    fadeFoldWidgets:false,
+                    highlightActiveLine:true,
+                    highlightGutterLine:true,
+                    showInvisibles:false,
+                    showPrintMargin:false}"
+               [theme]="'eclipse'"
+               [readOnly]="false"
+               [autoUpdateContent]="true"
+               [durationBeforeCallback]="1000"
+               (textChanged)="onChange($event)"
+               style="min-height: 200px; width:100%; overflow: auto;">
+          </div>
+        </div>
+
+        <div class="row cf-prob-btns">
+          <button mat-raised-button (click)="compile()">Compile</button>
+          <button mat-raised-button color="primary" (click)="submitCode()">Submit Code</button>
+
+        </div>
+        <br /><br />
+
+        <div *ngIf="btnCompile" class="row cf-label">
+          <h3>Compiling...</h3>
+
+        </div>
+
+        <div *ngIf="showResult" class="row cf-result">
+          {{this.compilerResult.TestcasesResult[0].Status}}
+        </div>
+
+      </div>
+
+      <!--Problem Not found-->
+
+      <div *ngIf="!isData">
+        <h1 style="color:red">Problem Not Found</h1>
+      </div>
+
+
+    </mat-tab>
+    <mat-tab label="Submissions">
+      <h1>Your Submissions</h1>
+      <app-submission [problemId]="problemId">
+
+      </app-submission>
+    </mat-tab>
+  </mat-tab-group>
+
+</div>
+
+
+
+
+

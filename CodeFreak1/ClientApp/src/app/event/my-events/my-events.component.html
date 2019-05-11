@@ -1,0 +1,49 @@
+<html>
+<body style="background:lightgray">
+  <div class="container">
+
+    <div style="margin-top:20px;text-align:center;font-size:25px"><b>My Events</b></div>
+    <div style="text-align:center;font-size:20px" *ngIf="myEvents.length==0">You have not participated in any event!</div>
+    <div class="row">
+      <div class="col-md-6" style="margin-top:10px;" *ngFor="let e of myEvents| paginate: { itemsPerPage: 10, currentPage: p }">
+        <div style="padding:10px;background:white;border-radius:8px;">
+          <div class="row">
+            <div class="col-md-9" style="font-size:20px;">
+              {{e.Name}}
+            </div>
+            <div class="col-md-3">
+
+              <button class="btn btn-primary" routerLink="/event-m/{{e.EventId}}">Detail</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <pagination-controls *ngIf="myEvents.length>10" style="text-align:center;font-size:25px;margin:10px" (pageChange)="p = $event"></pagination-controls>
+
+    <div style="margin-top:20px;text-align:center;font-size:25px"><b>UpComing Events</b></div>
+    <div style="text-align:center;font-size:20px" *ngIf="pendingEvents.length==0">There is no upcoming event yet!</div>
+    <div class="row">
+      <div class="col-md-6" style="margin-top:10px;" *ngFor="let e of pendingEvents | paginate: { itemsPerPage: 10, currentPage: pp}">
+        <div style="padding:10px;background:white;border-radius:8px;">
+          <div class="row">
+            <div class="col-md-9" style="font-size:20px;">
+              {{e.Name}}
+            </div>
+            <div class="col-md-3">
+
+              <button class="btn btn-primary" routerLink="/event-m/{{e.EventId}}">Detail</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <pagination-controls *ngIf="pendingEvents.length>10" style="text-align:center;font-size:25px;margin:10px" (pageChange)="pp = $event"></pagination-controls>
+
+
+  </div>
+
+</body>
+</html>

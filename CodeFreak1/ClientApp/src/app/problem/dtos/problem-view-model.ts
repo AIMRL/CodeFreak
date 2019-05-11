@@ -1,4 +1,7 @@
-export class ProblemViewModel {
+import { RequestStatus } from "../../Security/Dtos/request-status";
+
+export class ProblemViewModel extends RequestStatus
+{
   public ProblemId: string;
   public AuthorId: string;
   public ProblemTypeId: number;
@@ -9,4 +12,5 @@ export class ProblemViewModel {
   public PostDateTime: Date;
   public NoOfTestCaseFiles: number;
   public Title: string;
+  public IsPublic: boolean;
 }

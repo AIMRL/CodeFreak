@@ -19,8 +19,8 @@ import { AppheaderComponent } from '../layouts/appheader/appheader.component';
 import { SiteLayoutComponent } from '../layouts/site-layout/site-layout.component';
 import { ProblemsListComponent } from './problems-list/problems-list.component';
 import { ProblemCompleteViewModel } from './dtos/problem-complete-view-model';
-import { SubmissionComponent } from './submission/submission.component';
 import { TestComponent } from './test/test.component';
+import { NgxPaginationModule } from 'ngx-pagination'; 
 
 import { MatButtonModule, MatToolbarModule, MatSidenavModule, MatIconModule,MatListModule, MatTableModule, MatPaginatorModule, MatSortModule } from '@angular/material';
 import { SubmissionViewModel } from './dtos/submission-view-model';
@@ -29,6 +29,7 @@ import { ResultComponent } from './result/result.component';
 import { AdminRoleGuard } from '../Gaurds/admin-role.guard';
 import { SubmissionDetailComponent } from './submission-detail/submission-detail.component';
 import { UrlDetailComponent } from './url-detail/url-detail.component';
+import { SubmissionComponent } from './submission/submission.component';
 
 
 
@@ -52,29 +53,31 @@ import { UrlDetailComponent } from './url-detail/url-detail.component';
     CodeFreakMaterialModuleModule,
     AceEditorModule,
     CodeFreakMaterialModuleModule,
+    NgxPaginationModule,
+
     FroalaEditorModule.forRoot(), FroalaViewModule.forRoot(),
     RouterModule.forRoot([
       {
         path: '', component: SiteLayoutComponent, children: [
-      { path: 'problem/:id', component: ProblemComponent },
-          { path: 'create-problem', component: CreateProbemComponent },
+          { path: 'problem/:id', component: ProblemComponent, canActivate: [AdminRoleGuard] },
+          { path: 'create-problem', component: CreateProbemComponent, canActivate: [AdminRoleGuard] },
+          
 
-          { path: 'submission', component: SubmissionComponent },
+          { path: 'test', component: TestComponent, canActivate: [AdminRoleGuard]},
 
-          { path: 'test', component: TestComponent },
-
-          { path: 'allProblems', component: ProblemsListComponent, canActivate: [AdminRoleGuard] },
-          { path: 'allProblems/:which/:name', component: ProblemsListComponent, canActivate: [AdminRoleGuard ]},
-          { path: 'result', component: ResultComponent },
-          { path: 'submissionDetail/:id', component: SubmissionDetailComponent },
-          { path: 'urlDetail/:url', component: UrlDetailComponent }
+          { path: 'allProblems', component: ProblemsListComponent, canActivate: [AdminRoleGuard]},
+          { path: 'allProblems/:which/:name', component: ProblemsListComponent, canActivate: [AdminRoleGuard]},
+          { path: 'result', component: ResultComponent, canActivate: [AdminRoleGuard]},
+          { path: 'submissionDetail/:id', component: SubmissionDetailComponent, canActivate: [AdminRoleGuard]},
+          { path: 'urlDetail/:url', component: UrlDetailComponent, canActivate: [AdminRoleGuard]}
 
 
         ]
       }
     ])
   ],
-  declarations: [ProblemComponent, CreateProbemComponent, ProblemsListComponent, SubmissionComponent, TestComponent, ResultComponent, SubmissionDetailComponent, UrlDetailComponent],
-  providers: [ProblemService, CompilerResultViewModel, CodeViewModel, ProblemViewModel, ProblemCompleteViewModel, SubmissionViewModel]
+  providers: [ProblemService, CompilerResultViewModel, CodeViewModel, ProblemViewModel, ProblemCompleteViewModel, SubmissionViewModel],
+  exports: [CreateProbemComponent, ProblemComponent, SubmissionComponent],
+  declarations: [ProblemComponent, CreateProbemComponent, ProblemsListComponent, TestComponent, ResultComponent, SubmissionDetailComponent, UrlDetailComponent, SubmissionComponent]
 })
 export class ProblemModule { }

@@ -16,6 +16,9 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
 import { UserInfoViewModel } from './Dtos/user-info-view-model';
 import { RolesViewModel } from './Dtos/roles-view-model';
+import { Router } from '@angular/router';
+import { debug } from 'util';
+import { ToastService } from '../toast/toast.service';
 
 
 @Injectable()
@@ -28,23 +31,18 @@ export class SecurityService {
   private signupUrl: string = `signup/`;
   private getAllUserInfoUrl= `getAllUserInfo`;
   private getEventRolesUrl = `getAllRoles`;
-
-
   ProfileURl: string = AppSettings.ProfileURl;
   postImageURl: string = `UploadImage`;
   test: string = `Test`;
-
-  private profileUrl: string = `/api/profile/`;
+  private profileUrl: string = `/api/Profile/`;
   private SubmissionUrl: string = `/api/Submission/`;
   private submissionListUrl: string = `ByUser?UserId=`;
-
   private imageProfileUrl: string = `UploadImage`;
   private emailUrl: string = `SendEmail`;
-
   private personalInfoUrl: string = `ChangePersonalInfo`;
   private passwordUrl: string = `ChangePassword`;
   private UserInfo: string = `User`;
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private route: Router, private toast: ToastService) { }
   loginUser(credentials: SignInViewModel): Observable<UserRolesViewModel> {
     let httpOptions = CodeFreakHeaders.GetSimpleHeader();
 
@@ -57,7 +55,7 @@ export class SecurityService {
     let url = `${this.baseUrl}${this.handlerUrl}${this.getTokenUrl}`;
     var res = this.http.post<UserRolesViewModel>(url, JSON.stringify(credentials), httpOptions).pipe(
       tap((cre: UserRolesViewModel) => this.log(`added employee w/ Success=${cre.Success}`)),
-      catchError(this.handleError<UserRolesViewModel>('Error in login')));
+      catchError((error: HttpErrorResponse)=>this.handleError<UserRolesViewModel>(error)));
     return res;
   }
 
@@ -68,28 +66,23 @@ export class SecurityService {
     let url = `${this.baseUrl}${this.handlerUrl}${this.signupUrl}`;
     var res = this.http.post<RequestStatus>(url, JSON.stringify(user), httpOptions).pipe(
       tap((cre: RequestStatus) => this.log(`added employee w/ Success=${cre.Success}`)),
-      catchError(this.handleError<RequestStatus>('Error in login')));
+      catchError((error: HttpErrorResponse) =>this.handleError<RequestStatus>(error)));
     return res;
   }
 
-
   postImage(fileToUpload: File) {
-    
     var headers = new HttpHeaders();
-    headers.append('Accept', 'application/json');
-    headers.append('Authorization', `bearer ${localStorage.getItem('token')}`);
     let httpOptions = {
-      headers: headers
+      headers: new HttpHeaders({ 'Authorization': 'Bearer ' + localStorage.getItem('token') })
     };
-
+    httpOptions.headers.append('Accept', 'application/json');
+    httpOptions.headers.append('Authorization', `bearer ${localStorage.getItem('token')}`);
 
     const formData: FormData = new FormData();
     formData.append('Image', fileToUpload, fileToUpload.name);
+      let url1 = 'https://localhost:44312/api/Profile/UploadImage';
 
     let url = `${this.baseUrl}${this.profileUrl}${this.imageProfileUrl}`;
-
-
-
     this.http.post(url,formData,httpOptions)
       .subscribe(data => { console.log(data); })
 
@@ -106,7 +99,6 @@ export class SecurityService {
 
 
   gtetUserInfo(): Observable<ProfileViewModel> {
-
     let httpOptions = {
       headers: new HttpHeaders({ 'Authorization': 'Bearer ' + localStorage.getItem('token'), 'Content-Type': 'application/json' })
     };
@@ -118,14 +110,28 @@ export class SecurityService {
     let url = `${this.baseUrl}${this.profileUrl}${this.UserInfo}`;
 
 
-    var res = this.http.get<ProfileViewModel>(url, httpOptions);
+    var res = this.http.get<ProfileViewModel>(url, httpOptions).pipe(
+      tap((cre: ProfileViewModel) => this.log(``)),
+      catchError((err: HttpErrorResponse)=>this.catchEE<ProfileViewModel>(err))
+    );
 
     return res;
 
 
   }
-
-
+  private catchEE<T>(error) {
+    console.log(error);
+    return Observable.throw(error);
+    //this.route.navigate(['login']);
+    //return (error: any): Observable<T> => {
+    //  // TODO: send the error to remote logging infrastructure
+    //  console.error(error); // log to console instead
+    //  // TODO: better job of transforming error for user consumption
+    //  this.log(`${operation} failed: ${error.message}`);
+    //  // Let the app keep running by returning an empty result.
+    //  return of(result as T);
+    //};
+  }
   changePassword(Password: String) {
 
 
@@ -172,7 +178,7 @@ export class SecurityService {
     let url = `${this.baseUrl}${this.handlerUrl}${this.getAllUserInfoUrl}?eventId=${id}`;
     var res = this.http.get<Array<UserInfoViewModel>>(url, httpOptions).pipe(
       tap((cre: Array<UserInfoViewModel>) => this.log(`added employee w/ Success`)),
-      catchError(this.handleError<Array<UserInfoViewModel>>('Error in login')));
+      catchError((error: HttpErrorResponse) =>this.handleError<Array<UserInfoViewModel>>(error)));
     return res;
 
   }
@@ -188,9 +194,11 @@ export class SecurityService {
     let url = `${this.baseUrl}${this.roleUrl}${this.getEventRolesUrl}`;
     var res = this.http.get<Array<RolesViewModel>>(url, httpOptions).pipe(
       tap((cre: Array<RolesViewModel>) => this.log(`added employee w/ Success`)),
-      catchError(this.handleError<Array<RolesViewModel>>('Error in login')));
+      catchError((error: HttpErrorResponse) =>this.handleError<Array<RolesViewModel>>(error)));
     return res;
-}
+
+  }
+ 
   getSubmission(cre: String): Observable<Array<ProblemSubmissionViewModel>> {
 
  
@@ -205,19 +213,17 @@ export class SecurityService {
   }
 
 
-  private handleError<T>(operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-      // TODO: send the error to remote logging infrastructure
-      console.error(error); // log to console instead
-      // TODO: better job of transforming error for user consumption
-      this.log(`${operation} failed: ${error.message}`);
-      // Let the app keep running by returning an empty result.
-      return of(result as T);
-    };
-  }
+  private handleError<T>(error: HttpErrorResponse, result?: T) {
+    if (error.status == 401) {
+      this.toast.makeError("Please login", "");
+      this.route.navigate(['login']);
+      return;
+    }
+    return Observable.throw(error);
 
+  }
   private log(message: string) {
-    //
+//    console.log(message);
   }
 
 }

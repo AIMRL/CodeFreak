@@ -239,3 +239,6 @@ _Pvt_Extensions
 /CompilerNetwork/obj
 /CompilerNetwork/obj
 /CompilerNetwork/bin
+/CodeFreak1/ClientApp/src/app/*.map
+/CodeFreak1/ClientApp/src/app/AppSetting.js
+/CodeFreak1/ClientApp/src/app/AppSetting.js.map

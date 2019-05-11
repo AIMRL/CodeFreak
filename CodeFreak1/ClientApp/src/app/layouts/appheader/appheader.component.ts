@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { SecurityService } from '../../Security/security.service';
+import { debug } from 'util';
+import { AppSettings } from '../../AppSetting';
 
 
 @Component({
@@ -10,11 +12,12 @@ import { SecurityService } from '../../Security/security.service';
   styleUrls: ['./appheader.component.css']
 })
 export class AppheaderComponent implements OnInit {
+  isAuth = false;
+  userImagesBaseUrl = AppSettings.UserImagesBaseUrl;
+  name = "CodeFreak";
+  email = "CodeFreak";
 
-  name = "Arslan Aslam";
-  email = "arslanaslam@gmail.com";
-
-  imagePath = "../../assets/images/default-user.png";
+  imagePath = AppSettings.logoPath;
 
   constructor(private securityService: SecurityService, private router: Router, private http: HttpClient) { }
 
@@ -22,15 +25,19 @@ export class AppheaderComponent implements OnInit {
 
 
 
-    this.securityService.gtetUserInfo().subscribe( res =>
-    {
+   var s= this.securityService.gtetUserInfo().subscribe( res =>
+   {
+     if (res == null) {
+       return;
+     }
+     this.isAuth = true;
       this.name = res.Name;
-      this.email = res.Email;
-      this.imagePath = res.imageURL;
+     this.email = res.Email;
+     if (res.imageURL != null && res.imageURL != "") {
+       this.imagePath = AppSettings.UserImagesBaseUrl + res.imageURL;
+     }
+
       });
-
-
-
   }
 
   logout() {

@@ -1,0 +1,45 @@
+.cf-prob-head {
+  font-size: 14px;
+  color: black;
+  margin-top: 4px;
+}
+
+.cf-prob-box {
+  margin-top: 10px;
+  border-radius: 4px;
+  background: #fff;
+  padding: 10px 20px;
+}
+
+.cf-prob-desc {
+  font-size: 14px;
+  color: #576871;
+  line-height: 26pt;
+}
+
+.cf-prob-sample {
+  padding: 5px 15px;
+  background: #e7eeef;
+}
+
+.cf-prob-btns {
+  margin: 5px 10px;
+  float: right;
+  position: relative;
+}
+
+.cf-editor {
+  margin: 40px 10px 10px 10px;
+  border: 1px solid rgb(231, 228, 228);
+}
+
+.cf-label {
+  margin: 40px 10px 10px 10px;
+}
+
+.cf-result {
+  padding: 20px 20px 50px 30px;
+  margin: 40px 10px 10px 10px;
+  background: #e7eeef;
+  font-size: 14px;
+}

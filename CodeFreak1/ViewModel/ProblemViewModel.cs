@@ -17,5 +17,6 @@ namespace CodeFreak1.ViewModel
         public DateTime? PostDateTime { get; set; }
         public int? NoOfTestCaseFiles { get; set; }
         public string Title { get; set; }
+        public bool IsPublic { get; set; }
     }
 }

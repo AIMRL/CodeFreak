@@ -19,6 +19,11 @@ namespace CodeFreak1.Models
         public virtual DbSet<Connection> Connection { get; set; }
         public virtual DbSet<Difficulty> Difficulty { get; set; }
         public virtual DbSet<Editorial> Editorial { get; set; }
+        public virtual DbSet<Event> Event { get; set; }
+        public virtual DbSet<EventProblems> EventProblems { get; set; }
+        public virtual DbSet<EventUserRoles> EventUserRoles { get; set; }
+        public virtual DbSet<EventUsers> EventUsers { get; set; }
+        public virtual DbSet<Files> Files { get; set; }
         public virtual DbSet<LoginHistory> LoginHistory { get; set; }
         public virtual DbSet<Messages> Messages { get; set; }
         public virtual DbSet<Permissions> Permissions { get; set; }
@@ -39,8 +44,7 @@ namespace CodeFreak1.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=.\\SQLExpress;Database=DBCodeFreak;Trusted_Connection=True;");
-
+                optionsBuilder.UseSqlServer("Server=.;Database=DBCodeFreak;User Id=sa;Password=123456;MultipleActiveResultSets=true");
             }
         }
 
@@ -106,6 +110,99 @@ namespace CodeFreak1.Models
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Editorial_Users");
+            });
+
+            modelBuilder.Entity<Event>(entity =>
+            {
+                entity.Property(e => e.ApplyingLastDate).HasColumnType("date");
+
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.EndDateTime).HasColumnType("datetime");
+
+                entity.Property(e => e.Name).IsRequired();
+
+                entity.Property(e => e.StartDateTime).HasColumnType("datetime");
+
+                entity.HasOne(d => d.CreatedByNavigation)
+                    .WithMany(p => p.Event)
+                    .HasForeignKey(d => d.CreatedBy)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Event_Users");
+            });
+
+            modelBuilder.Entity<EventProblems>(entity =>
+            {
+                entity.HasKey(e => e.EventProblemId);
+
+                entity.Property(e => e.EventProblemId).ValueGeneratedNever();
+
+                entity.HasOne(d => d.Event)
+                    .WithMany(p => p.EventProblems)
+                    .HasForeignKey(d => d.EventId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_EventProblems_Event");
+
+                entity.HasOne(d => d.Problem)
+                    .WithMany(p => p.EventProblems)
+                    .HasForeignKey(d => d.ProblemId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_EventProblems_Problem");
+            });
+
+            modelBuilder.Entity<EventUserRoles>(entity =>
+            {
+                entity.HasKey(e => e.EventUserRoleId);
+
+                entity.Property(e => e.EventUserRoleId).ValueGeneratedNever();
+
+                entity.HasOne(d => d.EventUser)
+                    .WithMany(p => p.EventUserRoles)
+                    .HasForeignKey(d => d.EventUserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_EventUserRoles_EventUsers");
+
+                entity.HasOne(d => d.Role)
+                    .WithMany(p => p.EventUserRoles)
+                    .HasForeignKey(d => d.RoleId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_EventUserRoles_Roles");
+            });
+
+            modelBuilder.Entity<EventUsers>(entity =>
+            {
+                entity.HasKey(e => e.EventUserId);
+
+                entity.Property(e => e.EventUserId).ValueGeneratedNever();
+
+                entity.HasOne(d => d.Event)
+                    .WithMany(p => p.EventUsers)
+                    .HasForeignKey(d => d.EventId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_EventUsers_Event");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.EventUsers)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_EventUsers_Users");
+            });
+
+            modelBuilder.Entity<Files>(entity =>
+            {
+                entity.HasKey(e => e.FileId);
+
+                entity.Property(e => e.FileId).ValueGeneratedNever();
+
+                entity.Property(e => e.Extention).HasMaxLength(50);
+
+                entity.Property(e => e.FilePath).IsRequired();
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.Files)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Files_Users");
             });
 
             modelBuilder.Entity<LoginHistory>(entity =>

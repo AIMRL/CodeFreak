@@ -15,14 +15,11 @@ namespace CodeFreak1.Repositories
             db = new DBCodeFreakContext();
         }
 
-        public int addProblemTestCase(ProblemTestCase problemTestCase)
+        public ProblemTestCase addProblemTestCase(ProblemTestCase problemTestCase)
         {
-            int status = 0;
-
             db.ProblemTestCase.Add(problemTestCase);
             db.SaveChanges();
-
-            return status;
+            return problemTestCase;
         }
 
         public ProblemTestCase getProblemTestCaseById(Guid pTestCaseId)

@@ -7,6 +7,7 @@ namespace CodeFreak1.Models
     {
         public Roles()
         {
+            EventUserRoles = new HashSet<EventUserRoles>();
             PermissionsMapping = new HashSet<PermissionsMapping>();
             UserRoles = new HashSet<UserRoles>();
         }
@@ -21,6 +22,7 @@ namespace CodeFreak1.Models
         public Guid? CreatedBy { get; set; }
 
         public Users ModifiedByNavigation { get; set; }
+        public ICollection<EventUserRoles> EventUserRoles { get; set; }
         public ICollection<PermissionsMapping> PermissionsMapping { get; set; }
         public ICollection<UserRoles> UserRoles { get; set; }
     }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { CodeViewModel } from '../dtos/code-view-model';
 import { CompilerResultViewModel } from '../dtos/compiler-result-view-model';
 import { ProblemService } from '../problem.service';
@@ -7,6 +7,7 @@ import {ProblemUserCodeViewModel} from '../dtos/Problem-user-code-view-model';
 import { ActivatedRoute, Route } from '@angular/router';
 import {CompilerOutputViewModel} from '../dtos/compiler-output-view-model';
 import { Router,NavigationExtras } from '@angular/router';
+import { isNullOrUndefined } from 'util';
 
 @Component({
   selector: 'app-problem',
@@ -14,14 +15,17 @@ import { Router,NavigationExtras } from '@angular/router';
   styleUrls: ['./problem.component.css']
 })
 export class ProblemComponent implements OnInit {
-  
+  @Input() eventId: number;
+  @Input() eventProblemId: string;
+
+
   compilerResult: CompilerOutputViewModel;
   btnCompile = false;
   showResult = false;
   problemId: string;
   problemComplete: ProblemCompleteViewModel;
-  problemUserCodeModel:ProblemUserCodeViewModel
-
+  problemUserCodeModel: ProblemUserCodeViewModel;
+  isData = false;
 
   text: string = "#include <iostream>\n" +
     "#include <cstdio>\n" +
@@ -39,17 +43,27 @@ export class ProblemComponent implements OnInit {
   }
   ngOnInit() {
     this.compilerResult = new CompilerOutputViewModel();
-    
     this.problemUserCodeModel=new ProblemUserCodeViewModel();
-    this.problemUserCodeModel.Code=this.text;
-    this.problemId = this.route.snapshot.paramMap.get('id');
+    this.problemUserCodeModel.Code = this.text;
+    if (isNullOrUndefined(this.eventProblemId)) {
+      this.problemId = this.route.snapshot.paramMap.get('id');
+      this.problemUserCodeModel.isEvent = false;
+    } else {
+      this.problemId = this.eventProblemId;
+      this.problemUserCodeModel.eventId = this.eventId;
+      this.problemUserCodeModel.isEvent = true;
+    }
+
 
     this.problemUserCodeModel.problemId=this.problemId;
 
     var id = "0E984725-C51C-4BF4-9960-E1C80E27ABA1";
     this.problemService.getProblembyId(this.problemId).subscribe(res => {
-      
-      this.problemComplete = res;
+      if (!isNullOrUndefined(res)) {
+        this.problemComplete = res;
+        this.isData = true;
+      }
+
     });
   }
   onChange(code) {

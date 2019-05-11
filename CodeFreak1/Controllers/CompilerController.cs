@@ -12,6 +12,7 @@ using AutoMapper;
 using CodeFreak1.Models;
 using System.IO;
 using System.Diagnostics;
+using CodeFreak1.Filters;
 
 namespace CodeFreak1.Controllers
 {
@@ -59,7 +60,7 @@ namespace CodeFreak1.Controllers
 
         [Route("compile")]
         [HttpPost("compile")]
-        [AllowAnonymous]
+        [CompileAuth]
         public IActionResult compileCode(ProblemUserCodeViewModel code)
         {
             
@@ -88,7 +89,7 @@ namespace CodeFreak1.Controllers
             submission.SubmissionDateTime = DateTime.Now;
             submission.Code = code.Code;
             submission.LanguageId = 1;
-
+            submission.EventId = code.eventId;
 
 
             List<ProblemTestCaseViewModel> myTests = new List<ProblemTestCaseViewModel>();

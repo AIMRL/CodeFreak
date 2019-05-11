@@ -12,16 +12,7 @@ import { ProblemSubmissionViewModel } from '../Dtos/problem-submission-view-mode
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
 })
-
-
-
-
-
 export class ProfileComponent implements OnInit {
-
-
-  // Edit Security Information
-
   profileViewModel: ProfileViewModel;
   profileEmailViewModel: ProfileEmailViewModel;
   submissionList: Array<ProblemSubmissionViewModel>;
@@ -145,7 +136,7 @@ export class ProfileComponent implements OnInit {
     { link: 'flash-link', name: 'Flash' }
   ];
 
-  imageURL = AppSettings.Profile_DefaultUser;
+  imageURL = AppSettings.logoPath;
   fileToUpload: File = null;
 
 
@@ -174,7 +165,7 @@ export class ProfileComponent implements OnInit {
 
       this.personal_name = this.profileViewModel.Name;
       this.personal_email = this.profileViewModel.Email;
-      this.imageURL = this.profileViewModel.imageURL;
+      this.imageURL = AppSettings.UserImagesBaseUrl + this.profileViewModel.imageURL;
 
       this.service.getSubmission(this.profileViewModel.UserId).subscribe(
 

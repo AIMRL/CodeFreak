@@ -15,7 +15,7 @@ import { ToastService } from '../../toast/toast.service';
 export class SignupComponent implements OnInit {
   //Signup page requirements
   imagePath = AppSettings.SignInPath;
- // logoPath = AppSettings.logoPath;
+  logoPath = AppSettings.logoPath;
 
   emailFormControl = new FormControl('', [
     Validators.required,
@@ -42,12 +42,10 @@ export class SignupComponent implements OnInit {
   }
 
   signup() {
-    debugger;
     if (!this.validate()) {
       return;
     }
     this.service.signupUser(this.user).subscribe(res => {
-      debugger;
       if (res == null) {
         this.toastService.makeError('Error', 'app does not hit api ');
         return;

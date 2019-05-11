@@ -108,6 +108,30 @@ namespace CodeFreak1
                 m.CreateMap<Submission, SubmissionViewModel>();
                 m.CreateMap<SubmissionViewModel, Submission>();
 
+
+                m.CreateMap<Event,EventViewModel>();
+                m.CreateMap<EventViewModel, Event>();
+
+                m.CreateMap<Editorial, EditorialViewModel>();
+                m.CreateMap<EditorialViewModel, Editorial>();
+
+                m.CreateMap<EventProblems, EventProblemsViewModel>();
+                m.CreateMap<EventProblemsViewModel, EventProblems>();
+
+                m.CreateMap<Files, FileViewModel>();
+                m.CreateMap<FileViewModel, Files>();
+
+                m.CreateMap<EventUsers, EventUserViewModel>();
+                m.CreateMap<EventUserViewModel, EventUsers>();
+
+                m.CreateMap<ProblemTestCaseViewModel, ProblemTestCase>();
+                m.CreateMap<ProblemTestCase, ProblemTestCaseViewModel>();
+
+                m.CreateMap<SubmissionProblemTestCase, SubmissionProblemTestCaseViewModel>();
+                m.CreateMap<SubmissionProblemTestCaseViewModel, SubmissionProblemTestCase>();
+
+
+
             });
             #endregion
         }

@@ -31,8 +31,14 @@ import { ProgrammingLanguageModule } from './programming-language/programming-la
 import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
 import { ToastrModule } from 'ngx-toastr';
 import { ToastModule } from './toast/toast.module';
+import { EventModule } from './event/event.module';
+import { RequestStatus } from './request-status';
+import { NoConflictStyleCompatibilityMode, Md2Module } from 'md2';
+//import {} from '@angular/material';
 import { TeamComponent } from './team/team.component';
 import { ChatComponent } from './chat/chat.component';
+import { NgxPaginationModule } from 'ngx-pagination'; 
+
 
 @NgModule({
   declarations: [
@@ -70,30 +76,24 @@ import { ChatComponent } from './chat/chat.component';
     FroalaViewModule.forRoot(),
     ToastrModule.forRoot({ timeOut:3000 }),
     LoadingBarHttpClientModule,
+    EventModule,
+    NoConflictStyleCompatibilityMode,
+    Md2Module,
+    NgxPaginationModule,
     RouterModule.forRoot([
-
-      {
-        path: '', component: AdminLayoutComponent, canActivate: [AdminRoleGuard],
-        children: [
-          { path: 'counter', component: CounterComponent, canActivate: [AdminRoleGuard] },
-        ]
-      },
-      { path: 'login', component: LoginComponent },
-      { path: 'chat', component: ChatComponent },
-      {path: 'team', component: TeamComponent},
       {
         path: '', component: SiteLayoutComponent,
         children: [
-          { path: 'fetch-data', component: FetchDataComponent },
+          { path: 'chat', component: ChatComponent, canActivate: [AdminRoleGuard]},
+          { path: 'team', component: TeamComponent },
           { path: 'home', component: HomeComponent }
-
         ]
       },
     ])
   ],
-  providers: [AdminRoleGuard],
-  bootstrap: [AppComponent]
-  //exports: [AppheaderComponent]
+  providers: [AdminRoleGuard, RequestStatus],
+  bootstrap: [AppComponent],
+  exports: [ProblemModule]
 })
 export class AppModule { }
 

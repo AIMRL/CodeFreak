@@ -1,6 +1,7 @@
+import { RequestStatus } from "../../Security/Dtos/request-status";
 import { SubmissionProblemTestCaseViewModel } from "./submission-problem-testcase-view-model";
 
-export class SubmissionViewModel {
+export class SubmissionViewModel extends RequestStatus {
 
   public SubmissionId: string;
   public UserId: string;
@@ -10,5 +11,5 @@ export class SubmissionViewModel {
   public SubmissionDateTime: string;
   public Code: string;
 
-  public submissionProblemTestCase: Array<SubmissionProblemTestCaseViewModel>;
+  //public submissionProblemTestCase: Array<SubmissionProblemTestCaseViewModel>;
 }

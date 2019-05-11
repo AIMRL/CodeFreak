@@ -10,6 +10,9 @@ namespace CodeFreak1.Models
             Comment = new HashSet<Comment>();
             Connection = new HashSet<Connection>();
             Editorial = new HashSet<Editorial>();
+            Event = new HashSet<Event>();
+            EventUsers = new HashSet<EventUsers>();
+            Files = new HashSet<Files>();
             MessagesReciever = new HashSet<Messages>();
             MessagesSender = new HashSet<Messages>();
             Permissions = new HashSet<Permissions>();
@@ -35,6 +38,9 @@ namespace CodeFreak1.Models
         public ICollection<Comment> Comment { get; set; }
         public ICollection<Connection> Connection { get; set; }
         public ICollection<Editorial> Editorial { get; set; }
+        public ICollection<Event> Event { get; set; }
+        public ICollection<EventUsers> EventUsers { get; set; }
+        public ICollection<Files> Files { get; set; }
         public ICollection<Messages> MessagesReciever { get; set; }
         public ICollection<Messages> MessagesSender { get; set; }
         public ICollection<Permissions> Permissions { get; set; }

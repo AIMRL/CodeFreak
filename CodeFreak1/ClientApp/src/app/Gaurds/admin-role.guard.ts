@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { ToastService } from '../toast/toast.service';
 
 @Injectable()
 export class AdminRoleGuard implements CanActivate {
-  constructor(private router: Router) {
+  constructor(private router: Router, private toast: ToastService) {
 
   }
   canActivate(
@@ -13,7 +14,8 @@ export class AdminRoleGuard implements CanActivate {
     if (localStorage.getItem("token")!=null) {
       return true;
     }
-    this.router.navigate(['fetch-data']);
+    this.toast.makeWarning("UnAuthorized", "Please login first");
+    this.router.navigate(['home']);
     return false;
   }
 }

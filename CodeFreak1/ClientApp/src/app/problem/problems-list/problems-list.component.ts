@@ -9,6 +9,7 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./problems-list.component.css']
 })
 export class ProblemsListComponent implements OnInit {
+  p: number = 1;
   problems: Array<ProblemCompleteViewModel>;
   diffType: string;
   probType: string;
@@ -16,7 +17,6 @@ export class ProblemsListComponent implements OnInit {
   constructor(private problemService: ProblemService, private route: ActivatedRoute) { }
 
   ngOnInit() {
-    debugger;
     this.problems = new Array<ProblemCompleteViewModel>();
     this.which = this.route.snapshot.paramMap.get('which');
     if(this.which != null) {
@@ -31,7 +31,6 @@ export class ProblemsListComponent implements OnInit {
 
 
     this.problemService.getAllProblems().subscribe(res => {
-      debugger;
       this.problems = res;
       if (this.diffType != null) {
         this.problems = this.problems.filter(p => p.Difficulty.Name.includes(this.diffType));

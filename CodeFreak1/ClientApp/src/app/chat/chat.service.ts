@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { AppSettings } from '../AppSetting';
 import { catchError, tap } from 'rxjs/operators';
@@ -11,6 +11,8 @@ import { Hub } from './Dtos/HubModule';
 import { MessageReturnViewModel } from './Dtos/Message-return-model';
 import { UsersViewModel } from '../Security/Dtos/users-view-model';
 import { UsersReturnViewModel } from './Dtos/User-return-view-model';
+import { Router } from '@angular/router';
+import { ToastService } from '../toast/toast.service';
 
 @Injectable({
   providedIn: 'root'
@@ -28,34 +30,25 @@ export class ChatService {
 
   private msg: MessageViewModel;
   endpoint = 'https://localhost:44380/api/Chat/';
-  constructor(private http: HttpClient) {
-  }
+  constructor(private http: HttpClient, private route: Router, private toast: ToastService) { }
+
   private extractData(res: Response) {
     const body = res;
     return body || { };
   }
-  private handleError<T> (operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-      // TODO: send the error to remote logging infrastructure
-      console.error(error); // log to console instead
-      // TODO: better job of transforming error for user consumption
-      console.log(`${operation} failed: ${error.message}`);
-      // Let the app keep running by returning an empty result.
-      return of(result as T);
-    };
-  }
- /* postMessage (message: MessageViewModel): Observable<HttpResponse<any>> {
-    console.log(message);
-    const httpOptions = {
-      headers: new HttpHeaders({ 'Authorization': 'Bearer ' + localStorage.getItem('token'), 'Content-Type': 'application/json' })
-    };
-    httpOptions.headers.append('Content-Type', 'application/json');
-    httpOptions.headers.append('Accept', 'application/json');
-    httpOptions.headers.append('Authorization', `bearer ${localStorage.getItem('token')}`);
+  private handleError<T>(error: HttpErrorResponse, result?: T) {
+    if (error.status == 401) {
+      this.toast.makeError("Please login", "");
+      this.route.navigate(['login']);
+      return;
+    }
+    return Observable.throw(error);
 
-    const httpHeaders = new HttpHeaders({ 'Authorization': 'Bearer ' + localStorage.getItem('token'), 'Content-Type': 'application/json' });
-    return this.http.post<any>(this.endpoint + 'Chat', message, {headers : httpHeaders , observe: 'response'});
-  }*/
+  }
+  private log(message: string) {
+    console.log(message);
+  }
+
 
    async sendSomeMessage(msg: MessageViewModel) {
     await Hub._hubConnection.invoke('sendMessage', msg, localStorage.getItem('token'));
@@ -73,8 +66,8 @@ export class ChatService {
       httpOptions.headers.append('Authorization', `bearer ${localStorage.getItem('token')}`);
        const url = `${this.baseUrl}${this.chatURL}${this.allMessagesURL}${id}`;
        const res = this.http.get<MessageReturnViewModel>(url, httpOptions).pipe(
-        tap((cre: MessageReturnViewModel) => this.log(`added employee w/ Success=${cre.Message_list.length}`)),
-        catchError(this.handleError<MessageReturnViewModel>('Error in login')));
+         tap((cre: MessageReturnViewModel) => this.log(`added employee w/ Success=${cre.Message_list.length}`)),
+         catchError((error: HttpErrorResponse)=>this.handleError<MessageReturnViewModel>(error)));
 
       return res;
     }
@@ -89,11 +82,8 @@ export class ChatService {
           httpOptions.headers.append('Authorization', `bearer ${localStorage.getItem('token')}`);
            const url = `${this.baseUrl}${this.authURL}${this.allUsersURL}`;
            const res = this.http.get<Array<UsersReturnViewModel>>(url, httpOptions).pipe(
-            tap((cre: Array<UsersReturnViewModel>) => this.log(`added employee w/ Success=${cre.length}`)),
-            catchError(this.handleError<Array<UsersReturnViewModel>>('Error in login')));
+             tap((cre: Array<UsersReturnViewModel>) => this.log(`added employee w/ Success=${cre.length}`)),
+             catchError((error: HttpErrorResponse)=>this.handleError<Array<UsersReturnViewModel>>(error)));
           return res;
         }
-  private log(message: string) {
-    //
-  }
 }

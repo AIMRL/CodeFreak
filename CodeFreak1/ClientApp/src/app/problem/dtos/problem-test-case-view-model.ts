@@ -1,4 +1,6 @@
-export class ProblemTestCaseViewModel {
+import { RequestStatus } from "../../Security/Dtos/request-status";
+
+export class ProblemTestCaseViewModel extends RequestStatus {
   public ProblemTestCaseId: string;
   public ProblemId: string;
   public InputFilePath: string;

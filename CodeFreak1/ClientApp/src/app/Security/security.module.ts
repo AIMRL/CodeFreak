@@ -15,6 +15,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CodeFreakMaterialModuleModule } from '../Angular Material/code-freak-material-module/code-freak-material-module.module';
 import { RouterModule } from '@angular/router';
 import { ProfileComponent } from './profile/profile.component';
+import { LoginComponent } from './login/login.component';
+import { SiteLayoutComponent } from '../layouts/site-layout/site-layout.component';
+import { AdminRoleGuard } from '../Gaurds/admin-role.guard';
 
 @NgModule({
   imports: [
@@ -26,8 +29,12 @@ import { ProfileComponent } from './profile/profile.component';
     CodeFreakMaterialModuleModule,
     RouterModule.forRoot([
       { path: 'signup', component: SignupComponent },
-      { path: 'profile', component: ProfileComponent }
-
+      { path: 'login', component: LoginComponent },
+      {
+        path: '', component: SiteLayoutComponent, children: [
+          { path: 'profile', component: ProfileComponent, canActivate: [AdminRoleGuard] }
+        ]
+      }
     ])
 
   ],

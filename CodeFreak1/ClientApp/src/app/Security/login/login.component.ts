@@ -39,10 +39,8 @@ export class LoginComponent implements OnInit {
   this.userRoles = new UserRolesViewModel();
   }
   login() {
-    debugger;
     this.toaster.clearToasts();
     this.service.loginUser(this.loginCredentials).subscribe(res => {
-      debugger;
       if (res == null) {
         this.toaster.makeError('Error', 'server error');
         return;

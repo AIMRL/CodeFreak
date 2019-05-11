@@ -23,14 +23,18 @@
 
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
+    <Compile Remove="ClientApp\dist\**" />
     <Compile Remove="Core\**" />
     <Content Remove="$(SpaRoot)**" />
+    <Content Remove="ClientApp\dist\**" />
     <Content Remove="Core\**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Remove="ClientApp\dist\**" />
     <EmbeddedResource Remove="Core\**" />
+    <None Remove="ClientApp\dist\**" />
     <None Remove="Core\**" />
   </ItemGroup>
 
