@@ -39,7 +39,7 @@ namespace CodeFreak1
                     .Build();
                 o.Filters.Add(new AuthorizeFilter(policy));
             }).AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver()).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            
+
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
@@ -67,7 +67,15 @@ namespace CodeFreak1
                 };
             });
             #endregion
+            services.AddCors(options =>
+            {
 
+                options.AddPolicy("AllowAll",
+                builder =>
+                {
+                    builder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin();
+                });
+            });
             #region Mapper Initializer
             //Mapper. Initilizing the mapper
             Mapper.Initialize(m =>
@@ -109,7 +117,7 @@ namespace CodeFreak1
                 m.CreateMap<SubmissionViewModel, Submission>();
 
 
-                m.CreateMap<Event,EventViewModel>();
+                m.CreateMap<Event, EventViewModel>();
                 m.CreateMap<EventViewModel, Event>();
 
                 m.CreateMap<Editorial, EditorialViewModel>();
@@ -150,7 +158,7 @@ namespace CodeFreak1
             }
 
             app.UseAuthentication();
-
+            app.UseCors("AllowAll");
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
