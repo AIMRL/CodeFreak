@@ -1,6 +1,7 @@
 # CodeFreak
 
 Before Configure the project:
+
 1- Download Visual Studio Community 2017 or later version from micosoft official website: https://visualstudio.microsoft.com/thank-you-downloading-visual-studio/?sku=community&ch=pre&rel=16
 
 2- Download and install Microsoft SQL Server Express Edition from the microsoft website: https://visualstudio.microsoft.com/thank-you-downloading-visual-studio/?sku=community&ch=pre&rel=16
@@ -10,6 +11,7 @@ Before Configure the project:
 4- Verify Node is Installed, open cmd and run following command: npm install -g @angular/cli, if not then install node from official website: https://nodejs.org/en/download/
 
 Please follow the steps for Cloning the project:
+
 1- Pull the project.
 
 2- Goto database folder. There is script file of CodeFreak database. Execute that script in sql server.
@@ -30,9 +32,18 @@ Please follow the steps for Cloning the project:
 
 10- Now go to angular project and find AppSetting.ts file. Find file on this path: ClientApp->src->app->AppSetting.ts. there is an variable baseUrl. Change value of baseUrl with copied value in step above step.
 
-11- Whenever you pull project run following command in ClentApp Folder: "npm install".
+11- Whenever you pull project, run following command in ClentApp Folder: "npm install".
 
 12- Now Configuration are complete, Run the application.
 
-Deployment Links:-
-Compiler API Deployment Link: https://e5141b2b.ngrok.io/api/Values
+Deployment Link:-
+https://codefreak.azurewebsites.net/login
+
+YouTube Channel Link:-
+https://www.youtube.com/channel/UCojoixN689_kuBa09lqtDpA
+
+Facebook Page Link:-
+https://www.facebook.com/codefreakpucit/
+
+Google Drive Link:-
+https://drive.google.com/open?id=1VSTK2wmycwdoiNUcs4m2Cs2N1LBYNquv
